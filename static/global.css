@@ -3,18 +3,18 @@
 	font-family: 'Avenir-Heavy';
 	src: url('/fonts/Avenir-Heavy.woff') format('woff'),
 		 url('/fonts/Avenir-Heavy.ttf')  format('truetype')
-  }
-
-@font-face {
-font-family: 'Avenir-Light';
-src: url('/fonts/Avenir-Light.woff') format('woff'),
-		url('/fonts/Avenir-Light.ttf')  format('truetype')
 }
 
 @font-face {
-font-family: 'Avenir-Medium';
-src: url('/fonts/Avenir-Medium.woff') format('woff'),
-		url('/fonts/Avenir-Medium.ttf')  format('truetype')
+	font-family: 'Avenir-Light';
+	src: url('/fonts/Avenir-Light.woff') format('woff'),
+			url('/fonts/Avenir-Light.ttf')  format('truetype')
+}
+
+@font-face {
+	font-family: 'Avenir-Medium';
+	src: url('/fonts/Avenir-Medium.woff') format('woff'),
+			url('/fonts/Avenir-Medium.ttf')  format('truetype')
 }
 body{
     --primary-color: #461BC2;  
@@ -39,20 +39,20 @@ body, html{
 
 body {
 	margin: 0;
-	font-family: Avenir-Medium;
+	font-family: Avenir-Light;
 	font-size: 14px;
 	line-height: 1.5;
 	color: var(--font-primary);
 }
 
-h1, h2, h3, h4, h5, h6 {
-	margin: 0 0 0.5em 0;
-	font-weight: 400;
-	line-height: 1.2;
-}
-
 h1 {
-	font-size: 2em;
+	font-weight: 300;
+	font-size: 55px;
+	line-height: 75px;
+	letter-spacing: 0.25px;
+} 
+h1,h2, h3, h4, h5, h6 {
+	margin: 0;
 }
 
 .flex-row{
@@ -68,6 +68,14 @@ h1 {
 .font-primary-dark{
 	color: var(--font-primary-dark);
 }
+.text-body-1{
+	font-family: 'Avenir-Light';
+	font-style: normal;
+	font-weight: normal;
+	font-size: 15px;
+	line-height: 20px;
+	letter-spacing: 0.44px;	
+}
 
 .text-subtitle-1{
 	font-family: 'Avenir-Light';
@@ -77,6 +85,19 @@ h1 {
 	line-height: 20px;	
 }
 
+
+.outside-link{
+    color: var(--font-accent);
+    cursor: pointer;
+}
+
+.outside-link:hover {
+    color: var(--primary-color);
+}
+
+.outside-link:visited {
+    outline: none;
+}
 @media (min-width: 400px) {
 	body {
 		font-size: 16px;

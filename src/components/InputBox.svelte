@@ -17,7 +17,6 @@
     export let required = false;
     export let width = '100%';
     export let height = 'unset';
-    export let margin = 'unset';
     export let backgroundColor = '';
     export let spellcheck = false;
     export let rows = '1'
