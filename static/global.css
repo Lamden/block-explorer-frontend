@@ -1,0 +1,84 @@
+
+@font-face {
+	font-family: 'Avenir-Heavy';
+	src: url('/fonts/Avenir-Heavy.woff') format('woff'),
+		 url('/fonts/Avenir-Heavy.ttf')  format('truetype')
+  }
+
+@font-face {
+font-family: 'Avenir-Light';
+src: url('/fonts/Avenir-Light.woff') format('woff'),
+		url('/fonts/Avenir-Light.ttf')  format('truetype')
+}
+
+@font-face {
+font-family: 'Avenir-Medium';
+src: url('/fonts/Avenir-Medium.woff') format('woff'),
+		url('/fonts/Avenir-Medium.ttf')  format('truetype')
+}
+body{
+    --primary-color: #461BC2;  
+    --secondary-color: #818cab;
+    --font-primary: #E0E0E0; 
+    --font-primary-dark: #c8c8c8de;
+    --font-primary-darker: rgba(218, 218, 218, 0.16); 
+    --font-primary-light: #ffffff99; 
+    --font-secondary: #D1D1D1;
+    --font-accent: #4FB8FF;
+    --bg-color: #151515; 
+    --bg-color-grey: #303030;
+    --bg-menu-grey: #262626a3;
+    --bg-color-dark: #121212;
+    --heading-color: #818cab;
+    --divider-color: #AEAFAD;
+    --accent-color: #FFFFFF;
+}
+body, html{
+	background: var(--bg-color);
+}
+
+body {
+	margin: 0;
+	font-family: Avenir-Medium;
+	font-size: 14px;
+	line-height: 1.5;
+	color: var(--font-primary);
+}
+
+h1, h2, h3, h4, h5, h6 {
+	margin: 0 0 0.5em 0;
+	font-weight: 400;
+	line-height: 1.2;
+}
+
+h1 {
+	font-size: 2em;
+}
+
+.flex-row{
+	display: flex;
+	flex-direction: row;
+}
+
+.flex-column{
+	display: flex;
+	flex-direction: column;
+}
+
+.font-primary-dark{
+	color: var(--font-primary-dark);
+}
+
+.text-subtitle-1{
+	font-family: 'Avenir-Light';
+	font-style: normal;
+	font-weight: normal;
+	font-size: 11px;
+	line-height: 20px;	
+}
+
+@media (min-width: 400px) {
+	body {
+		font-size: 16px;
+	}
+}
