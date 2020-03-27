@@ -4,10 +4,6 @@
 
 	export let segment;
 
-	onMount(async () => {
-		let response = await fetch('http://localhost:1337/blocks').then(res => res.json())
-		console.log(response)
-	})
 </script>
 
 <style>

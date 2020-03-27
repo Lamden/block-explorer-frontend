@@ -1,7 +1,7 @@
 <script>
     import { createEventDispatcher } from 'svelte';
     const dispatch = createEventDispatcher();
-
+    
     //Images
     import iconFind from '../../static/img/icons/find.svg'
 

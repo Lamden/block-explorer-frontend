@@ -1,7 +1,33 @@
 <script>
+	import { onMount } from 'svelte'
+
+	//Components
 	import TotalContractsBox from '../components/TotalContractsBox.svelte'
 	import TotalAddressesBox from '../components/TotalAddressesBox.svelte'
 	import TauPriceBox from '../components/TauPriceBox.svelte'
+	import InfoBox from '../components/InfoBox.svelte'
+
+	$: blockList = [];
+	$: txList = [];
+	const blockListItems = [
+		{field: 'blockNum', title: 'Block'},
+		{field: 'numOfSubBlocks', title: '#of SubBlocks'},
+		{field: 'numOfTransactions', title: '#of Transactions'},
+		{field: 'hash', title: 'Hash'}
+	]
+	const txListItems = [
+		{field: 'contractName', title: 'Contract'},
+		{field: 'functionName', title: 'Function'},
+		{field: 'stampsUsed', title: 'Stamps Used'},
+		{field: 'hash', title: 'Hash'}
+	]
+
+
+	onMount(async () => {
+		blockList = await fetch('http://localhost:1337/blocks/5').then(res => res.json())
+		txList = await fetch('http://localhost:1337/transactions/5').then(res => res.json())
+	})
+
 </script>
 
 <style>
@@ -19,6 +45,7 @@
 		border-radius: 4px;
 		margin-bottom: 18px;
 		background-image: url('../../img/hero_bg.png');
+		background-position-x: 47%;
 		background-size: cover;
 		background-repeat: no-repeat;
 		justify-content: flex-start;
@@ -44,5 +71,7 @@
 	<TauPriceBox />
 	<TotalContractsBox />
 	<TotalAddressesBox />
-	
 </div>
+
+<InfoBox title={'Latest Blocks'} info={blockList} itemList={blockListItems}/>
+<InfoBox title={'Latest Transactions'} info={txList} itemList={txListItems}/>

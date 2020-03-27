@@ -20,7 +20,7 @@ body{
     --primary-color: #461BC2;  
     --secondary-color: #818cab;
     --font-primary: #E0E0E0; 
-    --font-primary-dark: #c8c8c8de;
+    --font-primary-dark: #AEAFAD;
     --font-primary-darker: rgba(218, 218, 218, 0.16); 
     --font-primary-light: #ffffff99; 
     --font-secondary: #D1D1D1;
@@ -30,7 +30,7 @@ body{
     --bg-menu-grey: #262626a3;
     --bg-color-dark: #121212;
     --heading-color: #818cab;
-    --divider-color: #AEAFAD;
+    --divider-color: #E0E0E02E;
     --accent-color: #FFFFFF;
 }
 body, html{
@@ -51,6 +51,14 @@ h1 {
 	line-height: 75px;
 	letter-spacing: 0.25px;
 } 
+
+h2{
+	font-weight: 500;
+	font-size: 34px;
+	line-height: 46px;
+	letter-spacing: 0.25px;
+}
+
 h1,h2, h3, h4, h5, h6 {
 	margin: 0;
 }
@@ -71,8 +79,8 @@ h1,h2, h3, h4, h5, h6 {
 .text-body-1{
 	font-family: 'Avenir-Light';
 	font-style: normal;
-	font-weight: normal;
-	font-size: 15px;
+	font-weight: lighter;
+	font-size: 14px;
 	line-height: 20px;
 	letter-spacing: 0.44px;	
 }
@@ -87,6 +95,7 @@ h1,h2, h3, h4, h5, h6 {
 
 
 .outside-link{
+	font-family: 'Avenir-Light';
     color: var(--font-accent);
     cursor: pointer;
 }

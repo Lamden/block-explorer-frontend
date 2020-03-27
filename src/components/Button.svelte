@@ -1,6 +1,8 @@
 <script>
     //Props
     export let id;
+    export let type = 'solid';
+    export let color = ''
     export let name = '';
     export let click;
     export let icon = '';
@@ -15,7 +17,6 @@
     export let styles = '';
     export let disabled = false;
     export let tabIndex;
-    export let spellcheck = true;
 
     $: iconAfter = iconPosition === 'after' ? true : false;
 </script>
@@ -25,6 +26,100 @@ button{
     display: flex;
     flex-direction: row;
     justify-content: center;
+    font-size: 10px;
+    margin: 2px;
+    padding: 3px;
+    cursor: pointer;
+}
+
+
+button.solid{
+    display: flex;
+    align-items: center;
+    text-align: center;
+    justify-content: center;
+    background-color: unset;
+    border: unset;
+    background: var(--bg-color-grey);
+    box-shadow: 0px 1px 8px rgba(0, 0, 0, 0.1), 0px 2px 4px rgba(0, 0, 0, 0.12), 0px 1px 2px rgba(0, 0, 0, 0.16);
+    border-radius: 4px;
+    color: var(--font-primary-dark);
+}
+
+button.solid:hover{
+    color: #FFFFFF;
+    background: #3a3a3a;
+}
+
+.buttonGroup-left{
+    box-shadow: unset;
+    border-radius: 5px 0 0 5px;
+}
+
+.buttonGroup-right{
+    box-shadow: unset;
+    border-radius: 0 5px 5px 0;
+}
+
+.buttonGroup-center{
+    box-shadow: unset;
+    border-radius: 0;
+    border-left: 1px solid var(--font-primary-darker);
+    border-right: 1px solid var(--font-primary-darker);
+}
+
+
+button.hover-blue:hover{
+    background-color: var(--font-accent);
+}
+
+.button-text{
+    display: flex;
+    align-items: center;
+    text-align: center;
+    justify-content: center;
+    background-color: unset;
+    border: unset;
+    background: var(--bg-color);
+    color: var(--font-primary-dark);
+}
+
+.button-icon{
+    background-color: unset;
+    border: unset;
+}
+
+button.transparent{
+    display: flex;
+    align-items: center;
+    background-color: unset;
+    border: unset;
+    border: 1px solid rgb(255, 255, 255, 0.38);
+    border-radius: 4px;
+    color: #fff;
+    padding: 13px 8px 13px 12px;
+}
+
+button.purple{
+    color: #FFFFFF;
+    background: var(--primary-color);
+}
+
+button.purple:hover{
+    background: #5120e0;
+}
+
+button.blue:hover{
+    border: 1px solid var(--font-accent);
+}
+
+button.red{
+    color: #FFFFFF;
+    background: red;
+}
+
+button.transparent:hover{
+    background-color: rgba(255, 255, 255, 0.12);
 }
 
 .label{
@@ -63,6 +158,11 @@ button{
 </style>
 
 <button class={`${classes}`}
+        class:solid={type === 'solid'}
+        class:transparent={type === 'transparent'}
+        class:purple={color === 'purple'}
+        class:red={color === 'red'}
+        class:blue={color === 'blue'}
         id={id}
         on:click={click}
         disabled={disabled}
