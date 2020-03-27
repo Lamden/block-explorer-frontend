@@ -6,11 +6,6 @@
     export let title = '';
     export let info = [];
     export let itemList = [];
-    export let route;
-
-    const navigate = () => {
-		window.location.href = `/${route}`
-	}
 
 </script>
 
@@ -69,14 +64,6 @@ h2{
         {/each}
     </div>
 {/await}
-<Button name={'VIEW MORE'} 
-        type={'solid'} 
-        color={'purple'} 
-        click={navigate}
-        width={'232px'}
-        height={'36px'}
-        margin={'1rem 0'}
- />
 
 
 

@@ -33,9 +33,9 @@
 
 
 	onMount(async () => {
-		blockList = await fetch('http://localhost:1337/blocks/5').then(res => res.json())
-		txList = await fetch('http://localhost:1337/transactions/5').then(res => res.json())
-		let topWallets = await fetch('http://localhost:1337/states/topwallets').then(res => res.json())
+		blockList = await fetch('http://scotts.webhop.net:1337/blocks/5').then(res => res.json())
+		txList = await fetch('http://scotts.webhop.net:1337/transactions/5').then(res => res.json())
+		let topWallets = await fetch('http://scotts.webhop.net:1337/states/topwallets').then(res => res.json())
 		topWallets = topWallets.filter(wallet => isLamdenKey(wallet.key))
 		topWallets = topWallets.sort((a, b) => b.value - a.value);
 		topWallets = topWallets.slice(0, 5)
@@ -88,6 +88,6 @@
 	<TotalAddressesBox />
 </div>
 
-<InfoBox title={'Latest Blocks'} info={blockList} itemList={blockListItems}/>
-<InfoBox title={'Latest Transactions'} info={txList} itemList={txListItems}/>
-<InfoBox title={'Top Wallets'} info={topWalletsList} itemList={topWalletsListItems}/>
+<InfoBox title={'Latest Blocks'} info={blockList} itemList={blockListItems} route="block"/>
+<InfoBox title={'Latest Transactions'} info={txList} itemList={txListItems} route="transaction"/>
+<InfoBox title={'Top Wallets'} info={topWalletsList} itemList={topWalletsListItems} route="address"/>

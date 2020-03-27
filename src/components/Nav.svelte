@@ -91,7 +91,7 @@
 	</div>
 	<ul>
 		<li><a aria-current='{segment === undefined ? "page" : undefined}' href='.'>Home</a></li>
-		<li><a aria-current='{segment === "about" ? "page" : undefined}' href='about'>Blocks</a></li>
+		<li><a aria-current='{segment === "about" ? "page" : undefined}' href='block'>Blocks</a></li>
 		<li><a aria-current='{segment === "about" ? "page" : undefined}' href='about'>About</a></li>
 	</ul>
 </nav>

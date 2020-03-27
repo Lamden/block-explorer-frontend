@@ -1,7 +1,7 @@
 <script context="module">
 	export async function preload(page, session) {
         const { slug } = page.params;
-		const res = await this.fetch(`http://localhost:1337/transactions/${slug}`)
+		const res = await this.fetch(`http://scotts.webhop.net:1337/transactions/${slug}`)
 		if (res.status === 200) {
 			let txs = await res.json();
 			return {addressInfo:{txs, address: slug}};
@@ -21,7 +21,7 @@
 	 
 	 onMount(async () => {
          if (!infoNotFound){
-             let res = await fetch(`http://localhost:1337/states/balances/${addressInfo.address}`)
+             let res = await fetch(`http://scotts.webhop.net:1337/states/balances/${addressInfo.address}`)
                                 .then(res => res.json())
                                 .then(res => {
                                     if (res.value) balance = res.value

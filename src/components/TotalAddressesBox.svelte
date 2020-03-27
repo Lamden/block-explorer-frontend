@@ -3,7 +3,7 @@
     $: totalAddresses = 0
 
     onMount(async () => {
-        totalAddresses = await fetch('http://localhost:1337/states/totaladdresses').then(res => res.json())
+        totalAddresses = await fetch('http://scotts.webhop.net:1337/states/totaladdresses').then(res => res.json())
     })
 </script>
 
