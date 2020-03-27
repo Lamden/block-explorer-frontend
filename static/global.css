@@ -84,7 +84,14 @@ h1,h2, h3, h4, h5, h6 {
 	line-height: 20px;
 	letter-spacing: 0.44px;	
 }
-
+.text-body-2{
+	font-family: 'Avenir-Light';
+	font-style: normal;
+	font-weight: lighter;
+	font-size: 24px;
+	line-height: 20px;
+	letter-spacing: 0.44px;	
+}
 .text-subtitle-1{
 	font-family: 'Avenir-Light';
 	font-style: normal;

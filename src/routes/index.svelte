@@ -10,7 +10,7 @@
 	$: blockList = [];
 	$: txList = [];
 	const blockListItems = [
-		{field: 'blockNum', title: 'Block'},
+		{field: 'blockNum', title: 'Block', link: true},
 		{field: 'numOfSubBlocks', title: '#of SubBlocks'},
 		{field: 'numOfTransactions', title: '#of Transactions'},
 		{field: 'hash', title: 'Hash'}

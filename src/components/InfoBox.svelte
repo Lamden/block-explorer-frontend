@@ -52,7 +52,11 @@ h2{
                 {#each res as rowInfo}
                     {#each Object.keys(rowInfo) as rowItem}
                         {#if colInfo.field === rowItem}
+                            {#if colInfo.link}
+                            <a class="outside-link" rel='prefetch' href={`block/${rowInfo[rowItem]}`}>{rowInfo[rowItem]}</a>
+                            {:else}
                             <div class="col-item text-body-1">{rowInfo[rowItem]}</div>
+                            {/if}
                             <div class="row-divider"></div>
                         {/if}
                     {/each}
