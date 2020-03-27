@@ -7,25 +7,40 @@
 	import TauPriceBox from '../components/TauPriceBox.svelte'
 	import InfoBox from '../components/InfoBox.svelte'
 
+	//Utils
+	import { isLamdenKey } from './transaction/_transaction'
+
 	$: blockList = [];
 	$: txList = [];
+	$: topWalletsList = [];
 	const blockListItems = [
-		{field: 'blockNum', title: 'Block', link: true},
+		{field: 'blockNum', title: 'Block', link: true, route: 'block'},
 		{field: 'numOfSubBlocks', title: '#of SubBlocks'},
 		{field: 'numOfTransactions', title: '#of Transactions'},
-		{field: 'hash', title: 'Hash'}
+		{field: 'hash', title: 'Hash', flexgrow: true}
 	]
 	const txListItems = [
 		{field: 'contractName', title: 'Contract'},
 		{field: 'functionName', title: 'Function'},
 		{field: 'stampsUsed', title: 'Stamps Used'},
-		{field: 'hash', title: 'Hash'}
+		{field: 'hash', title: 'Hash', link: true, route: 'transaction'}
+	]
+	const topWalletsListItems = [
+		{field: 'rank', title: 'Rank'},
+		{field: 'key', title: 'Address', link: true, route: 'address'},
+		{field: 'value', title: 'Amount', flexgrow: true},
 	]
 
 
 	onMount(async () => {
 		blockList = await fetch('http://localhost:1337/blocks/5').then(res => res.json())
 		txList = await fetch('http://localhost:1337/transactions/5').then(res => res.json())
+		let topWallets = await fetch('http://localhost:1337/states/topwallets').then(res => res.json())
+		topWallets = topWallets.filter(wallet => isLamdenKey(wallet.key))
+		topWallets = topWallets.sort((a, b) => b.value - a.value);
+		topWallets = topWallets.slice(0, 5)
+		topWallets.forEach((wallet, index) => wallet.rank = index + 1)
+		topWalletsList = topWallets
 	})
 
 </script>
@@ -75,3 +90,4 @@
 
 <InfoBox title={'Latest Blocks'} info={blockList} itemList={blockListItems}/>
 <InfoBox title={'Latest Transactions'} info={txList} itemList={txListItems}/>
+<InfoBox title={'Top Wallets'} info={topWalletsList} itemList={topWalletsListItems}/>

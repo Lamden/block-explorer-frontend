@@ -59,6 +59,13 @@ h2{
 	letter-spacing: 0.25px;
 }
 
+h3{
+	font-weight: 500;
+	font-size: 22px;
+	line-height: 46px;
+	letter-spacing: 0.25px;
+}
+
 h1,h2, h3, h4, h5, h6 {
 	margin: 0;
 }
@@ -88,7 +95,7 @@ h1,h2, h3, h4, h5, h6 {
 	font-family: 'Avenir-Light';
 	font-style: normal;
 	font-weight: lighter;
-	font-size: 24px;
+	font-size: 21px;
 	line-height: 20px;
 	letter-spacing: 0.44px;	
 }

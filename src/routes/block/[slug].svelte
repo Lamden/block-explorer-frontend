@@ -13,15 +13,9 @@
 </script>
 
 <script>
-	import { onMount } from 'svelte';
-
 	export let block;
 
 	$:blockNotFound = typeof block === 'undefined'
-	 
-	 onMount(() => {
-		 console.log(block)
-	 })
 </script>
 
 <style>
@@ -31,7 +25,7 @@
 	div.flex-row{
 		border-bottom: 1px dotted var(--divider-color);
 		flex-grow: 1;
-		padding: 10px 0;
+		padding: 8px 0;
 	}
 	div.title{
 		min-width: 150px;
@@ -68,7 +62,7 @@
 					{'None'}
 				{:else}
 					{#each block.transactions as transaction}
-						{transaction}
+					<a class="outside-link" rel='prefetch' href={`transaction/${transaction}`}>{transaction}</a>
 					{/each}
 				{/if}
 			</div>

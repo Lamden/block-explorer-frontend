@@ -8,6 +8,10 @@
 
 	//Props
 	export let segment;
+	
+	const navigate = () => {
+		window.location.href = "/"
+	}
 
 </script>
 
@@ -51,6 +55,7 @@
 	.nav-logo{
 		height: 30px;
 		align-items: center;
+		cursor: pointer;
 	}
 	.nav-logo> span:last-child{
 		margin-left: 15.53px;
@@ -66,7 +71,7 @@
 
 <nav class="flex-row">
 	<div class="flex-column logo-box">
-		<div class="flex-row nav-logo">
+		<div class="flex-row nav-logo" on:click={navigate}>
 			<span>{@html lamdenLogo}</span>
 			<span>{@html lamdenWords}</span>
 		</div>

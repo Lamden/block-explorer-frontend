@@ -1,5 +1,10 @@
 <script>
+    import { onMount } from 'svelte'
+    $: totalAddresses = 0
 
+    onMount(async () => {
+        totalAddresses = await fetch('http://localhost:1337/states/totaladdresses').then(res => res.json())
+    })
 </script>
 
 <style>
@@ -10,5 +15,5 @@
 </style>
 <div class="flex-column">
     <div class="text-body-1 font-primary-dark">Wallet Addresses Created</div>
-    <h1>300,178</h1>
+    <h1>{parseInt(totalAddresses).toLocaleString()}</h1>
 </div>
