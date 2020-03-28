@@ -8,17 +8,61 @@
 	import navBurger from '../../static/img/icons/nav-burger.svg'
 	import menuClose from '../../static/img/icons/menu-close.svg'
 
+	//Utils
+	import { isLamdenKey } from '../js/utils'
+
 	//Props
 	export let segment;
 
 	let menuOpen = false;
+	let notFound = false;
 
 	const toggleMenu = () => {
 		menuOpen = !menuOpen;
 	}
 	
 	const navigate = (route) => {
-		window.location.href = "/"
+		window.location.href = route
+	}
+
+	const search = async (e) => {
+		notFound = false;
+		let value = e.detail.target.value
+		if (typeof value === 'string') value = value.trim()
+		if(e.detail.keyCode === 13){
+			console.log(isLamdenKey(value))
+			if (isLamdenKey(value) ){
+				let addressResponse  = await fetch(`http://scotts.webhop.net:1337/states/balances/${value}`).then(res => res.json())
+				console.log(addressResponse)
+				if (addressResponse.value) {
+					navigate(`address/${value}`)
+					return
+				}
+
+				let txResponse  = await fetch(`http://scotts.webhop.net:1337/transactions/get/${value}`).then(res => res.json())
+				console.log(txResponse)
+				if (typeof txResponse.hash !== 'undefined') {
+					navigate(`transaction/${value}`)
+					return
+				}
+
+				let blockHashResponse  = await fetch(`http://scotts.webhop.net:1337/blocks/hash/${value}`).then(res => res.json())
+				console.log(blockHashResponse)
+				if (typeof txResponse.hash !== 'undefined') {
+					navigate(`block/${txResponse.blockNum}`)
+					return
+				}
+			
+			}else{
+				let blockNumResponse  = await fetch(`http://scotts.webhop.net:1337/blocks/number/${value}`).then(res => res.json())
+				console.log(blockNumResponse)
+				if (typeof blockNumResponse.length !== 'undefined' && blockNumResponse.length > 0 ) {
+					navigate(`block/${value}`)
+					return
+				}
+			}
+			notFound = true;
+		}
 	}
 
 </script>
@@ -51,6 +95,9 @@
 	a{
 		text-decoration: none;
 		display: block;
+	}
+	a:link{
+		color: var(--font-primary);
 	}
 	a:visited{
 		color: var(--font-primary);
@@ -106,35 +153,35 @@
 		height: 100%;
 		justify-content: flex-start;
 	}
-	@media (min-width: 800px) {
-	nav{
-		flex-wrap: nowrap;
-		flex-direction: row;
-		padding: 0 37px;
-		height: 110px;
-		align-items: center;
-	}
-	ul.flex-row {
-		display: flex;
-		justify-content: flex-end;
-		min-width: min-content;
-		margin: 0 0 0 50px;
-		margin: 1rem 0;
-	}
-	ul.flex-row > li > a {
-		padding: 1em 0.5em;
-	}
-	.nav-burger{
-		display: none;
-	}
-}
 
+	@media (min-width: 800px) {
+		nav{
+			flex-wrap: nowrap;
+			flex-direction: row;
+			padding: 0 37px;
+			height: 110px;
+			align-items: center;
+		}
+		ul.flex-row {
+			display: flex;
+			justify-content: flex-end;
+			min-width: min-content;
+			margin: 0 0 0 50px;
+			margin: 1rem 0;
+		}
+		ul.flex-row > li > a {
+			padding: 1em 0.5em;
+		}
+		.nav-burger{
+			display: none;
+		}
+	}
 </style>
 
 {#if !menuOpen}
 <nav class="flex-row">
 	<div class="logo-box">
-		<div class="flex-row nav-logo" on:click={navigate}>
+		<div class="flex-row nav-logo" on:click={() => {navigate("/")}}>
 			<span>{@html lamdenLogo}</span>
 			<span>{@html lamdenWords}</span>
 		</div>
@@ -145,6 +192,8 @@
 	<div class="flex-row input-box">
 		<InputBox
 			value={""}
+			on:keyup={search}
+			borderColor={notFound ? "red" : undefined}
 			label={'Search'}
 			placeholder={"Block / Hash / Address"}
 			styles="min-width: max-content;"
@@ -163,7 +212,7 @@
 {#if menuOpen}
 	<div class="menu flex-column">
 		<div class="logo-box">
-			<div class="flex-row nav-logo menu-logo" on:click={navigate}>
+			<div class="flex-row nav-logo menu-logo" on:click={() => {navigate("/")}}>
 				<span>{@html lamdenLogo}</span>
 				<span>{@html lamdenWords}</span>
 			</div>

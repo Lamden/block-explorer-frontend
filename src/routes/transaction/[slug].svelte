@@ -13,7 +13,7 @@
 </script>
 
 <script>
-	import { isLamdenKey } from './_transaction'
+	import { isLamdenKey } from '../../js/utils'
 
 	export let tx;
 

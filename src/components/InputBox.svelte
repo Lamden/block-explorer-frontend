@@ -8,6 +8,7 @@
     //Props
     export let id;
     export let styles = ''; 
+    export let borderColor;
     export let icon = undefined;
     export let value;
     export let label = '';
@@ -64,7 +65,7 @@ label{
     box-sizing: border-box;
     transition: border 0.5s;
     border-radius: 4px;
-    padding: 12px;
+    padding: 8px;
 }
 .mainbox{
     display: flex;
@@ -127,7 +128,7 @@ label{
 </style>
 <div class="inputbox" style={`width: ${width};`} >
     <label style={`background: ${backgroundColor || 'var(--bg-color)'};`}> {label} </label>
-    <div class="flex-row outter-box" class:focus={isFocused}>
+    <div class="flex-row outter-box" style={`border: 1px solid ${borderColor}`} class:focus={isFocused && !borderColor} >
         {#if typeof icon !== 'undefined'}
             <div class="icon">{@html icons[icon]}</div>
         {/if}

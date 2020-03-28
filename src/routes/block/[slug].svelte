@@ -5,15 +5,16 @@
 
 		if (res.status === 200) {
 			let block = await res.json();
-			return {block: block[0]};
+			return {block: block[0], slug};
 		} else {
-			this.error(res.status, data.message);
+			return {slug}
 		}
 	}
 </script>
 
 <script>
 	export let block;
+	export let slug;
 
 	$:blockNotFound = typeof block === 'undefined'
 </script>
@@ -42,12 +43,14 @@
 	<title>{blockNotFound ? `Block not found` : `Block # ${block.blockNum}`}</title>
 </svelte:head>
 
+<div class="flex-row header">
+	<h2>{`Block: `}</h2><div class="text-body-2 font-primary-dark shrink">{slug}</div>
+</div>
 {#if blockNotFound}
-	<h2>Block:</h2>
-{:else}
-	<div class="flex-row header">
-		<h2>{`Block: `}</h2><div class="text-body-2 font-primary-dark shrink">{`${block.blockNum}`}</div>
+	<div class="flex-row">
+		<div class="title">Not Found</div>
 	</div>
+{:else}
 	<div class="flex-row">
 		<div class="title">Hash</div><div class="value">{block.hash}</div>
 	</div>

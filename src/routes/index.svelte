@@ -8,7 +8,7 @@
 	import InfoBox from '../components/InfoBox.svelte'
 
 	//Utils
-	import { isLamdenKey } from './transaction/_transaction'
+	import { isLamdenKey } from '../js/utils'
 
 	$: blockList = [];
 	$: txList = [];

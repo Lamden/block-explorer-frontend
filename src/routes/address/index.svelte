@@ -4,7 +4,7 @@
     import BigTable from '../../components/BigTable.svelte'
 
 	//Utils
-	import { isLamdenKey } from '../transaction/_transaction'
+	import { isLamdenKey } from '../../js/utils'
 
 	$: topWalletsList = [];
 	const topWalletsListItems = [
