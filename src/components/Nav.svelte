@@ -34,19 +34,32 @@
 		flex-direction: column;
 		align-items: flex-start;
 	}
+	ul{
+		list-style-type: none;
+		padding: 0;
+	}
 	ul.flex-row{
 		display: none;
 	}
 	ul.flex-column{
 		list-style-type: none;
 		align-items: center;
-		padding: 0;
 	}
 	li {
 		display: block;
 	}
-	a.text-menu {
+	a{
 		text-decoration: none;
+		display: block;
+	}
+	a:visited{
+		color: var(--font-primary);
+	}
+	a:hover{
+		color: var(--font-accent);
+	}
+
+	a.text-menu {
 		padding: 1em 0;
 		display: block;
 	}
@@ -102,10 +115,14 @@
 		align-items: center;
 	}
 	ul.flex-row {
+		display: flex;
 		justify-content: flex-end;
+		min-width: min-content;
 		margin: 0 0 0 50px;
-		padding: 0;
 		margin: 1rem 0;
+	}
+	ul.flex-row > li > a {
+		padding: 1em 0.5em;
 	}
 	.nav-burger{
 		display: none;
@@ -135,11 +152,10 @@
 			icon={'find'}
 		/>
 	</div>
-	<ul class="flex-row">
+	<ul class="flex-row text-nav">
 		<li><a aria-current='{segment === "about" ? "page" : undefined}' href='block'>Blocks</a></li>
 		<li><a aria-current='{segment === "about" ? "page" : undefined}' href='transaction'>Transactions</a></li>
 		<li><a aria-current='{segment === "about" ? "page" : undefined}' href='address'>Wallets</a></li>
-		
 	</ul>
 </nav>
 {/if}
