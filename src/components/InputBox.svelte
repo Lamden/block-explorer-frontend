@@ -25,6 +25,8 @@
 
     export let thisInput;
 
+    let isFocused = false;
+
     const icons = {
         'find': iconFind
     }
@@ -79,9 +81,12 @@ label{
 
 .mainbox:focus{
     outline: none; 
-    border: 1px solid var(--primary-color);
+    
 }
 
+.focus{
+    border: 1px solid var(--primary-color);
+}
 .mainbox::-webkit-input-placeholder { 
     font-style: normal;
     font-weight: normal;
@@ -120,9 +125,9 @@ label{
     margin-right: 12px;
 }
 </style>
-<div class="inputbox" style={`width: ${width};`}>
+<div class="inputbox" style={`width: ${width};`} >
     <label style={`background: ${backgroundColor || 'var(--bg-color)'};`}> {label} </label>
-    <div class="flex-row outter-box">
+    <div class="flex-row outter-box" class:focus={isFocused}>
         {#if typeof icon !== 'undefined'}
             <div class="icon">{@html icons[icon]}</div>
         {/if}
@@ -193,7 +198,9 @@ label{
                 placeholder={placeholder}
                 required={required}
                 spellcheck={spellcheck}
-                autofocus={autofocus}  />
+                autofocus={autofocus} 
+                on:focusin={() => {isFocused = true}}
+                on:focusout={() => {isFocused = false}}  />
         {/if}    
     </div>
 </div>
