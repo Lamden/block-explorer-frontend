@@ -9,7 +9,7 @@
 	$: topWalletsList = [];
 	const topWalletsListItems = [
 		{field: 'rank', title: 'Rank'},
-		{field: 'key', title: 'Address', link: true, route: 'address'},
+		{field: 'key', title: 'Address', link: true, route: 'address', shrink: true},
 		{field: 'value', title: 'Amount', flexgrow: true},
 	]
     
@@ -22,35 +22,5 @@
     })
 
 </script>
-
-<style>
-h2{
-    display: inline;
-}
-h3{
-    margin: 1rem 0 0;
-}
-div.flex-row{
-    border-bottom: 1px dotted var(--divider-color);
-    flex-grow: 1;
-    padding: 8px 0;
-}
-div.flex-column.sub-rows{
-    border-bottom: 1px dotted var(--divider-color);
-    flex-grow: 1;
-    padding: 8px 0;
-}
-div.flex-row.sub-row{
-    border-bottom: none;
-}
-div.title{
-    min-width: 150px;
-}
-div.value{
-    display: inline;
-    word-break: break-word;
-}
-
-</style>
 
 <BigTable title={"Top Wallets"} info={topWalletsList} itemList={topWalletsListItems}/>

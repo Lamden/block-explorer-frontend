@@ -26,6 +26,7 @@
 	ul {
 		margin: 0 0 0 50px;
 		padding: 0;
+		min-width: 240px;
 	}
 
 	li {
@@ -85,6 +86,7 @@
 			value={""}
 			label={'Search'}
 			placeholder={"Block / Hash / Address"}
+			styles="min-width: max-content;"
 			width={'100%'}
 			icon={'find'}
 		/>

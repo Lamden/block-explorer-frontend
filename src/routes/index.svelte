@@ -15,19 +15,19 @@
 	$: topWalletsList = [];
 	const blockListItems = [
 		{field: 'blockNum', title: 'Block', link: true, route: 'block'},
-		{field: 'numOfSubBlocks', title: '#of SubBlocks'},
-		{field: 'numOfTransactions', title: '#of Transactions'},
-		{field: 'hash', title: 'Hash', flexgrow: true}
+		{field: 'numOfSubBlocks', title: 'SubBlocks'},
+		{field: 'numOfTransactions', title: 'Transactions'},
+		{field: 'hash', title: 'Hash', flexgrow: true, shrink: true}
 	]
 	const txListItems = [
 		{field: 'contractName', title: 'Contract'},
 		{field: 'functionName', title: 'Function'},
 		{field: 'stampsUsed', title: 'Stamps Used'},
-		{field: 'hash', title: 'Hash', link: true, route: 'transaction'}
+		{field: 'hash', title: 'Hash', link: true, route: 'transaction', shrink: true}
 	]
 	const topWalletsListItems = [
 		{field: 'rank', title: 'Rank'},
-		{field: 'key', title: 'Address', link: true, route: 'address'},
+		{field: 'key', title: 'Address', link: true, route: 'address', shrink: true},
 		{field: 'value', title: 'Amount', flexgrow: true},
 	]
 
