@@ -41,7 +41,7 @@
 
 <style>
 	h2{
-		display: inline;
+        margin-right: 10px;
 	}
 	h3{
 		margin: 1rem 0 0;
@@ -65,7 +65,11 @@
 	div.value{
 		display: inline;
 		word-break: break-word;
-	}
+    }
+    .header {
+        align-items: baseline;
+    }
+
 </style>
 
 <svelte:head>
@@ -75,7 +79,9 @@
 {#if infoNotFound}
 	<h2>{`Address Not Found`}</h2>
 {:else}
-	<h2>{`Address: `}</h2><span class="text-body-2 font-primary-dark">{`${addressInfo.address}`}</span>
+    <div class="flex-row header">
+        <h2>{`Address: `}</h2><div class="text-body-2 font-primary-dark shrink">{`${addressInfo.address}`}</div>
+    </div>
     <div class="flex-row">
 		<div class="title">Current Balance</div><div class="value">{`${parseFloat(balance).toLocaleString()} dTAU`}</div>
 	</div>
@@ -87,7 +93,7 @@
         <div class="flex-column sub-rows">
             <div class="flex-row sub-row">
                 <div class="title">Hash</div>
-                <a class="outside-link" rel='prefetch' href={`transaction/${tx.hash}`}>{tx.hash}</a>
+                <a class="outside-link shrink" rel='prefetch' href={`transaction/${tx.hash}`}>{tx.hash}</a>
             </div>
             <div class="flex-row sub-row">
                 <div class="title">Nonce</div>

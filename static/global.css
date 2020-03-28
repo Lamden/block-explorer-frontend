@@ -40,7 +40,7 @@ body, html{
 body {
 	margin: 0;
 	font-family: Avenir-Light;
-	font-size: 14px;
+	font-size: 12px;
 	line-height: 1.5;
 	color: var(--font-primary);
 }
@@ -87,7 +87,7 @@ h1,h2, h3, h4, h5, h6 {
 	font-family: 'Avenir-Light';
 	font-style: normal;
 	font-weight: lighter;
-	font-size: 14px;
+	font-size: 12px;
 	line-height: 20px;
 	letter-spacing: 0.44px;	
 }
@@ -95,7 +95,7 @@ h1,h2, h3, h4, h5, h6 {
 	font-family: 'Avenir-Light';
 	font-style: normal;
 	font-weight: lighter;
-	font-size: 21px;
+	font-size: 18px;
 	line-height: 20px;
 	letter-spacing: 0.44px;	
 }
@@ -103,10 +103,15 @@ h1,h2, h3, h4, h5, h6 {
 	font-family: 'Avenir-Light';
 	font-style: normal;
 	font-weight: normal;
-	font-size: 11px;
+	font-size: 8x;
 	line-height: 20px;	
 }
-
+.shrink{
+	white-space: nowrap;
+	text-overflow: ellipsis;
+	min-width: 100px;
+	overflow: hidden;
+}
 
 .outside-link{
 	font-family: 'Avenir-Light';
@@ -121,8 +126,17 @@ h1,h2, h3, h4, h5, h6 {
 .outside-link:visited {
     outline: none;
 }
-@media (min-width: 400px) {
-	body {
-		font-size: 16px;
+@media (min-width: 800px) {
+	body{
+		font-size: 14px;
+	}
+	.text-body-1{
+		font-size: 14px;
+	}
+	.text-body-2{
+		font-size: 24px;
+	}
+	.text-subtitle-1{
+		font-size: 11px;
 	}
 }

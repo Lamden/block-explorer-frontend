@@ -50,7 +50,7 @@
 		display: inline;
 	}
 	p{
-		width: 444px;
+		max-width: 444px;
 		margin-top: 0;
 	}
 	.hero-rec{
@@ -63,7 +63,7 @@
 		background-position-x: 47%;
 		background-size: cover;
 		background-repeat: no-repeat;
-		justify-content: flex-start;
+		justify-content: center;
 		align-items: center;
 		flex-wrap: wrap;
 	}

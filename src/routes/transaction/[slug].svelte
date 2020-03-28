@@ -30,7 +30,7 @@
 
 <style>
 	h2{
-		display: inline;
+		margin-right: 10px;
 	}
 	h3{
 		margin: 1rem 0 0;
@@ -51,6 +51,9 @@
 	div.title{
 		min-width: 150px;
 	}
+	.header {
+        align-items: baseline;
+	}
 	div.value{
 		display: inline;
 		word-break: break-word;
@@ -64,7 +67,9 @@
 {#if txNotFound}
 	<h2>{`Hash Not Found`}</h2>
 {:else}
-	<h2>{`Hash: `}</h2><span class="text-body-2 font-primary-dark">{`${tx.hash}`}</span>
+	<div class="flex-row header">
+		<h2>{`Hash: `}</h2><div class="text-body-2 font-primary-dark shrink">{`${tx.hash}`}</div>
+	</div>
 		<div class="flex-row">
 			<div class="title">Status</div>
 			<div class="value">
@@ -76,14 +81,14 @@
 		</div>
 		<div class="flex-row">
 			<div class="title">Block Number</div>
-			<a class="outside-link" rel='prefetch' href={`block/${tx.blockNum}`}>{tx.blockNum}</a>
+			<a class="outside-link shrink" rel='prefetch' href={`block/${tx.blockNum}`}>{tx.blockNum}</a>
 		</div>
 		<div class="flex-row">
 			<div class="title">SubBlock Number</div><div class="value">{tx.subBlockNum}</div>
 		</div>
 		<div class="flex-row">
 			<div class="title">Sender</div>
-			<a class="outside-link" rel='prefetch' href={`address/${tx.sender}`}>{tx.sender}</a>
+			<a class="outside-link shrink" rel='prefetch' href={`address/${tx.sender}`}>{tx.sender}</a>
 		</div>
 		<div class="flex-row">
 			<div class="title">Nonce</div><div class="value">{tx.nonce}</div>
@@ -111,7 +116,7 @@
 				<div class="flex-row">
 					<div class="title">{kwarg}</div>
 					{#if isLamdenKey(tx.kwargs[kwarg])}
-						<a class="outside-link" rel='prefetch' href={`address/${tx.kwargs[kwarg]}`}>{tx.kwargs[kwarg]}</a>
+						<a class="outside-link shrink" rel='prefetch' href={`address/${tx.kwargs[kwarg]}`}>{tx.kwargs[kwarg]}</a>
 					{:else}
 						<div class="value">{tx.kwargs[kwarg]}</div>
 					{/if}
@@ -133,7 +138,7 @@
 					<div class="flex-row sub-row">
 						<div class="title">Key</div>
 						{#if isLamdenKey(makeKey(kwarg.key).key)}
-							<a class="outside-link" rel='prefetch' href={`address/${makeKey(kwarg.key).key}`}>{makeKey(kwarg.key).key}</a>
+							<a class="outside-link shrink" rel='prefetch' href={`address/${makeKey(kwarg.key).key}`}>{makeKey(kwarg.key).key}</a>
 						{:else}
 							<div class="value">{makeKey(kwarg.key).key}</div>
 						{/if}

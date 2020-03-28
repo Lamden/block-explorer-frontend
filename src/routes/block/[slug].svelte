@@ -20,7 +20,7 @@
 
 <style>
 	h2{
-		display: inline;
+		margin-right: 10px;
 	}
 	div.flex-row{
 		border-bottom: 1px dotted var(--divider-color);
@@ -29,6 +29,9 @@
 	}
 	div.title{
 		min-width: 150px;
+	}
+	.header {
+        align-items: baseline;
 	}
 	div.value{
 		display: inline;
@@ -42,29 +45,31 @@
 {#if blockNotFound}
 	<h2>Block:</h2>
 {:else}
-	<h2>{`Block: `}</h2><span class="text-body-2 font-primary-dark">{`${block.blockNum}`}</span>
-		<div class="flex-row">
-			<div class="title">Hash</div><div class="value">{block.hash}</div>
+	<div class="flex-row header">
+		<h2>{`Block: `}</h2><div class="text-body-2 font-primary-dark shrink">{`${block.blockNum}`}</div>
+	</div>
+	<div class="flex-row">
+		<div class="title">Hash</div><div class="value">{block.hash}</div>
+	</div>
+	<div class="flex-row">
+		<div class="title">Previous Hash</div><div class="value">{block.previous}</div>
+	</div>
+	<div class="flex-row">
+		<div class="title"># of SubBlocks</div><div class="value">{block.numOfSubBlocks}</div>
+	</div>
+	<div class="flex-row">
+		<div class="title"># of Transactions</div><div class="value">{block.numOfTransactions}</div>
+	</div>
+	<div class="flex-row">
+		<div class="title">Transactions</div>
+		<div class="value flex-column">
+			{#if block.transactions.length === 0}
+				{'None'}
+			{:else}
+				{#each block.transactions as transaction}
+				<a class="outside-link shrink" rel='prefetch' href={`transaction/${transaction}`}>{transaction}</a>
+				{/each}
+			{/if}
 		</div>
-		<div class="flex-row">
-			<div class="title">Previous Hash</div><div class="value">{block.previous}</div>
-		</div>
-		<div class="flex-row">
-			<div class="title"># of SubBlocks</div><div class="value">{block.numOfSubBlocks}</div>
-		</div>
-		<div class="flex-row">
-			<div class="title"># of Transactions</div><div class="value">{block.numOfTransactions}</div>
-		</div>
-		<div class="flex-row">
-			<div class="title">Transactions</div>
-			<div class="value flex-column">
-				{#if block.transactions.length === 0}
-					{'None'}
-				{:else}
-					{#each block.transactions as transaction}
-					<a class="outside-link" rel='prefetch' href={`transaction/${transaction}`}>{transaction}</a>
-					{/each}
-				{/if}
-			</div>
-		</div>		
+	</div>		
 {/if}

@@ -18,15 +18,16 @@
 <style>
 	nav {
 		border-bottom: 1px solid var(--divider-color);
-		height: 110px;
-		padding: 0 47px;
+		padding: 20px 40px;
 		align-items: center;
+		flex-wrap: wrap;
+		display: flex;
+		flex-direction: column;
+		align-items: flex-start;
 	}
 
 	ul {
-		margin: 0 0 0 50px;
-		padding: 0;
-		min-width: 240px;
+		display: none;
 	}
 
 	li {
@@ -48,7 +49,7 @@
 	}
 
 	.logo-box {
-		margin-right: 50px;
+		margin: 1rem 50px 1rem 0;
 		justify-content: center;
 		align-items: center;
 	}
@@ -63,15 +64,36 @@
 	}
 	.input-box{
 		flex-grow: 1;
+		width: 100%;
+		margin: 1rem 20px 1rem 0;
 	}
 	.tau-details{
 		margin-top: 5px;
+		min-width: max-content;
 	}
+	@media (min-width: 800px) {
+	nav{
+		flex-wrap: nowrap;
+		flex-direction: row;
+		padding: 0 37px;
+		height: 110px;
+		align-items: center;
+	}
+	ul {
+
+		display: flex;
+		flex-direction: row;
+		justify-content: flex-end;
+		margin: 0 0 0 50px;
+		padding: 0;
+		margin: 1rem 0;
+	}
+}
 
 </style>
 
 <nav class="flex-row">
-	<div class="flex-column logo-box">
+	<div class="logo-box">
 		<div class="flex-row nav-logo" on:click={navigate}>
 			<span>{@html lamdenLogo}</span>
 			<span>{@html lamdenWords}</span>
@@ -92,10 +114,9 @@
 		/>
 	</div>
 	<ul>
-		<li><a aria-current='{segment === undefined ? "page" : undefined}' href='.'>Home</a></li>
 		<li><a aria-current='{segment === "about" ? "page" : undefined}' href='block'>Blocks</a></li>
 		<li><a aria-current='{segment === "about" ? "page" : undefined}' href='transaction'>Transactions</a></li>
 		<li><a aria-current='{segment === "about" ? "page" : undefined}' href='address'>Wallets</a></li>
-		<li><a aria-current='{segment === "about" ? "page" : undefined}' href='about'>About</a></li>
+		<!--<li><a aria-current='{segment === "about" ? "page" : undefined}' href='about'>About</a></li>-->
 	</ul>
 </nav>

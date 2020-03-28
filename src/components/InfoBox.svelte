@@ -26,12 +26,6 @@ h2{
     display: flex;
     flex-direction: column;
 }
-.shrink{
-    white-space: nowrap;
-    text-overflow: ellipsis;
-    min-width: 150px;
-    overflow: hidden;
-}
 .col-header{
     min-width: max-content;
     padding-right: 20px;
