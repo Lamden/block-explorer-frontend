@@ -1,4 +1,4 @@
-
+@import url('https://fonts.googleapis.com/css?family=Roboto&display=swap');
 @font-face {
 	font-family: 'Avenir-Heavy';
 	src: url('/fonts/Avenir-Heavy.woff') format('woff'),
@@ -105,6 +105,15 @@ h1,h2, h3, h4, h5, h6 {
 	font-weight: normal;
 	font-size: 8x;
 	line-height: 20px;	
+}
+.text-menu{
+	font-family: 'Roboto', sans-serif;
+	font-style: normal;
+	font-weight: normal;
+	font-size: 25px;
+	line-height: 24px;
+	letter-spacing: 0.44px;
+	color: #FFF;
 }
 .shrink{
 	white-space: nowrap;
