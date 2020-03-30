@@ -1,7 +1,7 @@
 <script context="module">
 	export async function preload(page, session) {
 		const { slug } = page.params;
-		const res = await this.fetch(`http://scotts.webhop.net:1337/blocks/number/${slug}`)
+		const res = await this.fetch(`http://167.99.173.97:1337/blocks/number/${slug}`)
 
 		if (res.status === 200) {
 			let block = await res.json();

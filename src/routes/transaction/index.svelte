@@ -11,7 +11,7 @@
 		{field: 'hash', title: 'Hash', link: true, route: 'transaction', shrink: true}
 	]
     onMount( async() => {
-        txList = await fetch('http://scotts.webhop.net:1337/transactions').then(res => res.json())
+        txList = await fetch('http://167.99.173.97:1337/transactions').then(res => res.json())
     })
 
 </script>

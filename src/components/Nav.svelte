@@ -32,21 +32,21 @@
 		if(e.detail.keyCode === 13){
 			console.log(isLamdenKey(value))
 			if (isLamdenKey(value) ){
-				let addressResponse  = await fetch(`http://scotts.webhop.net:1337/states/balances/${value}`).then(res => res.json())
+				let addressResponse  = await fetch(`http://167.99.173.97:1337/states/balances/${value}`).then(res => res.json())
 				console.log(addressResponse)
 				if (addressResponse.value) {
 					navigate(`address/${value}`)
 					return
 				}
 
-				let txResponse  = await fetch(`http://scotts.webhop.net:1337/transactions/get/${value}`).then(res => res.json())
+				let txResponse  = await fetch(`http://167.99.173.97:1337/transactions/get/${value}`).then(res => res.json())
 				console.log(txResponse)
 				if (typeof txResponse.hash !== 'undefined') {
 					navigate(`transaction/${value}`)
 					return
 				}
 
-				let blockHashResponse  = await fetch(`http://scotts.webhop.net:1337/blocks/hash/${value}`).then(res => res.json())
+				let blockHashResponse  = await fetch(`http://167.99.173.97:1337/blocks/hash/${value}`).then(res => res.json())
 				console.log(blockHashResponse)
 				if (typeof txResponse.hash !== 'undefined') {
 					navigate(`block/${txResponse.blockNum}`)
@@ -54,7 +54,7 @@
 				}
 			
 			}else{
-				let blockNumResponse  = await fetch(`http://scotts.webhop.net:1337/blocks/number/${value}`).then(res => res.json())
+				let blockNumResponse  = await fetch(`http://167.99.173.97:1337/blocks/number/${value}`).then(res => res.json())
 				console.log(blockNumResponse)
 				if (typeof blockNumResponse.length !== 'undefined' && blockNumResponse.length > 0 ) {
 					navigate(`block/${value}`)
