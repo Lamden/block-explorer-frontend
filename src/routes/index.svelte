@@ -33,9 +33,9 @@
 
 
 	onMount(async () => {
-		blockList = await fetch('http://167.99.173.97:1337/blocks/?limit=5').then(res => res.json())
-		txList = await fetch('http://167.99.173.97:1337/transactions/5').then(res => res.json())
-		let topWallets = await fetch('http://167.99.173.97:1337/states/topwallets').then(res => res.json())
+		blockList = await fetch('https://explorer.lamden.io/api/blocks/?limit=5').then(res => res.json())
+		txList = await fetch('https://explorer.lamden.io/api/transactions/5').then(res => res.json())
+		let topWallets = await fetch('https://explorer.lamden.io/api/states/topwallets').then(res => res.json())
 		topWallets = topWallets.filter(wallet => isLamdenKey(wallet.key))
 		topWallets = topWallets.sort((a, b) => b.value - a.value);
 		topWallets = topWallets.slice(0, 5)

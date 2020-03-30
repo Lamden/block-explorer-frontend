@@ -14,7 +14,7 @@
 	]
     
     onMount( async() => {
-        let topWallets = await fetch('http://167.99.173.97:1337/states/topwallets').then(res => res.json())
+        let topWallets = await fetch('https://explorer.lamden.io/api/states/topwallets').then(res => res.json())
 		topWallets = topWallets.filter(wallet => isLamdenKey(wallet.key))
 		topWallets = topWallets.sort((a, b) => b.value - a.value);
 		topWallets.forEach((wallet, index) => wallet.rank = index + 1)

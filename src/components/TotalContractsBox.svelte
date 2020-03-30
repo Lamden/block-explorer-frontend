@@ -3,7 +3,7 @@
     $: totalContracts = 0
 
     onMount(async () => {
-        totalContracts = await fetch('http://167.99.173.97:1337/states/totalcontracts').then(res => res.json())
+        totalContracts = await fetch('https://explorer.lamden.io/api/states/totalcontracts').then(res => res.json())
     })
 </script>
 

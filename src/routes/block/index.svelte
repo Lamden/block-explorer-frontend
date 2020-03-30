@@ -22,7 +22,7 @@
     })
 
     const fetchData = async (parms) => {
-        blockList = await fetch(`http://167.99.173.97:1337/blocks${parms}`).then(res => res.json())
+        blockList = await fetch(`https://explorer.lamden.io/api/blocks${parms}`).then(res => res.json())
         if (blockList[0].blockNum > maxBlock){
             maxBlock = blockList[0].blockNum;
         }
