@@ -73,6 +73,7 @@
 		border-bottom: 1px solid var(--divider-color);
 		padding: 20px 40px;
 		align-items: center;
+		justify-content: space-between;
 		flex-wrap: wrap;
 		display: flex;
 		flex-direction: column;
@@ -126,8 +127,8 @@
 		margin-left: 15.53px;
 	}
 	.input-box{
-		flex-grow: 1;
 		width: 100%;
+		max-width: 600px;
 		margin: 1rem 20px 1rem 0;
 	}
 	.tau-details{

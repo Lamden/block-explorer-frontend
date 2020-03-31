@@ -8,7 +8,7 @@
 	import InfoBox from '../components/InfoBox.svelte'
 
 	//Utils
-	import { isLamdenKey } from '../js/utils'
+	import { isLamdenKey, ApiURL } from '../js/utils'
 
 	$: blockList = [];
 	$: txList = [];
@@ -33,9 +33,9 @@
 
 
 	onMount(async () => {
-		blockList = await fetch('https://explorer.lamden.io/api/blocks/?limit=5').then(res => res.json())
-		txList = await fetch('https://explorer.lamden.io/api/transactions/5').then(res => res.json())
-		let topWallets = await fetch('https://explorer.lamden.io/api/states/topwallets').then(res => res.json())
+		blockList = await fetch(`${ApiURL}/blocks/?limit=5`).then(res => res.json()).then(res => res.data)
+		txList = await fetch(`${ApiURL}/transactions/5`).then(res => res.json())
+		let topWallets = await fetch(`${ApiURL}/states/topwallets`).then(res => res.json())
 		topWallets = topWallets.filter(wallet => isLamdenKey(wallet.key))
 		topWallets = topWallets.sort((a, b) => b.value - a.value);
 		topWallets = topWallets.slice(0, 5)
