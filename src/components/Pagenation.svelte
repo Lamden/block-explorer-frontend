@@ -20,8 +20,9 @@
     let currentList = [];
 
     $: totalRecords = 0;
-    $: pages = [...makePages(totalRecords)];
+    $: numOfPages = 0;
     $: currentPage = 1;
+    $: pages = [...makePages(totalRecords, currentPage)];
     $: minItem = 0;
     $: maxItem = 0;
     
@@ -43,14 +44,16 @@
     }
 
     const setPage = async (pageNum) => {
-        currentPage = pageNum
-        let newLimit = limit
-        let offset = totalRecords - (limit * pageNum)
-        if (offset < 0 ) {
-            offset = 0
-            newLimit = limit - ((limit * pageNum) - totalRecords)
+        if (pageNum !== "..."){
+            currentPage = pageNum
+            let newLimit = limit
+            let offset = totalRecords - (limit * pageNum)
+            if (offset < 0 ) {
+                offset = 0
+                newLimit = limit - ((limit * pageNum) - totalRecords)
+            }
+            fetchData(`?action=prev&offset=${offset}&limit=${newLimit}`)
         }
-        fetchData(`?action=prev&offset=${offset}&limit=${newLimit}`)
     }
 
     const nextPage = () => {
@@ -64,9 +67,9 @@
         if (currentPage !== 1) setPage(currentPage - 1)
     }
 
-    const makePages = (totalRecs) => {
+    const makePages = (totalRecs, currPage) => {
         let pagesArray = [];
-        const numOfPages = parseInt(totalRecs / limit) + Math.ceil((totalRecs / limit) % 1) || 1;
+        numOfPages = parseInt(totalRecs / limit) + Math.ceil((totalRecs / limit) % 1) || 1;
         if (numOfPages > 0){
             let counter = 1;
             while (counter <= numOfPages){
@@ -74,12 +77,28 @@
                 counter = counter + 1;
             }
         }else pagesArray = [1];
+        if (pagesArray.length > 10){
+            let currPageIndex = pagesArray.indexOf(currPage)
+            let lastFive = currPageIndex > pagesArray.length - 6
+            pagesArray = [
+                currPageIndex > 0 ? '...' : null,
+                ...lastFive ? pagesArray.slice( - 5) : pagesArray.slice( currPageIndex, currPageIndex + 5),
+                currPageIndex < pagesArray.length - 5 ? '...' : null
+            ]
+        }
         return pagesArray;
+    }
+
+    const maxPage = () => {
+        if (currentPage !== numOfPages) setPage(numOfPages)
+    }
+
+    const minPage = () => {
+        if (currentPage !== 1) setPage(1)
     }
 
     const getMaxItem = () => {
         let pageIndex = pages.indexOf(currentPage)
-        console.log(totalRecords - (pageIndex * limit))
         return totalRecords - (pageIndex * limit)
     }
     const getMinItem = () => {
@@ -96,33 +115,49 @@
     justify-content: space-between;
     align-items: center;
 }
-
+.showing{
+    flex-wrap: wrap;
+}
 .current{
     background: var(--primary-color)
 }
 
-.buttons > div {
+.buttons > div{
     padding: 2px 5px;
     margin: 0 2px;
+}
+.LRarrow{
+   position: relative;
+    top: 1px; 
+}
+
+.pointer{
+    cursor: pointer;
 }
 
 </style>
 
 <div class="pagenation flex-row">
-    <span class="showing">
+    <div class="flex-row showing">
         {#if currentList.length > 0}
-        {`showing ${maxItem}-${minItem} of ${totalRecords} results`}
+            <div>{`showing ${maxItem}-${minItem}`}</div>
+            <div>{`of ${totalRecords} results`}</div>
         {:else}
-            {`showing 0-0 of 0 results`}
+            <div>{`showing 0-0`}</div>
+            <div>{`of 0 results`}</div>
         {/if}
-    </span>
+    </div>
     <div class="flex-row buttons">
-        <!--<div>{@html arrowLineLeft}</div>-->
-        <div on:click={prevPage}>{@html arrowLeft}</div>
+        <div on:click={minPage} class="pointer">{@html arrowLineLeft}</div>
+        <div on:click={prevPage} class="pointer LRarrow">{@html arrowLeft}</div>
         {#each pages as pageNum}
-            <div on:click={() => setPage(pageNum)} class:current={pageNum === currentPage}>{pageNum}</div>
+            {#if pageNum !== null}
+                <div on:click={() => setPage(pageNum)} 
+                    class:current={pageNum === currentPage}
+                    class:pointer={pageNum !== '...'}>{pageNum}</div>
+            {/if}
         {/each}
-        <div on:click={nextPage}>{@html arrowRight}</div>
-        <!--<div>{@html arrowLineRight}</div>-->
+        <div on:click={nextPage} class="pointer LRarrow">{@html arrowRight}</div>
+        <div on:click={maxPage} class="pointer">{@html arrowLineRight}</div>
     </div>
 </div>
