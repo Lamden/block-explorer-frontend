@@ -21,7 +21,7 @@
 	]
 	const txListItems = [
 		{field: 'contractName', title: 'Contract'},
-		{field: 'functionName', title: 'Function'},
+		{field: 'functionName', title: 'Function', hideMobile: true},
 		{field: 'stampsUsed', title: 'Stamps Used'},
 		{field: 'hash', title: 'Hash', link: true, route: 'transaction', shrink: true}
 	]
@@ -61,9 +61,6 @@
 		justify-content: center;
 		align-items: center;
 		flex-wrap: wrap;
-	}
-	@media (min-width: 480px) {
-
 	}
 </style>
 

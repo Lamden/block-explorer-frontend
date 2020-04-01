@@ -1,5 +1,5 @@
 const validators = require('types-validate-assert')
-const { validateTypes, assertTypes } = validators;
+const { validateTypes } = validators;
 /*
     Validates an address if valid for a specific network/symbol
     Return: Trimmed String (str)

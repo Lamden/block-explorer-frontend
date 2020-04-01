@@ -11,7 +11,7 @@
 
 <style>
 h2{
-    margin-top: 3rem;
+    margin-top: 1rem;
 }
 .flex-table{
     display: flex;
@@ -23,13 +23,16 @@ h2{
 }
 .col-header{
     min-width: max-content;
-    padding-right: 20px;
+    padding-right: 10px;
 }
 .col-header-divider{
     border-bottom: 2px solid var(--divider-color);
 }
 .col-item{
     padding: 5px 20px 5px 0;
+    max-width: 90%;
+    white-space: nowrap;
+	text-overflow: ellipsis;
     overflow: hidden;
 }
 .row-divider{
@@ -37,6 +40,25 @@ h2{
 }
 .flex-grow{
     flex-grow: 1;
+}
+.mobile-col{
+    display: none;
+}
+
+@media (min-width: 480px) {
+    .mobile-col{
+        display: flex;
+        flex-direction: column;
+    }
+    .col-item{
+        max-width: 100%;
+    }
+    .col-header{
+        padding-right: 20px;
+    }
+    h2{
+        margin-top: 3rem;
+    }
 }
 </style>
 
@@ -46,7 +68,10 @@ h2{
 {:then res}
     <div class="flex-table">
         {#each itemList as colInfo}
-            <div class="col" class:flex-grow={colInfo.flexgrow}  class:shrink={colInfo.shrink}>
+            <div class:col={!colInfo.hideMobile}
+                 class:mobile-col={colInfo.hideMobile}
+                 class:flex-grow={colInfo.flexgrow}
+                 class:shrink={colInfo.shrink}>
                 <div class="col-header text-body-1 font-primary-dark">{colInfo.title}</div>
                 <div class="col-header-divider"></div>
                 {#each res as rowInfo}

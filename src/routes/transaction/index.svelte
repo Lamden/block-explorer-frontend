@@ -8,7 +8,7 @@
 	$: txList = [];
 	const txListItems = [
 		{field: 'contractName', title: 'Contract'},
-		{field: 'functionName', title: 'Function'},
+		{field: 'functionName', title: 'Function', hideMobile: true},
 		{field: 'stampsUsed', title: 'Stamps Used'},
 		{field: 'hash', title: 'Hash', link: true, route: 'transaction', shrink: true}
 	]

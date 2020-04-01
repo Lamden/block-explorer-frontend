@@ -66,7 +66,7 @@
 	nav {
 		z-index: 50;
 		border-bottom: 1px solid var(--divider-color);
-		padding: 20px 40px;
+		padding: 20px 2em;
 		align-items: center;
 		justify-content: space-between;
 		flex-wrap: wrap;
@@ -74,6 +74,7 @@
 		flex-direction: column;
 		align-items: flex-start;
 	}
+
 	ul{
 		list-style-type: none;
 		padding: 0;
@@ -133,7 +134,7 @@
 	.nav-burger{
 		z-index: 150;
 		position: absolute;
-		right: 40px;
+		right: 2em;
 		top: 40px;
 	}
 
@@ -158,6 +159,9 @@
 			height: 110px;
 			align-items: center;
 		}
+		h2{
+			margin-top: 3rem;
+		}
 		ul.flex-row {
 			display: flex;
 			justify-content: flex-end;
@@ -172,6 +176,7 @@
 			display: none;
 		}
 	}
+
 </style>
 
 {#if !menuOpen}
