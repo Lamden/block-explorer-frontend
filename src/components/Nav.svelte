@@ -181,9 +181,11 @@
 			<span>{@html lamdenLogo}</span>
 			<span>{@html lamdenWords}</span>
 		</div>
+		<!--
 		<div class="tau-details text-subtitle-1 font-primary-dark">
 			{`TAU: $0.15   Stamps: 10 TAU ($0.10)`}
 		</div>
+		-->
 	</div>
 	<div class="flex-row input-box">
 		<InputBox
