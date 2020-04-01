@@ -30,24 +30,20 @@
 		let value = e.detail.target.value
 		if (typeof value === 'string') value = value.trim()
 		if(e.detail.keyCode === 13){
-			console.log(isLamdenKey(value))
 			if (isLamdenKey(value) ){
 				let addressResponse  = await fetch(`${ApiURL}/states/balances/${value}`).then(res => res.json())
-				console.log(addressResponse)
 				if (addressResponse.value) {
 					navigate(`address/${value}`)
 					return
 				}
 
 				let txResponse  = await fetch(`${ApiURL}/transactions/get/${value}`).then(res => res.json())
-				console.log(txResponse)
 				if (typeof txResponse.hash !== 'undefined') {
 					navigate(`transaction/${value}`)
 					return
 				}
 
 				let blockHashResponse  = await fetch(`${ApiURL}/blocks/hash/${value}`).then(res => res.json())
-				console.log(blockHashResponse)
 				if (typeof txResponse.hash !== 'undefined') {
 					navigate(`block/${txResponse.blockNum}`)
 					return
@@ -55,7 +51,6 @@
 			
 			}else{
 				let blockNumResponse  = await fetch(`${ApiURL}/blocks/number/${value}`).then(res => res.json())
-				console.log(blockNumResponse)
 				if (typeof blockNumResponse.length !== 'undefined' && blockNumResponse.length > 0 ) {
 					navigate(`block/${value}`)
 					return

@@ -26,14 +26,10 @@
     
     onMount(async () => {
         fetchData(`?limit=${limit}`)
-        console.log(maxItem)
     })
 
     afterUpdate(() => {
-        //console.log(maxBlock)
-        //console.log(pages)
-        //console.log(currentPage)
-        console.log(maxItem)
+
     })
 
     const fetchData = async (parms) => {
@@ -79,7 +75,6 @@
     }
 
     const getMaxItem = (pageNum) => {
-        console.log(pageNum * limit)
         if ((pageNum * limit) > totalRecords) return totalRecords
         return totalRecords - (pageNum * limit)
     }
