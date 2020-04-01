@@ -35,7 +35,7 @@ h2{
 }
 .col-item{
     padding: 5px 20px 5px 0;
-    max-width: 74px;
+    max-width: 90%;
     white-space: nowrap;
 	text-overflow: ellipsis;
     overflow: hidden;
@@ -55,6 +55,9 @@ h2{
     .mobile-col{
         display: flex;
         flex-direction: column;
+    }
+    .col-item{
+        max-width: 100%;
     }
     .col-header{
         padding-right: 20px;
