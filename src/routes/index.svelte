@@ -54,7 +54,7 @@
 		padding: 40px 0;
 		border-radius: 4px;
 		margin-bottom: 18px;
-		background-image: url('../../img/hero_bg.png');
+		background-image: url('../../img/hero_bg.jpeg');
 		background-position-x: 47%;
 		background-size: cover;
 		background-repeat: no-repeat;
