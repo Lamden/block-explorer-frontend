@@ -15,14 +15,15 @@
     //Props
     export let limit = 10;
     export let apiRoot;
+    export let reverse = false;
 
     let currentList = [];
 
     $: totalRecords = 0;
     $: pages = [...makePages(totalRecords)];
     $: currentPage = 1;
-    $: maxItem = getMaxItem(currentPage)
-    $: minItem = maxItem - limit < 0 ? 0 : maxItem - limit
+    $: minItem = 0;
+    $: maxItem = 0;
     
     onMount(async () => {
         fetchData(`?limit=${limit}`)
@@ -34,9 +35,11 @@
 
     const fetchData = async (parms) => {
         let response = await fetch(`${ApiURL}${apiRoot}${parms}`).then(res => res.json())
-        currentList = response.data
+        currentList = reverse ? response.data.reverse() : response.data;
         totalRecords = response.count
         dispatch('updateList', currentList)
+        maxItem = getMaxItem()
+        minItem = getMinItem()
     }
 
     const setPage = async (pageNum) => {
@@ -74,9 +77,15 @@
         return pagesArray;
     }
 
-    const getMaxItem = (pageNum) => {
-        if ((pageNum * limit) > totalRecords) return totalRecords
-        return totalRecords - (pageNum * limit)
+    const getMaxItem = () => {
+        let pageIndex = pages.indexOf(currentPage)
+        console.log(totalRecords - (pageIndex * limit))
+        return totalRecords - (pageIndex * limit)
+    }
+    const getMinItem = () => {
+        let minItem = getMaxItem(currentPage) - limit
+        if (minItem < 0) minItem = 0
+        return minItem
     }
 
 </script>
@@ -102,9 +111,9 @@
 <div class="pagenation flex-row">
     <span class="showing">
         {#if currentList.length > 0}
-        {`showing ${maxItem}-${maxItem-limit} of ${totalRecords}`}
+        {`showing ${maxItem}-${minItem} of ${totalRecords} results`}
         {:else}
-            {`showing 0-0 of 0`}
+            {`showing 0-0 of 0 results`}
         {/if}
     </span>
     <div class="flex-row buttons">

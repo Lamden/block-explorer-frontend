@@ -20,4 +20,4 @@
 </script>
 
 <BigTable title={"Latest Transactions"} info={txList} itemList={txListItems}/>
-<Pagenation {apiRoot} on:updateList={updateList}/>
+<Pagenation {apiRoot} on:updateList={updateList} reverse={true}/>

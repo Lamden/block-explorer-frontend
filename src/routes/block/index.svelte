@@ -23,4 +23,4 @@
 </script>
 
 <BigTable title={"Latest Blocks"} info={blockList} itemList={blockListItems}/>
-<Pagenation {apiRoot} on:updateList={updateList}/>
+<Pagenation {apiRoot} on:updateList={updateList} reverse={true}/>
