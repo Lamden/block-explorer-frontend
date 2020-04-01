@@ -26,21 +26,16 @@
 		{field: 'hash', title: 'Hash', link: true, route: 'transaction', shrink: true}
 	]
 	const topWalletsListItems = [
-		{field: 'rank', title: 'Rank'},
+		{title: 'Rank'},
 		{field: 'key', title: 'Address', link: true, route: 'address', shrink: true},
 		{field: 'value', title: 'Amount', flexgrow: true},
 	]
 
 
 	onMount(async () => {
-		blockList = await fetch(`${ApiURL}/blocks/?limit=5`).then(res => res.json()).then(res => res.data)
-		txList = await fetch(`${ApiURL}/transactions/5`).then(res => res.json())
-		let topWallets = await fetch(`${ApiURL}/states/topwallets`).then(res => res.json())
-		topWallets = topWallets.filter(wallet => isLamdenKey(wallet.key))
-		topWallets = topWallets.sort((a, b) => b.value - a.value);
-		topWallets = topWallets.slice(0, 5)
-		topWallets.forEach((wallet, index) => wallet.rank = index + 1)
-		topWalletsList = topWallets
+		blockList = await fetch(`${ApiURL}/blocks/?limit=5`).then(res => res.json()).then(res => res.data.reverse())
+		txList = await fetch(`${ApiURL}/transactions/?limit=5`).then(res => res.json()).then(res => res.data.reverse())
+		topWalletsList= await fetch(`${ApiURL}/states/topwallets/?limit=10`).then(res => res.json()).then(res => res.data)
 	})
 
 </script>

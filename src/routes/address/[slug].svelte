@@ -1,7 +1,10 @@
 <script context="module">
+	//Utils
+    import { ApiURL } from '../../js/utils'
+
 	export async function preload(page, session) {
         const { slug } = page.params;
-		const res = await this.fetch(`https://explorer.lamden.io/api/transactions/history/${slug}`)
+		const res = await this.fetch(`${ApiURL}/transactions/history/${slug}`)
 		if (res.status === 200) {
 			let txs = await res.json();
 			return {txs, address: slug};
@@ -12,7 +15,7 @@
 </script>
 
 <script>
-	import { onMount } from 'svelte';
+    import { onMount } from 'svelte';
 
     export let txs;
     export let address;
@@ -22,7 +25,7 @@
 	 
 	 onMount(async () => {
          if (!infoNotFound){
-             let res = await fetch(`https://explorer.lamden.io/api/states/balances/${address}`)
+             let res = await fetch(`${ApiURL}/states/balances/${address}`)
                                 .then(res => res.json())
                                 .then(res => {
                                     if (res.value) balance = res.value

@@ -21,24 +21,24 @@
     $: totalRecords = 0;
     $: pages = [...makePages(totalRecords)];
     $: currentPage = 1;
-    
-
-
+    $: maxItem = getMaxItem(currentPage)
+    $: minItem = maxItem - limit < 0 ? 0 : maxItem - limit
     
     onMount(async () => {
         fetchData(`?limit=${limit}`)
+        console.log(maxItem)
     })
 
     afterUpdate(() => {
         //console.log(maxBlock)
         //console.log(pages)
         //console.log(currentPage)
-        //console.log(currentList)
+        console.log(maxItem)
     })
 
     const fetchData = async (parms) => {
-        const response = await fetch(`${ApiURL}${apiRoot}${parms}`).then(res => res.json())
-        currentList = response.data.sort((a, b) => b.blockNum - a.blockNum );
+        let response = await fetch(`${ApiURL}${apiRoot}${parms}`).then(res => res.json())
+        currentList = response.data
         totalRecords = response.count
         dispatch('updateList', currentList)
     }
@@ -78,6 +78,12 @@
         return pagesArray;
     }
 
+    const getMaxItem = (pageNum) => {
+        console.log(pageNum * limit)
+        if ((pageNum * limit) > totalRecords) return totalRecords
+        return totalRecords - (pageNum * limit)
+    }
+
 </script>
 
 <style>
@@ -101,7 +107,7 @@
 <div class="pagenation flex-row">
     <span class="showing">
         {#if currentList.length > 0}
-        {`showing ${currentList[0].blockNum}-${currentList[currentList.length - 1].blockNum} of ${totalRecords}`}
+        {`showing ${maxItem}-${maxItem-limit} of ${totalRecords}`}
         {:else}
             {`showing 0-0 of 0`}
         {/if}

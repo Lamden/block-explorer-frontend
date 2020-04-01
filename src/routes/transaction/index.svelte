@@ -1,8 +1,10 @@
 <script>
-    import { onMount } from 'svelte' 
     //Components
-    import BigTable from '../../components/BigTable.svelte'
+	import BigTable from '../../components/BigTable.svelte'
+    import Pagenation from '../../components/Pagenation.svelte'
 
+	let apiRoot = '/transactions'
+	
 	$: txList = [];
 	const txListItems = [
 		{field: 'contractName', title: 'Contract'},
@@ -10,10 +12,12 @@
 		{field: 'stampsUsed', title: 'Stamps Used'},
 		{field: 'hash', title: 'Hash', link: true, route: 'transaction', shrink: true}
 	]
-    onMount( async() => {
-        txList = await fetch('https://explorer.lamden.io/api/transactions').then(res => res.json())
-    })
+
+    const updateList = (e) => {
+        txList = e.detail
+    }
 
 </script>
 
 <BigTable title={"Latest Transactions"} info={txList} itemList={txListItems}/>
+<Pagenation {apiRoot} on:updateList={updateList}/>

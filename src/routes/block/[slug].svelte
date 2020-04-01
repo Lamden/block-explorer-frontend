@@ -1,7 +1,10 @@
 <script context="module">
+	//Utils
+	import { ApiURL } from '../../js/utils'
+	
 	export async function preload(page, session) {
 		const { slug } = page.params;
-		const res = await this.fetch(`https://explorer.lamden.io/api/blocks/number/${slug}`)
+		const res = await this.fetch(`${ApiURL}/blocks/number/${slug}`)
 
 		if (res.status === 200) {
 			let block = await res.json();

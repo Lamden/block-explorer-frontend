@@ -1,9 +1,13 @@
 <script>
     import { onMount } from 'svelte'
+    
+    //Utils
+    import { ApiURL } from '../js/utils'
+    
     $: totalAddresses = 0
 
     onMount(async () => {
-        totalAddresses = await fetch('https://explorer.lamden.io/api/states/totaladdresses').then(res => res.json())
+        totalAddresses = await fetch(`${ApiURL}/states/totaladdresses`).then(res => res.json()).then(res => res.count)
     })
 </script>
 

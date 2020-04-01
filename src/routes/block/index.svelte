@@ -1,5 +1,4 @@
 <script>
-    import { onMount } from 'svelte' 
     //Components
     import BigTable from '../../components/BigTable.svelte'
     import Pagenation from '../../components/Pagenation.svelte'

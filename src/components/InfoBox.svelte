@@ -54,18 +54,25 @@ h2{
             <div class="col" class:flex-grow={colInfo.flexgrow} class:shrink={colInfo.shrink}>
                 <div class="col-header text-body-1 font-primary-dark">{colInfo.title}</div>
                 <div class="col-header-divider"></div>
-                {#each res as rowInfo}
-                    {#each Object.keys(rowInfo) as rowItem}
-                        {#if colInfo.field === rowItem}
-                            {#if colInfo.link}
-                                <a class="outside-link col-item text-body-1" class:shrink={colInfo.shrink} rel='prefetch' href={`${colInfo.route}/${rowInfo[rowItem]}`}>{rowInfo[rowItem]}</a>
-                            {:else}
-                                <div class="col-item text-body-1" class:shrink={colInfo.shrink}>{rowInfo[rowItem]}</div>
-                            {/if}
-                            <div class="row-divider"></div>
-                        {/if}
+                {#if colInfo.title === 'Rank'}
+                    {#each res as rowInfo, index}
+                        <div class="col-item text-body-1" >{index + 1}</div>
+                        <div class="row-divider"></div>
                     {/each}
-                {/each} 
+                {:else}
+                    {#each res as rowInfo}
+                        {#each Object.keys(rowInfo) as rowItem}
+                            {#if colInfo.field === rowItem}
+                                {#if colInfo.link}
+                                    <a class="outside-link col-item text-body-1" class:shrink={colInfo.shrink} rel='prefetch' href={`${colInfo.route}/${rowInfo[rowItem]}`}>{rowInfo[rowItem]}</a>
+                                {:else}
+                                    <div class="col-item text-body-1" class:shrink={colInfo.shrink}>{rowInfo[rowItem]}</div>
+                                {/if}
+                                <div class="row-divider"></div>
+                            {/if}
+                        {/each}
+                    {/each}
+                {/if}
             </div>
         {/each}
     </div>

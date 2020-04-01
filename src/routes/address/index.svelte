@@ -1,26 +1,22 @@
 <script>
     import { onMount } from 'svelte' 
     //Components
-    import BigTable from '../../components/BigTable.svelte'
+	import BigTable from '../../components/BigTable.svelte'
+	import Pagenation from '../../components/Pagenation.svelte'
 
-	//Utils
-	import { isLamdenKey } from '../../js/utils'
+	let apiRoot = '/states/topWallets'
 
 	$: topWalletsList = [];
 	const topWalletsListItems = [
-		{field: 'rank', title: 'Rank'},
 		{field: 'key', title: 'Address', link: true, route: 'address', shrink: true},
 		{field: 'value', title: 'Amount', flexgrow: true},
 	]
     
-    onMount( async() => {
-        let topWallets = await fetch('https://explorer.lamden.io/api/states/topwallets').then(res => res.json())
-		topWallets = topWallets.filter(wallet => isLamdenKey(wallet.key))
-		topWallets = topWallets.sort((a, b) => b.value - a.value);
-		topWallets.forEach((wallet, index) => wallet.rank = index + 1)
-		topWalletsList = topWallets
-    })
+    const updateList = (e) => {
+        topWalletsList = e.detail
+    }
 
 </script>
 
 <BigTable title={"Top Wallets"} info={topWalletsList} itemList={topWalletsListItems}/>
+<Pagenation {apiRoot} on:updateList={updateList}/>
