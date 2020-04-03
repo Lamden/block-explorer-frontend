@@ -1,5 +1,5 @@
 <script>
-    import { PriceInfo } from './Stores.svelte'
+    import { PriceInfo } from '../js/stores'
 </script>
 
 <style>

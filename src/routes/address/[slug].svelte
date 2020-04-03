@@ -1,6 +1,6 @@
 <script context="module">
 	//Utils
-    import { ApiURL } from '../../js/utils'
+    import { ApiURL, networkSymbol } from '../../js/utils'
 
 	export async function preload(page, session) {
         const { slug } = page.params;
@@ -89,7 +89,7 @@
 	</div>
 {:else}
     <div class="flex-row">
-		<div class="title">Current Balance</div><div class="value">{`${parseFloat(balance).toLocaleString()} dTAU`}</div>
+		<div class="title">Current Balance</div><div class="value">{`${parseFloat(balance).toLocaleString()} ${networkSymbol}`}</div>
 	</div>
     <div class="flex-row">
 		<div class="title"># of Transactions</div><div class="value">{txs.length}</div>
@@ -134,7 +134,7 @@
                     {#if kwarg === 'amount'}
                         <div class="flex-row sub-row">
                             <div class="title">{tx.sender === address ? 'Sent' : 'Received'}</div>
-                            <div class="value">{`${tx.kwargs[kwarg]} dTAU`}</div>
+                            <div class="value">{`${tx.kwargs[kwarg]} ${networkSymbol}`}</div>
                         </div>
                     {/if}
                 {/each}

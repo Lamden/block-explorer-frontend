@@ -47,7 +47,7 @@
 </svelte:head>
 
 <div class="flex-row header">
-	<h2>{`Block: `}</h2><div class="text-body-2 font-primary-dark shrink">{slug}</div>
+	<h2>{`Block: `}</h2><div class="text-body-2 font-primary-dark">{slug}</div>
 </div>
 {#if blockNotFound}
 	<div class="flex-row">
@@ -55,10 +55,10 @@
 	</div>
 {:else}
 	<div class="flex-row">
-		<div class="title">Hash</div><div class="value">{block.hash}</div>
+		<div class="title">Hash</div><div class="value shrink">{block.hash}</div>
 	</div>
 	<div class="flex-row">
-		<div class="title">Previous Hash</div><div class="value">{block.previous}</div>
+		<div class="title">Previous Hash</div><div class="value shrink">{block.previous}</div>
 	</div>
 	<div class="flex-row">
 		<div class="title"># of SubBlocks</div><div class="value">{block.numOfSubBlocks}</div>
@@ -68,12 +68,12 @@
 	</div>
 	<div class="flex-row">
 		<div class="title">Transactions</div>
-		<div class="value flex-column">
+		<div class="value flex-column shrink">
 			{#if block.transactions.length === 0}
 				{'None'}
 			{:else}
 				{#each block.transactions as transaction}
-				<a class="outside-link shrink" rel='prefetch' href={`transaction/${transaction}`}>{transaction}</a>
+				<a class="outside-link" rel='prefetch' href={`transaction/${transaction}`}>{transaction}</a>
 				{/each}
 			{/if}
 		</div>

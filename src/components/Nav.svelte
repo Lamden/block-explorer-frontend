@@ -9,7 +9,8 @@
 	import menuClose from '../../static/img/icons/menu-close.svg'
 
 	//Utils
-	import { isLamdenKey, ApiURL } from '../js/utils'
+	import { isLamdenKey, ApiURL, networkSymbol } from '../js/utils'
+	import { StampRatio } from '../js/stores'
 
 	//Props
 	export let segment;
@@ -111,12 +112,13 @@
 	.logo-box {
 		margin: 1rem 50px 1rem 0;
 		justify-content: center;
-		align-items: center;
+		align-items: flex-end;
 	}
 
 	.nav-logo{
 		height: 30px;
 		align-items: center;
+		justify-content: center;
 		cursor: pointer;
 	}
 	.nav-logo> span:last-child{
@@ -126,11 +128,11 @@
 		width: 100%;
 		max-width: 600px;
 		margin: 1rem 20px 1rem 0;
-	}/*
+	}
 	.tau-details{
 		margin-top: 5px;
 		min-width: max-content;
-	}*/
+	}
 	.nav-burger{
 		z-index: 150;
 		position: absolute;
@@ -178,16 +180,14 @@
 
 {#if !menuOpen}
 <nav class="flex-row">
-	<div class="logo-box">
+	<div class="flex-column logo-box">
 		<div class="flex-row nav-logo" on:click={() => {navigate("/")}}>
 			<span>{@html lamdenLogo}</span>
 			<span>{@html lamdenWords}</span>
 		</div>
-		<!--
 		<div class="tau-details text-subtitle-1 font-primary-dark">
-			{`TAU: $0.15   Stamps: 10 TAU ($0.10)`}
+			{` 1 ${networkSymbol} = ${$StampRatio} stamps`}
 		</div>
-		-->
 	</div>
 	<div class="flex-row input-box">
 		<InputBox

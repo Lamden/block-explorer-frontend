@@ -1,6 +1,7 @@
 <script context="module">
 	//Utils
-	import { ApiURL } from '../../js/utils'
+	import { ApiURL, networkSymbol } from '../../js/utils'
+	import { StampRatio } from '../../js/stores'
 
 	export async function preload(page, session) {
 		const { slug } = page.params;
@@ -20,7 +21,8 @@
 
 	export let tx;
 
-	$:txNotFound = typeof tx === 'undefined'
+	$: txNotFound = typeof tx === 'undefined'
+	$: stampsToTAU = txNotFound ? 0 : $StampRatio === 0 ? 0 : tx.stampsUsed / $StampRatio;
 
 	 const makeKey = (rawKey) => {
 		return {
@@ -80,7 +82,7 @@
 			</div>
 		</div>
 		<div class="flex-row">
-			<div class="title">Timestamp</div><div class="value">{tx.timestamp}</div>
+			<div class="title">Timestamp</div><div class="value">{new Date(tx.timestamp).toLocaleString()}</div>
 		</div>
 		<div class="flex-row">
 			<div class="title">Block Number</div>
@@ -100,7 +102,10 @@
 			<div class="title">Processor</div><div class="value">{tx.processor}</div>
 		</div>
 		<div class="flex-row">
-			<div class="title">Stamps Used</div><div class="value">{tx.stampsUsed}</div>
+			<div class="title">Stamps Used</div>
+			<div class="value">
+				{`${tx.stampsUsed.toLocaleString()} ( ${parseFloat(stampsToTAU).toPrecision(3)} ${networkSymbol} )`}
+			</div>
 		</div>
 		<div class="flex-row">
 			<div class="title">Contract Name</div><div class="value">{tx.contractName}</div>
