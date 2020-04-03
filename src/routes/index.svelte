@@ -75,7 +75,7 @@
 	<a class="outside-link" href="www.lamden.io" target="_blank" rel="noreferrer noopener">{`visit our website`}</a> {` to learn more.`}</p>
 
 <div class="flex-row hero-rec">
-	<!--<TauPriceBox />-->
+	<TauPriceBox />
 	<TotalContractsBox />
 	<TotalAddressesBox />
 </div>

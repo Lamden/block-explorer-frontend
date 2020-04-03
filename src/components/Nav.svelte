@@ -126,11 +126,11 @@
 		width: 100%;
 		max-width: 600px;
 		margin: 1rem 20px 1rem 0;
-	}
+	}/*
 	.tau-details{
 		margin-top: 5px;
 		min-width: max-content;
-	}
+	}*/
 	.nav-burger{
 		z-index: 150;
 		position: absolute;
@@ -158,9 +158,6 @@
 			padding: 0 37px;
 			height: 110px;
 			align-items: center;
-		}
-		h2{
-			margin-top: 3rem;
 		}
 		ul.flex-row {
 			display: flex;
