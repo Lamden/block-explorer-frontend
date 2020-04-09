@@ -70,9 +70,10 @@
 
 <h1>Block Explorer</h1>
 <p class="text-body-1 font-primary-dark">{`Built on the Lamden ecosystem to display all the blockchain information. Looking to transact or send a smart contract?`}
-    <a class="outside-link" href="www.lamden.io" target="_blank" rel="noreferrer noopener">{`Download the Wallet`}</a>
+    <a class="outside-link" href="https://chrome.google.com/webstore/detail/lamden-wallet-browser-ext/fhfffofbcgbjjojdnpcfompojdjjhdim" target="_blank" rel="noreferrer noopener">{`Download the Wallet`}</a>
 	{` or `}
-	<a class="outside-link" href="www.lamden.io" target="_blank" rel="noreferrer noopener">{`visit our website`}</a> {` to learn more.`}</p>
+	<a class="outside-link" href="www.lamden.io" target="_blank" rel="noreferrer noopener">{`visit our website`}</a>
+</p>
 
 <div class="flex-row hero-rec">
 	<TauPriceBox />
