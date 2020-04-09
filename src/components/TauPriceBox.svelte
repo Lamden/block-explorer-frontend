@@ -5,7 +5,7 @@
 <style>
     .flex-column{
         align-items: center;
-        margin: 1rem 40px;
+        width: 225px;
     }
 </style>
 

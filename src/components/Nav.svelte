@@ -116,12 +116,11 @@
 	}
 
 	.nav-logo{
-		height: 30px;
 		align-items: center;
 		justify-content: center;
 		cursor: pointer;
 	}
-	.nav-logo> span:last-child{
+	.nav-logo > span:last-child{
 		margin-left: 15.53px;
 	}
 	.input-box{
@@ -145,11 +144,14 @@
 		z-index: 100;
 		background-color: var(--bg-color);
 		position: fixed;
-		padding: 20px 40px;
+		padding: 20px 2em;
 		top: 0;
 		left: 0;
 		width: 100%;
 		height: 100%;
+		justify-content: flex-start;
+	}
+	.menu-logo{
 		justify-content: flex-start;
 	}
 
@@ -195,7 +197,7 @@
 			on:keyup={search}
 			borderColor={notFound ? "red" : undefined}
 			label={'Search'}
-			placeholder={"Block / Hash / Address"}
+			placeholder={"Block # / Tx Hash / Address"}
 			styles="min-width: max-content;"
 			width={'100%'}
 			icon={'find'}
@@ -222,7 +224,7 @@
 			<li><a class="text-menu" aria-current='{segment === "about" ? "page" : undefined}' href='block' on:click={toggleMenu}>Blocks</a></li>
 			<li><a class="text-menu" aria-current='{segment === "about" ? "page" : undefined}' href='transaction' on:click={toggleMenu}>Transactions</a></li>
 			<li><a class="text-menu" aria-current='{segment === "about" ? "page" : undefined}' href='address' on:click={toggleMenu}>Wallets</a></li>
-			<li><a class="text-menu" aria-current='{segment === "about" ? "page" : undefined}' href='about' on:click={toggleMenu}>About</a></li>
+			<!--<li><a class="text-menu" aria-current='{segment === "about" ? "page" : undefined}' href='about' on:click={toggleMenu}>About</a></li>-->
 		</ul>
 	</div>
 {/if}
