@@ -19,4 +19,4 @@
 </script>
 
 <BigTable title={"Top Wallets"} info={topWalletsList} itemList={topWalletsListItems}/>
-<Pagenation {apiRoot} on:updateList={updateList}/>
+<Pagenation {apiRoot} on:updateList={updateList} reverse={true}/>

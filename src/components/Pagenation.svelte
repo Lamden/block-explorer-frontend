@@ -1,5 +1,6 @@
 <script>
-	import { onMount, afterUpdate, createEventDispatcher } from 'svelte';
+    import { onMount, afterUpdate, createEventDispatcher } from 'svelte';
+    
 
     const dispatch = createEventDispatcher();
 
@@ -11,6 +12,8 @@
 
 	//Utils
     import { ApiURL } from '../js/utils'
+    import validators from 'types-validate-assert'
+    const { validateTypes } = validators;
     
     //Props
     export let limit = 10;
@@ -18,6 +21,7 @@
     export let reverse = false;
 
     let currentList = [];
+    let firstLoad = true;
 
     $: totalRecords = 0;
     $: numOfPages = 0;
@@ -27,7 +31,8 @@
     $: maxItem = 0;
     
     onMount(async () => {
-        fetchData(`?limit=${limit}`)
+        if (apiRoot === '/states/topWallets') fetchData(`?limit=${limit}?reverse=true`)
+        else fetchData(`?limit=${limit}`)
     })
 
     afterUpdate(() => {
@@ -35,9 +40,13 @@
     })
 
     const fetchData = async (parms) => {
+        console.log(parms)
         let response = await fetch(`${ApiURL}${apiRoot}${parms}`).then(res => res.json())
-        currentList = reverse ? response.data.reverse() : response.data;
+        if (apiRoot === '/states/topWallets' && firstLoad) currentList = response.data;
+        else currentList = reverse ? response.data.reverse() : response.data;
+        firstLoad = false;
         totalRecords = response.count
+        if (validateTypes.isArray(totalRecords)) totalRecords = totalRecords[0].count
         dispatch('updateList', currentList)
         maxItem = getMaxItem()
         minItem = getMinItem()
@@ -52,7 +61,9 @@
                 offset = 0
                 newLimit = limit - ((limit * pageNum) - totalRecords)
             }
-            fetchData(`?action=prev&offset=${offset}&limit=${newLimit}`)
+            let queryString = `?action=prev&offset=${offset}&limit=${newLimit}`
+            if (apiRoot === '/states/topWallets') queryString = queryString + '&reverse=true'
+            fetchData(queryString)
         }
     }
 
@@ -117,6 +128,9 @@
 }
 .showing{
     flex-wrap: wrap;
+}
+.showing > div {
+    margin: 0 2px;
 }
 .current{
     background: var(--primary-color)

@@ -35,7 +35,7 @@
 	onMount(async () => {
 		blockList = await fetch(`${ApiURL}/blocks/?limit=5`).then(res => res.json()).then(res => res.data.reverse())
 		txList = await fetch(`${ApiURL}/transactions/?limit=5`).then(res => res.json()).then(res => res.data.reverse())
-		topWalletsList= await fetch(`${ApiURL}/states/topwallets/?limit=10`).then(res => res.json()).then(res => res.data)
+		topWalletsList= await fetch(`${ApiURL}/states/topwallets/?limit=20`).then(res => res.json()).then(res => res.data)
 	})
 
 </script>
