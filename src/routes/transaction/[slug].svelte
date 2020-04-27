@@ -49,6 +49,7 @@
 		border-bottom: 1px dotted var(--divider-color);
 		flex-grow: 1;
 		padding: 8px 0;
+		line-height: 1;
 	}
 	div.flex-row.sub-row{
 		border-bottom: none;
@@ -77,7 +78,7 @@
 	</div>
 		<div class="flex-row">
 			<div class="title">Status</div>
-			<div class="value">
+			<div class="value" class:text-red={tx.status === 1} class:text-green={tx.status === 0}>
 				{tx.status === 1 ? 'Failed' : 'Success'}
 			</div>
 		</div>

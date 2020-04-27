@@ -1,7 +1,7 @@
 {
   "name": "block-explorer-frontend",
   "description": "A frontend to display the information from the block-explorer-api",
-  "version": "0.0.1",
+  "version": "0.5.0",
   "scripts": {
     "dev": "sapper dev",
     "build": "sapper build --legacy",

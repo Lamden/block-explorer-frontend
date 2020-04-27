@@ -40,7 +40,6 @@
     })
 
     const fetchData = async (parms) => {
-        console.log(parms)
         let response = await fetch(`${ApiURL}${apiRoot}${parms}`).then(res => res.json())
         if (apiRoot === '/states/topWallets' && firstLoad) currentList = response.data;
         else currentList = reverse ? response.data.reverse() : response.data;

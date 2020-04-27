@@ -15,15 +15,24 @@
 </script>
 
 <script>
-    import { onMount } from 'svelte';
+    import { onMount, beforeUpdate } from 'svelte';
+
+    //Components
+    import Button from '../../components/Button.svelte'
 
     export let txs;
     export let address;
 
     $: infoNotFound = typeof txs === 'undefined'
+    $: txList = infoNotFound ? [] : txs.data
+    $: count = infoNotFound ? [] : txs.count
     $: balance = 0;
+
+    $: moreResults = 0;
+    $: offset = moreResults * 10;
+
 	 
-	 onMount(async () => {
+	 beforeUpdate(async () => {
          if (!infoNotFound){
              let res = await fetch(`${ApiURL}/states/balances/${address}`)
                                 .then(res => res.json())
@@ -32,7 +41,17 @@
                                 })
                                 .catch(err => console.log(err))            
          }
-	 })
+     })
+     
+     const fetchMoreTransactions = async () => {
+        moreResults = moreResults  + 1 
+        let res = await fetch(`${ApiURL}/transactions/history/${address}?offset=${moreResults * 10}`)
+                        .then(res => res.json())
+                        .then(res => {
+                            if (res.data.length > 0) txList = [...txList, ...res.data]
+                        })
+                        .catch(err => console.log(err))   
+     }
 
 	 const makeKey = (rawKey) => {
 		return {
@@ -59,6 +78,7 @@
 		border-bottom: 1px dotted var(--divider-color);
 		flex-grow: 1;
 		padding: 1rem 0;
+        line-height: 1.2;
     }
 	div.flex-row.sub-row{
 		border-bottom: none;
@@ -66,10 +86,6 @@
 	div.title{
 		min-width: 150px;
 	}
-	div.value{
-		display: inline;
-		word-break: break-word;
-    }
     .header {
         align-items: baseline;
     }
@@ -92,10 +108,10 @@
 		<div class="title">Current Balance</div><div class="value">{`${parseFloat(balance).toLocaleString()} ${networkSymbol}`}</div>
 	</div>
     <div class="flex-row">
-		<div class="title"># of Transactions</div><div class="value">{txs.length}</div>
+		<div class="title"># of Transactions</div><div class="value">{count}</div>
 	</div>
     <h3>Transactions</h3>
-    {#each txs as tx}
+    {#each txList as tx}
         <div class="flex-column sub-rows">
             <div class="flex-row sub-row">
                 <div class="title">Hash</div>
@@ -107,7 +123,7 @@
             </div>
             <div class="flex-row sub-row">
                 <div class="title">Status</div>
-                <div class="value">
+                <div class="value" class:text-red={tx.status === 1} class:text-green={tx.status === 0}>
                     {tx.status === 1 ? 'Failed' : 'Success'}
                 </div>
             </div>
@@ -125,9 +141,9 @@
                         <div class="flex-row sub-row">
                             <div class="title">{tx.sender === address ? 'To' : 'From'}</div>
                             {#if tx.sender === address}
-                                <a class="outside-link" rel='prefetch' href={`address/${tx.kwargs[kwarg]}`}>{tx.kwargs[kwarg]}</a>
+                                <a class="outside-link shrink" rel='prefetch' href={`address/${tx.kwargs[kwarg]}`}>{tx.kwargs[kwarg]}</a>
                             {:else}
-                                <a class="outside-link" rel='prefetch' href={`address/${tx.sender}`}>{tx.sender}</a>
+                                <a class="outside-link shrink" rel='prefetch' href={`address/${tx.sender}`}>{tx.sender}</a>
                             {/if}
                         </div>
                     {/if}
@@ -145,4 +161,12 @@
             </div>
         </div>
     {/each}
+    <Button name={'MORE'} 
+        type={'solid'} 
+        color={'purple'} 
+        click={fetchMoreTransactions}
+        width={'232px'}
+        height={'36px'}
+        margin={'1rem 0'}
+    />
 {/if}

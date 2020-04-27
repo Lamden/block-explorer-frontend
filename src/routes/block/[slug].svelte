@@ -37,8 +37,11 @@
 	.header {
         align-items: baseline;
 	}
-	div.value{
-		display: inline;
+	.outside-link{
+	    white-space: nowrap;
+		text-overflow: ellipsis;
+		min-width: 30px;
+		overflow: hidden;	
 	}
 </style>
 
