@@ -31,10 +31,9 @@
 		{field: 'value', title: 'Amount', flexgrow: true},
 	]
 
-
 	onMount(async () => {
-		blockList = await fetch(`${ApiURL}/blocks/?limit=5`).then(res => res.json()).then(res => res.data.reverse())
-		txList = await fetch(`${ApiURL}/transactions/?limit=5`).then(res => res.json()).then(res => res.data.reverse())
+		blockList = await fetch(`${ApiURL}/blocks?limit=10&offset=0`).then(res => res.json()).then(res => {console.log(res); return res.data})
+		txList = await fetch(`${ApiURL}/transactions/?limit=10`).then(res => res.json()).then(res => res.data.reverse())
 		topWalletsList= await fetch(`${ApiURL}/states/topwallets/?limit=20`).then(res => res.json()).then(res => res.data)
 	})
 
@@ -72,7 +71,7 @@
 <p class="text-body-1 font-primary-dark">{`Built on the Lamden ecosystem to display all the blockchain information. Looking to transact or send a smart contract?`}
     <a class="outside-link" href="https://chrome.google.com/webstore/detail/lamden-wallet-browser-ext/fhfffofbcgbjjojdnpcfompojdjjhdim" target="_blank" rel="noreferrer noopener">{`Download the Wallet`}</a>
 	{` or `}
-	<a class="outside-link" href="www.lamden.io" target="_blank" rel="noreferrer noopener">{`visit our website`}</a>
+	<a class="outside-link" href="https://www.lamden.io" target="_blank" rel="noreferrer noopener">{`visit our website`}</a>
 </p>
 
 <div class="flex-row hero-rec">

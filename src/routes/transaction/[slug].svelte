@@ -20,6 +20,7 @@
 	import { isLamdenKey } from '../../js/utils'
 
 	export let tx;
+	console.log(tx)
 
 	$: txNotFound = typeof tx === 'undefined'
 	$: stampsToTAU = txNotFound ? 0 : $StampRatio === 0 ? 0 : tx.stampsUsed / $StampRatio;
@@ -86,6 +87,9 @@
 			<div class="title">Timestamp</div><div class="value">{new Date(tx.timestamp).toLocaleString()}</div>
 		</div>
 		<div class="flex-row">
+			<div class="title">Result</div><div class="value" class:text-red={tx.status === 1}>{tx.result}</div>
+		</div>
+		<div class="flex-row">
 			<div class="title">Block Number</div>
 			<a class="outside-link shrink" rel='prefetch' href={`block/${tx.blockNum}`}>{tx.blockNum}</a>
 		</div>
@@ -133,30 +137,34 @@
 			{/each}
 		{/if}
 		<h3>State Changes</h3>
-		{#each tx.state as kwarg}
-			<div class="flex-column sub-rows">
-				<div class="flex-row sub-row">
-					<div class="title">Contract</div>
-					<div class="value">{makeKey(kwarg.key).contractName}</div>
-				</div>
-				<div class="flex-row sub-row">
-					<div class="title">Variable</div>
-					<div class="value">{makeKey(kwarg.key).functionName}</div>
-				</div>
-				{#if makeKey(kwarg.key).key}
+		{#if Array.isArray(tx.state)}
+			{#each tx.state as kwarg}
+				<div class="flex-column sub-rows">
 					<div class="flex-row sub-row">
-						<div class="title">Key</div>
-						{#if isLamdenKey(makeKey(kwarg.key).key)}
-							<a class="outside-link shrink" rel='prefetch' href={`address/${makeKey(kwarg.key).key}`}>{makeKey(kwarg.key).key}</a>
-						{:else}
-							<div class="value">{makeKey(kwarg.key).key}</div>
-						{/if}
+						<div class="title">Contract</div>
+						<div class="value">{makeKey(kwarg.key).contractName}</div>
 					</div>
-				{/if}
-				<div class="flex-row sub-row">
-					<div class="title">New Value</div>
-					<div class="value">{kwarg.value}</div>
+					<div class="flex-row sub-row">
+						<div class="title">Variable</div>
+						<div class="value">{makeKey(kwarg.key).functionName}</div>
+					</div>
+					{#if makeKey(kwarg.key).key}
+						<div class="flex-row sub-row">
+							<div class="title">Key</div>
+							{#if isLamdenKey(makeKey(kwarg.key).key)}
+								<a class="outside-link shrink" rel='prefetch' href={`address/${makeKey(kwarg.key).key}`}>{makeKey(kwarg.key).key}</a>
+							{:else}
+								<div class="value">{makeKey(kwarg.key).key}</div>
+							{/if}
+						</div>
+					{/if}
+					<div class="flex-row sub-row">
+						<div class="title">New Value</div>
+						<div class="value">{JSON.stringify(kwarg.value)}</div>
+					</div>
 				</div>
-			</div>
-		{/each}
+			{/each}
+		{:else}
+			<p>None</p>
+		{/if}
 {/if}
