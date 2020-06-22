@@ -1,6 +1,6 @@
 <script context="module">
 	//Utils
-	import { ApiURL, networkSymbol } from '../../js/utils'
+	import { ApiURL, networkSymbol, formatValue } from '../../js/utils'
 	import { StampRatio } from '../../js/stores'
 
 	export async function preload(page, session) {
@@ -87,7 +87,7 @@
 			<div class="title">Timestamp</div><div class="value">{new Date(tx.timestamp).toLocaleString()}</div>
 		</div>
 		<div class="flex-row">
-			<div class="title">Result</div><div class="value" class:text-red={tx.status === 1}>{tx.result}</div>
+			<div class="title">Result</div><div class="value" class:text-red={tx.status === 1}>{formatValue(tx.result)}</div>
 		</div>
 		<div class="flex-row">
 			<div class="title">Block Number</div>
@@ -109,7 +109,7 @@
 		<div class="flex-row">
 			<div class="title">Stamps Used</div>
 			<div class="value">
-				{`${tx.stampsUsed.toLocaleString()} ( ${parseFloat(stampsToTAU).toPrecision(3)} ${networkSymbol} )`}
+				{`${formatValue(tx.stampsUsed)} ( ${parseFloat(stampsToTAU).toPrecision(3)} ${networkSymbol} )`}
 			</div>
 		</div>
 		<div class="flex-row">
@@ -131,7 +131,7 @@
 					{#if isLamdenKey(tx.kwargs[kwarg])}
 						<a class="outside-link shrink" rel='prefetch' href={`address/${tx.kwargs[kwarg]}`}>{tx.kwargs[kwarg]}</a>
 					{:else}
-						<div class="value">{tx.kwargs[kwarg]}</div>
+						<div class="value">{formatValue(tx.kwargs[kwarg])}</div>
 					{/if}
 				</div>
 			{/each}
@@ -160,7 +160,7 @@
 					{/if}
 					<div class="flex-row sub-row">
 						<div class="title">New Value</div>
-						<div class="value">{JSON.stringify(kwarg.value)}</div>
+						<div class="value">{formatValue(kwarg.value)}</div>
 					</div>
 				</div>
 			{/each}

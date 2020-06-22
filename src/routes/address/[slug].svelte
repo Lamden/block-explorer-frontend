@@ -1,6 +1,6 @@
 <script context="module">
 	//Utils
-    import { ApiURL, networkSymbol } from '../../js/utils'
+    import { ApiURL, networkSymbol, formatValue } from '../../js/utils'
 
 	export async function preload(page, session) {
         const { slug } = page.params;
@@ -106,7 +106,7 @@
 	</div>
 {:else}
     <div class="flex-row">
-		<div class="title">Current Balance</div><div class="value">{`${parseFloat(balance).toLocaleString()} ${networkSymbol}`}</div>
+		<div class="title">Current Balance</div><div class="value">{`${formatValue(balance)} ${networkSymbol}`}</div>
 	</div>
     <div class="flex-row">
 		<div class="title"># of Transactions</div><div class="value">{count}</div>
@@ -119,13 +119,23 @@
                 <a class="outside-link shrink" rel='prefetch' href={`transaction/${tx.hash}`}>{tx.hash}</a>
             </div>
             <div class="flex-row sub-row">
+                <div class="title">Block #</div>
+                <div class="value">{formatValue(tx.blockNum)}</div>
+            </div>
+            <div class="flex-row sub-row">
                 <div class="title">Nonce</div>
-                <div class="value">{tx.nonce}</div>
+                <div class="value">{formatValue(tx.nonce)}</div>
             </div>
             <div class="flex-row sub-row">
                 <div class="title">Status</div>
                 <div class="value" class:text-red={tx.status === 1} class:text-green={tx.status === 0}>
                     {tx.status === 1 ? 'Failed' : 'Success'}
+                </div>
+            </div>
+            <div class="flex-row sub-row">
+                <div class="title">Result</div>
+                <div class="value" class:text-red={tx.status === 1}>
+                    {formatValue(tx.result)}
                 </div>
             </div>
             <div class="flex-row sub-row">
@@ -151,14 +161,14 @@
                     {#if kwarg === 'amount'}
                         <div class="flex-row sub-row">
                             <div class="title">{tx.sender === address ? 'Sent' : 'Received'}</div>
-                            <div class="value">{`${tx.kwargs[kwarg]} ${networkSymbol}`}</div>
+                            <div class="value">{`${formatValue(tx.kwargs[kwarg])} ${networkSymbol}`}</div>
                         </div>
                     {/if}
                 {/each}
             {/if}
             <div class="flex-row sub-row">
                 <div class="title"># of State Changes</div>
-                <div class="value">{tx.numOfStateChanges}</div>
+                <div class="value">{formatValue(tx.numOfStateChanges)}</div>
             </div>
         </div>
     {/each}

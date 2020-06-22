@@ -6,7 +6,7 @@
     import iconFind from '../../static/img/icons/find.svg'
 
     //Props
-    export let id;
+    export let id = "";
     export let styles = ''; 
     export let borderColor;
     export let icon = undefined;
@@ -14,7 +14,7 @@
     export let label = '';
     export let placeholder = '';
     export let inputType = 'text';
-    export let pattern;
+    export let pattern = "";
     export let required = false;
     export let width = '100%';
     export let height = 'unset';
@@ -24,7 +24,7 @@
     export let readonly = false
     export let autofocus = false;
 
-    export let thisInput;
+    export let thisInput = null;
 
     let isFocused = false;
 
@@ -124,6 +124,7 @@ label{
     width: 17.5px;
     height: 17.5px;
     margin-right: 12px;
+    margin-left: 7px;
 }
 </style>
 <div class="inputbox" style={`width: ${width};`} >

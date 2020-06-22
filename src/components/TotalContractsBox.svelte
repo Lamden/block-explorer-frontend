@@ -2,7 +2,7 @@
     import { onMount } from 'svelte'
 
     //Utils
-    import { ApiURL } from '../js/utils'
+    import { ApiURL, formatValue } from '../js/utils'
 
     $: totalContracts = 0
 
@@ -19,5 +19,5 @@
 </style>
 <div class="flex-column">
     <div class="text-body-1 font-primary-dark">Total Smart Contracts</div>
-    <h1>{parseInt(totalContracts).toLocaleString()}</h1>
+    <h1>{formatValue(totalContracts)}</h1>
 </div>

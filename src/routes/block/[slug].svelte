@@ -1,6 +1,6 @@
 <script context="module">
 	//Utils
-	import { ApiURL } from '../../js/utils'
+	import { ApiURL, formatValue } from '../../js/utils'
 	
 	export async function preload(page, session) {
 		const { slug } = page.params;
@@ -46,11 +46,11 @@
 </style>
 
 <svelte:head>
-	<title>{blockNotFound ? `Block not found` : `Block # ${block.blockNum}`}</title>
+	<title>{blockNotFound ? `Block not found` : `Block # ${formatValue(block.blockNum)}`}</title>
 </svelte:head>
 
 <div class="flex-row header">
-	<h2>{`Block: `}</h2><div class="text-body-2 font-primary-dark">{slug}</div>
+	<h2>{`Block: `}</h2><div class="text-body-2 font-primary-dark">{formatValue(slug)}</div>
 </div>
 {#if blockNotFound}
 	<div class="flex-row">
@@ -64,10 +64,10 @@
 		<div class="title">Previous Hash</div><div class="value shrink">{block.previous}</div>
 	</div>
 	<div class="flex-row">
-		<div class="title"># of SubBlocks</div><div class="value">{block.numOfSubBlocks}</div>
+		<div class="title"># of SubBlocks</div><div class="value">{formatValue(block.numOfSubBlocks)}</div>
 	</div>
 	<div class="flex-row">
-		<div class="title"># of Transactions</div><div class="value">{block.numOfTransactions}</div>
+		<div class="title"># of Transactions</div><div class="value">{formatValue(block.numOfTransactions)}</div>
 	</div>
 	<div class="flex-row">
 		<div class="title">Transactions</div>

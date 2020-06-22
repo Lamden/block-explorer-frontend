@@ -1,3 +1,21 @@
+<script context="module">
+	//Utils
+	import { ApiURL } from '../js/utils'
+
+	export async function preload(page, session) {
+		let pageInfo =  await Promise.all([
+			this.fetch(`${ApiURL}/blocks?limit=10`).then(res => res.json()).then(res => res.data),
+			this.fetch(`${ApiURL}/transactions/?limit=10`).then(res => res.json()).then(res => res.data.reverse()),
+			this.fetch(`http://localhost:1337/states/topwallets/?limit=20`).then(res => res.json()).then(res => res.data)
+		])
+		return {
+			blockList: pageInfo[0],
+			txList: pageInfo[1],
+			topWalletsList: pageInfo[2]
+		}
+	}
+</script>
+
 <script>
 	import { onMount } from 'svelte'
 
@@ -8,11 +26,14 @@
 	import InfoBox from '../components/InfoBox.svelte'
 
 	//Utils
-	import { isLamdenKey, ApiURL } from '../js/utils'
+	import { isLamdenKey } from '../js/utils'
 
-	$: blockList = [];
-	$: txList = [];
-	$: topWalletsList = [];
+	export let blockList;
+	export let txList;
+	export let topWalletsList;
+
+	let refreshData;
+
 	const blockListItems = [
 		{field: 'blockNum', title: 'Block', link: true, route: 'block'},
 		{field: 'numOfSubBlocks', title: 'SubBlocks'},
@@ -31,12 +52,26 @@
 		{field: 'value', title: 'Amount', flexgrow: true},
 	]
 
-	onMount(async () => {
-		blockList = await fetch(`${ApiURL}/blocks?limit=10&offset=0`).then(res => res.json()).then(res => {console.log(res); return res.data})
-		txList = await fetch(`${ApiURL}/transactions/?limit=10`).then(res => res.json()).then(res => res.data.reverse())
-		topWalletsList= await fetch(`${ApiURL}/states/topwallets/?limit=20`).then(res => res.json()).then(res => res.data)
+	onMount(() => {
+		refreshData = setInterval(() => {
+			refreshAllData()
+		}, 60000);
+
+		return () => {
+			clearInterval(refreshData)
+		}
 	})
 
+	const refreshAllData = async () => {
+		let pageInfo =  await Promise.all([
+			fetch(`${ApiURL}/blocks?limit=10`).then(res => res.json()).then(res => res.data),
+			fetch(`${ApiURL}/transactions/?limit=10`).then(res => res.json()).then(res => res.data.reverse()),
+			fetch(`${ApiURL}/states/topwallets/?limit=20`).then(res => res.json()).then(res => res.data)
+		])
+		blockList = pageInfo[0]
+		txList = pageInfo[1]
+		topWalletsList = pageInfo[2]
+	}
 </script>
 
 <style>
@@ -80,6 +115,6 @@
 	<TotalAddressesBox />
 </div>
 
-<InfoBox title={'Latest Blocks'} info={blockList} itemList={blockListItems} route="block"/>
-<InfoBox title={'Latest Transactions'} info={txList} itemList={txListItems} route="transaction"/>
-<InfoBox title={'Top Wallets'} info={topWalletsList} itemList={topWalletsListItems} route="address"/>
+<InfoBox id="latest_blocks" title={'Latest Blocks'} info={blockList} itemList={blockListItems} route="block"/>
+<InfoBox id="latest_transactions" title={'Latest Transactions'} info={txList} itemList={txListItems} route="transaction"/>
+<InfoBox id="top_wallets" title={'Top Wallets'} info={topWalletsList} itemList={topWalletsListItems} route="address"/>

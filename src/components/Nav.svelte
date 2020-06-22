@@ -193,6 +193,7 @@
 	</div>
 	<div class="flex-row input-box">
 		<InputBox
+			id="seach"
 			value={""}
 			on:keyup={search}
 			borderColor={notFound ? "red" : undefined}

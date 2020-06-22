@@ -1,6 +1,6 @@
 <script>
     //Props
-    export let id;
+    export let id = "";
     export let type = 'solid';
     export let color = ''
     export let name = '';
@@ -16,7 +16,7 @@
     export let classes = 'button__solid';
     export let styles = '';
     export let disabled = false;
-    export let tabIndex;
+    export let tabIndex = null;
 
     $: iconAfter = iconPosition === 'after' ? true : false;
 </script>

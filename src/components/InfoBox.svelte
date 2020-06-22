@@ -2,7 +2,11 @@
     //Components
     import Button from './Button.svelte'
 
+    //Utils
+    import { formatValue } from '../js/utils'
+
     //Props
+    export let id;
     export let title = '';
     export let info = [];
     export let itemList = [];
@@ -65,7 +69,7 @@ h2{
 }
 </style>
 
-<h2>{title}</h2>
+<h2 {id}>{title}</h2>
 {#await info}
     {`...Loading`}
 {:then res}
@@ -86,7 +90,7 @@ h2{
                                 {#if colInfo.link}
                                     <a class="outside-link col-item text-body-1" class:shrink={colInfo.shrink} rel='prefetch' href={`${colInfo.route}/${rowInfo[rowItem]}`}>{rowInfo[rowItem]}</a>
                                 {:else}
-                                    <div class="col-item text-body-1" class:shrink={colInfo.shrink}>{rowInfo[rowItem]}</div>
+                                    <div class="col-item text-body-1" class:shrink={colInfo.shrink}>{formatValue(rowInfo[rowItem])}</div>
                                 {/if}
                                 <div class="row-divider"></div>
                             {/if}
