@@ -20,7 +20,6 @@
 	import { isLamdenKey } from '../../js/utils'
 
 	export let tx;
-	console.log(tx)
 
 	$: txNotFound = typeof tx === 'undefined'
 	$: stampsToTAU = txNotFound ? 0 : $StampRatio === 0 ? 0 : tx.stampsUsed / $StampRatio;

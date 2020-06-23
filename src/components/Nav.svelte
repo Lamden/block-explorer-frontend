@@ -45,8 +45,8 @@
 				}
 
 				let blockHashResponse  = await fetch(`${ApiURL}/blocks/hash/${value}`).then(res => res.json())
-				if (typeof txResponse.hash !== 'undefined') {
-					navigate(`block/${txResponse.blockNum}`)
+				if (blockHashResponse.length > 0) {
+					navigate(`block/${blockHashResponse[0].blockNum}`)
 					return
 				}
 			
