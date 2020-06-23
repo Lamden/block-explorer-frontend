@@ -5,7 +5,7 @@
 	export async function preload(page, session) {
 		let pageInfo =  await Promise.all([
 			this.fetch(`${ApiURL}/blocks?limit=10`).then(res => res.json()).then(res => res.data),
-			this.fetch(`${ApiURL}/transactions/?limit=10`).then(res => res.json()).then(res => res.data.reverse()),
+			this.fetch(`${ApiURL}/transactions/?limit=10`).then(res => res.json()).then(res => res.data),
 			this.fetch(`${ApiURL}/states/topwallets/?limit=20`).then(res => res.json()).then(res => res.data)
 		])
 		return {
@@ -65,7 +65,7 @@
 	const refreshAllData = async () => {
 		let pageInfo =  await Promise.all([
 			fetch(`${ApiURL}/blocks?limit=10`).then(res => res.json()).then(res => res.data),
-			fetch(`${ApiURL}/transactions/?limit=10`).then(res => res.json()).then(res => res.data.reverse()),
+			fetch(`${ApiURL}/transactions/?limit=10`).then(res => res.json()).then(res => res.data),
 			fetch(`${ApiURL}/states/topwallets/?limit=20`).then(res => res.json()).then(res => res.data)
 		])
 		blockList = pageInfo[0]
