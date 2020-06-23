@@ -25,8 +25,7 @@
         let parmStr = `?limit=${limit}`
         if (parms.offset) parmStr += `&offset=${parms.offset}`
 
-        //let response = await fetch(`${ApiURL}${apiRoot}${parmStr}`).then(res => res.json())
-        let response = await fetch(`http://localhost:1337${apiRoot}${parmStr}`).then(res => res.json())
+        let response = await fetch(`${ApiURL}${apiRoot}${parmStr}`).then(res => res.json())
         count = response.count
         items = response.data
     }

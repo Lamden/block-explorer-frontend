@@ -6,7 +6,7 @@
 		let pageInfo =  await Promise.all([
 			this.fetch(`${ApiURL}/blocks?limit=10`).then(res => res.json()).then(res => res.data),
 			this.fetch(`${ApiURL}/transactions/?limit=10`).then(res => res.json()).then(res => res.data.reverse()),
-			this.fetch(`http://localhost:1337/states/topwallets/?limit=20`).then(res => res.json()).then(res => res.data)
+			this.fetch(`${ApiURL}/states/topwallets/?limit=20`).then(res => res.json()).then(res => res.data)
 		])
 		return {
 			blockList: pageInfo[0],
