@@ -1,6 +1,6 @@
 <script context="module">
 	//Utils
-	import { ApiURL } from '../js/utils'
+	import { ApiURL, formatValue } from '../js/utils'
 
 	export async function preload(page, session) {
 		let pageInfo =  await Promise.all([
@@ -60,6 +60,8 @@
 		return () => {
 			clearInterval(refreshData)
 		}
+
+		console.log(formatValue(10))
 	})
 
 	const refreshAllData = async () => {
@@ -118,3 +120,11 @@
 <InfoBox id="latest_blocks" title={'Latest Blocks'} info={blockList} itemList={blockListItems} route="block"/>
 <InfoBox id="latest_transactions" title={'Latest Transactions'} info={txList} itemList={txListItems} route="transaction"/>
 <InfoBox id="top_wallets" title={'Top Wallets'} info={topWalletsList} itemList={topWalletsListItems} route="address"/>
+
+<p>{formatValue(91872312739127310)}</p>
+<p>{formatValue(10.12334523456345674)}</p>
+<p>{formatValue("11231230.09324023")}</p>
+<p>{formatValue("This is a string")}</p>
+<p>{formatValue("true")}</p>
+<p>{formatValue(true)}</p>
+<p>{formatValue({key: "value"})}</p>

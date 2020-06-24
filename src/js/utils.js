@@ -10,13 +10,17 @@ const isLamdenKey = ( key ) => {
     return false;
 };
 
+function isNumber(n) {
+    return Object.prototype.toString.call(n) !== '[object Array]' &&!isNaN(parseFloat(n)) && isFinite(n);
+  }
+
 const formatValue = ( value ) => {
     if (typeof value === 'undefined' || value == null) return "NULL"
-    if (isNaN(value)){
+    if (isNumber(value)){
+        return parseFloat(value).toLocaleString()
+    }else{
         if (validateTypes.isString(value)) return value
         else return JSON.stringify(value)
-    }else{
-        return parseFloat(value).toLocaleString()
     }
 }
 
