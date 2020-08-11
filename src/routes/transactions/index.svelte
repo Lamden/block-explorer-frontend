@@ -1,12 +1,9 @@
 <script context="module">
-	//Utils
-	import { ApiURL } from '../../js/utils'
-
-	export const limit = 20;
-	export const apiRoot = '/transactions'
+	const apiRoot = "transactions/transactions.json"
+	const limit = 20
 
 	export async function preload(page, session) {
-		let txList =  await this.fetch(`${ApiURL}${apiRoot}?limit=${limit}&offset=0`).then(res => res.json())
+		let txList =  await this.fetch(`${apiRoot}?limit=${limit}&offset=0`).then(res => res.json())
 		return { txList }
 	}
 </script>
@@ -21,7 +18,7 @@
 		{field: 'contractName', title: 'Contract'},
 		{field: 'functionName', title: 'Function', hideMobile: true},
 		{field: 'stampsUsed', title: 'Stamps Used'},
-		{field: 'hash', title: 'Hash', link: true, route: 'transaction', shrink: true}
+		{field: 'hash', title: 'Hash', link: true, route: 'transactions', shrink: true}
 	]
 
 </script>

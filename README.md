@@ -8,26 +8,15 @@ npm install
 
 ```
 
-### Edit API Server config
-Change what Block Explorer API the data is pulled from
-```bash
-nano src/js/utils.js
-
->> const ApiURL = 'http://localhost:1337'
-
-```
-### Edit currency tag
-Change what the currency Symbol is displayed as (ex. TAU or dTAU)
-```bash
-nano src/js/utils.js
-
->> const networkSymbol = 'TAU'
-
-```
-
 ## Run Webserver
-```
+```bash
 npm run dev
+```
+
+or with different network Symbol
+
+```bash
+SYMBOL dTAU npm run dev
 ```
 
 ### Launch Block Explorer Frontend

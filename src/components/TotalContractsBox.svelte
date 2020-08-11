@@ -1,14 +1,8 @@
 <script>
-    import { onMount } from 'svelte'
+    //utils
+    import { formatValue } from '../js/utils'
 
-    //Utils
-    import { ApiURL, formatValue } from '../js/utils'
-
-    $: totalContracts = 0
-
-    onMount(async () => {
-        totalContracts = await fetch(`${ApiURL}/states/totalcontracts`).then(res => res.json())
-    })
+    export let totalContracts = 0;
 </script>
 
 <style>

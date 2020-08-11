@@ -1,14 +1,8 @@
 <script>
-    import { onMount } from 'svelte'
-    
     //Utils
-    import { ApiURL, formatValue } from '../js/utils'
+    import { formatValue } from '../js/utils'
     
-    $: totalAddresses = 0
-
-    onMount(async () => {
-        totalAddresses = await fetch(`${ApiURL}/states/totaladdresses`).then(res => res.json()).then(res => res.count)
-    })
+    export let totalAddresses = 0;
 </script>
 
 <style>

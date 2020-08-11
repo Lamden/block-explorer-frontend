@@ -1,12 +1,8 @@
 <script context="module">
-	//Utils
-	import { ApiURL } from '../../js/utils'
-
-	export const limit = 20;
-	export const apiRoot = '/blocks'
-
+	const apiRoot = "blocks/blocks.json"
+	const limit = 20
 	export async function preload(page, session) {
-		let blockList =  await this.fetch(`${ApiURL}${apiRoot}?limit=${limit}`).then(res => res.json())
+		let blockList =  await this.fetch(`${apiRoot}?limit=${limit}`).then(res => res.json())
 		return { blockList }
 	}
 </script>
@@ -18,7 +14,7 @@
 	export let blockList;
 	
 	const blockListItems = [
-		{field: 'blockNum', title: 'Block', link: true, route: 'block'},
+		{field: 'blockNum', title: 'Block', link: true, route: 'blocks'},
 		{field: 'numOfSubBlocks', title: 'SubBlocks'},
 		{field: 'numOfTransactions', title: 'Transactions'},
 		{field: 'hash', title: 'Hash', flexgrow: true, shrink: true}

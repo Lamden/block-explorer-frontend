@@ -9,8 +9,8 @@
 	import menuClose from '../../static/img/icons/menu-close.svg'
 
 	//Utils
-	import { isLamdenKey, ApiURL, networkSymbol } from '../js/utils'
-	import { StampRatio } from '../js/stores'
+	import { isLamdenKey } from '../js/utils'
+	import { StampRatio, NetworkSymbol } from '../js/stores'
 
 	//Props
 	export let segment;
@@ -26,39 +26,51 @@
 		window.location.href = route
 	}
 
-	const search = async (e) => {
-		notFound = false;
-		let value = e.detail.target.value
-		if (typeof value === 'string') value = value.trim()
+	const handleKeyUp = (e) => {
 		if(e.detail.keyCode === 13){
-			if (isLamdenKey(value) ){
-				let addressResponse  = await fetch(`${ApiURL}/states/balances/${value}`).then(res => res.json())
-				if (addressResponse.value) {
-					navigate(`address/${value}`)
-					return
-				}
-
-				let txResponse  = await fetch(`${ApiURL}/transactions/get/${value}`).then(res => res.json())
-				if (typeof txResponse.hash !== 'undefined') {
-					navigate(`transaction/${value}`)
-					return
-				}
-
-				let blockHashResponse  = await fetch(`${ApiURL}/blocks/hash/${value}`).then(res => res.json())
-				if (blockHashResponse.length > 0) {
-					navigate(`block/${blockHashResponse[0].blockNum}`)
-					return
-				}
-			
-			}else{
-				let blockNumResponse  = await fetch(`${ApiURL}/blocks/number/${value}`).then(res => res.json())
-				if (typeof blockNumResponse.length !== 'undefined' && blockNumResponse.length > 0 ) {
-					navigate(`block/${value}`)
-					return
-				}
-			}
-			notFound = true;
+			determineRoute(e.detail.target.value)
 		}
+	}
+
+	const handleIconClick = (e) => {
+		determineRoute(e.detail)
+	}
+
+	const determineRoute = async (value) => {
+		if (typeof value === 'string') value = value.trim()
+		if (value === "") return
+
+		notFound = false;
+
+		if (isLamdenKey(value) ){
+			let addressResponse  = await fetch(`addresses/addressBalance.json?address=${value}`).then(res => res.json())
+			if (addressResponse.value) {
+				navigate(`addresses/${value}`)
+				return
+			}
+
+			let txResponse  = await fetch(`transactions/transaction.json?hash=${value}`).then(res => res.json())
+			if (txResponse.tx) {
+				console.log("transaction")
+				navigate(`transactions/${value}`)
+				return
+			}
+			
+			let blockHashResponse  = await fetch(`blocks/blockHash.json?hash=${value}`).then(res => res.json())
+			if (blockHashResponse) {
+				console.log("block")
+				navigate(`blocks/${blockHashResponse.blockNum}`)
+				return
+			}
+		
+		}else{
+			let blockNumResponse  = await fetch(`blocks/block.json?blockNum=${value}`).then(res => res.json())
+			if (blockNumResponse.block) {
+				navigate(`blocks/${value}`)
+				return
+			}
+		}
+		notFound = true;
 	}
 
 </script>
@@ -188,26 +200,28 @@
 			<span>{@html lamdenWords}</span>
 		</div>
 		<div class="tau-details text-subtitle-1 font-primary-dark">
-			{` 1 ${networkSymbol} = ${$StampRatio} stamps`}
+			{` 1 ${$NetworkSymbol} = ${$StampRatio} stamps`}
 		</div>
 	</div>
 	<div class="flex-row input-box">
 		<InputBox
 			id="seach"
 			value={""}
-			on:keyup={search}
+			on:keyup={handleKeyUp}
+			on:iconClick={handleIconClick}
 			borderColor={notFound ? "red" : undefined}
-			label={'Search'}
+			label={'Search Lamden Blockchain'}
 			placeholder={"Block # / Tx Hash / Address"}
 			styles="min-width: max-content;"
 			width={'100%'}
 			icon={'find'}
+			
 		/>
 	</div>
 	<ul class="flex-row text-nav">
-		<li><a aria-current='{segment === "about" ? "page" : undefined}' href='block'>Blocks</a></li>
-		<li><a aria-current='{segment === "about" ? "page" : undefined}' href='transaction'>Transactions</a></li>
-		<li><a aria-current='{segment === "about" ? "page" : undefined}' href='address'>Wallets</a></li>
+		<li><a aria-current='{segment === "about" ? "page" : undefined}' href='blocks'>Blocks</a></li>
+		<li><a aria-current='{segment === "about" ? "page" : undefined}' href='transactions'>Transactions</a></li>
+		<li><a aria-current='{segment === "about" ? "page" : undefined}' href='addresses'>Wallets</a></li>
 	</ul>
 </nav>
 {/if}
@@ -222,9 +236,9 @@
 		</div>
 		<ul class="flex-column">
 			<li><a class="text-menu" aria-current='{segment === "about" ? "page" : undefined}' href='/' on:click={toggleMenu}>Home</a></li>
-			<li><a class="text-menu" aria-current='{segment === "about" ? "page" : undefined}' href='block' on:click={toggleMenu}>Blocks</a></li>
-			<li><a class="text-menu" aria-current='{segment === "about" ? "page" : undefined}' href='transaction' on:click={toggleMenu}>Transactions</a></li>
-			<li><a class="text-menu" aria-current='{segment === "about" ? "page" : undefined}' href='address' on:click={toggleMenu}>Wallets</a></li>
+			<li><a class="text-menu" aria-current='{segment === "about" ? "page" : undefined}' href='blocks' on:click={toggleMenu}>Blocks</a></li>
+			<li><a class="text-menu" aria-current='{segment === "about" ? "page" : undefined}' href='transactions' on:click={toggleMenu}>Transactions</a></li>
+			<li><a class="text-menu" aria-current='{segment === "about" ? "page" : undefined}' href='addresses' on:click={toggleMenu}>Wallets</a></li>
 			<!--<li><a class="text-menu" aria-current='{segment === "about" ? "page" : undefined}' href='about' on:click={toggleMenu}>About</a></li>-->
 		</ul>
 	</div>

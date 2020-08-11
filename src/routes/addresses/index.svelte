@@ -1,13 +1,9 @@
 <script context="module">
-	//Utils
-	import { ApiURL } from '../../js/utils'
-
-	export const limit = 20;
-	export const apiRoot = '/states/topWallets'
-
+	const apiRoot = "addresses/topWallets.json"
+	const limit = 20
 	export async function preload(page, session) {
-		let topWalletsList =  await this.fetch(`${ApiURL}${apiRoot}?limit=${limit}`).then(res => res.json())
-		return { topWalletsList} 
+		let topWalletsList =  await this.fetch(`${apiRoot}?limit=${limit}`).then(res => res.json())
+		return { topWalletsList }
 	}
 </script>
 
@@ -18,7 +14,7 @@
 	export let topWalletsList;
 
 	const topWalletsListItems = [
-		{field: 'key', title: 'Address', link: true, route: 'address', shrink: true},
+		{field: 'key', title: 'Address', link: true, route: 'addresses', shrink: true},
 		{field: 'value', title: 'Amount', flexgrow: true},
 	]
 </script>

@@ -1,51 +1,46 @@
 <script context="module">
 	//Utils
-    import { ApiURL, networkSymbol, formatValue } from '../../js/utils'
+    import { formatValue } from '../../js/utils'
+    import { NetworkSymbol } from '../../js/stores'
 
 	export async function preload(page, session) {
         const { slug } = page.params;
-		const res = await this.fetch(`${ApiURL}/transactions/history/${slug}`)
-		if (res.status === 200) {
-			let txs = await res.json();
-			return {txs, address: slug};
-		} else {
-			return {address: slug}
+        let fetchData = await Promise.all([
+			this.fetch(`addresses/address.json?address=${slug}`).then(res => res.json()),
+			this.fetch(`addresses/addressBalance.json?address=${slug}`).then(res => res.json()).then(json => {
+                if (json.value) return json.value
+                else return 0
+            })
+        ])
+
+		return {
+			txs: fetchData[0].txs,
+			address: fetchData[0].address,
+			balance: fetchData[1]
 		}
-	}
+    }
 </script>
 
 <script>
-    import { onMount, beforeUpdate } from 'svelte';
+    import { onMount } from 'svelte';
 
     //Components
     import Button from '../../components/Button.svelte'
 
     export let txs;
     export let address;
+    export let balance;
 
     $: infoNotFound = typeof txs === 'undefined'
     $: txList = infoNotFound ? [] : txs.data
     $: count = infoNotFound ? [] : txs.count
-    $: balance = 0;
 
     $: moreResults = 0;
     $: offset = moreResults * 10;
-
-	 
-	 beforeUpdate(async () => {
-         if (!infoNotFound){
-             let res = await fetch(`${ApiURL}/states/balances/${address}`)
-                                .then(res => res.json())
-                                .then(res => {
-                                    if (res.value) balance = res.value
-                                })
-                                .catch(err => console.log(err))            
-         }
-     })
      
      const fetchMoreTransactions = async () => {
         moreResults = moreResults  + 1 
-        let res = await fetch(`${ApiURL}/transactions/history/${address}?offset=${moreResults * 10}`)
+        let res = await fetch(`addresses/transactionHistory.json?address=${address}&offset=${moreResults * 10}`)
                         .then(res => res.json())
                         .then(res => {
                             if (res.data.length > 0) txList = [...txList, ...res.data]
@@ -106,7 +101,7 @@
 	</div>
 {:else}
     <div class="flex-row">
-		<div class="title">Current Balance</div><div class="value">{`${formatValue(balance)} ${networkSymbol}`}</div>
+		<div class="title">Current Balance</div><div class="value">{`${formatValue(balance)} ${$NetworkSymbol}`}</div>
 	</div>
     <div class="flex-row">
 		<div class="title"># of Transactions</div><div class="value">{count}</div>
@@ -116,7 +111,7 @@
         <div class="flex-column sub-rows">
             <div class="flex-row sub-row">
                 <div class="title">Hash</div>
-                <a class="outside-link shrink" rel='prefetch' href={`transaction/${tx.hash}`}>{tx.hash}</a>
+                <a class="outside-link shrink" rel='prefetch' href={`transactions/${tx.hash}`}>{tx.hash}</a>
             </div>
             <div class="flex-row sub-row">
                 <div class="title">Block #</div>
@@ -152,16 +147,16 @@
                         <div class="flex-row sub-row">
                             <div class="title">{tx.sender === address ? 'To' : 'From'}</div>
                             {#if tx.sender === address}
-                                <a class="outside-link shrink" rel='prefetch' href={`address/${tx.kwargs[kwarg]}`}>{tx.kwargs[kwarg]}</a>
+                                <a class="outside-link shrink" rel='prefetch' href={`addresses/${tx.kwargs[kwarg]}`}>{tx.kwargs[kwarg]}</a>
                             {:else}
-                                <a class="outside-link shrink" rel='prefetch' href={`address/${tx.sender}`}>{tx.sender}</a>
+                                <a class="outside-link shrink" rel='prefetch' href={`addresses/${tx.sender}`}>{tx.sender}</a>
                             {/if}
                         </div>
                     {/if}
                     {#if kwarg === 'amount'}
                         <div class="flex-row sub-row">
                             <div class="title">{tx.sender === address ? 'Sent' : 'Received'}</div>
-                            <div class="value">{`${formatValue(tx.kwargs[kwarg])} ${networkSymbol}`}</div>
+                            <div class="value">{`${formatValue(tx.kwargs[kwarg])} ${$NetworkSymbol}`}</div>
                         </div>
                     {/if}
                 {/each}
@@ -172,12 +167,14 @@
             </div>
         </div>
     {/each}
-    <Button name={'MORE'} 
-        type={'solid'} 
-        color={'purple'} 
-        click={fetchMoreTransactions}
-        width={'232px'}
-        height={'36px'}
-        margin={'1rem 0'}
-    />
+    {#if count > 10}
+        <Button name={'MORE'} 
+            type={'solid'} 
+            color={'purple'} 
+            click={fetchMoreTransactions}
+            width={'232px'}
+            height={'36px'}
+            margin={'1rem 0'}
+        />
+    {/if}
 {/if}

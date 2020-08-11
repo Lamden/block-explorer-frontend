@@ -1,23 +1,17 @@
 <script context="module">
 	//Utils
-	import { ApiURL, formatValue } from '../../js/utils'
-	
-	export async function preload(page, session) {
-		const { slug } = page.params;
-		const res = await this.fetch(`${ApiURL}/blocks/number/${slug}`)
+	import {formatValue } from '../../js/utils'
 
-		if (res.status === 200) {
-			let block = await res.json();
-			return {block: block[0], slug};
-		} else {
-			return {slug}
-		}
-	}
+	export async function preload(page, session) {
+        const { slug } = page.params;
+		const res = await this.fetch(`blocks/block.json?blockNum=${slug}`)
+    	return await res.json()
+    }
 </script>
 
 <script>
 	export let block;
-	export let slug;
+	export let blockNum;
 
 	$:blockNotFound = typeof block === 'undefined'
 </script>
@@ -46,11 +40,11 @@
 </style>
 
 <svelte:head>
-	<title>{blockNotFound ? `Block not found` : `Block # ${formatValue(block.blockNum)}`}</title>
+	<title>{blockNotFound ? `Block not found` : `Block # ${formatValue(blockNum)}`}</title>
 </svelte:head>
 
 <div class="flex-row header">
-	<h2>{`Block: `}</h2><div class="text-body-2 font-primary-dark">{formatValue(slug)}</div>
+	<h2>{`Block: `}</h2><div class="text-body-2 font-primary-dark">{formatValue(blockNum)}</div>
 </div>
 {#if blockNotFound}
 	<div class="flex-row">
@@ -76,7 +70,7 @@
 				{'None'}
 			{:else}
 				{#each block.transactions as transaction}
-				<a class="outside-link" rel='prefetch' href={`transaction/${transaction}`}>{transaction}</a>
+				<a class="outside-link" rel='prefetch' href={`transactions/${transaction}`}>{transaction}</a>
 				{/each}
 			{/if}
 		</div>

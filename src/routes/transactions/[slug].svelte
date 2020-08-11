@@ -1,18 +1,12 @@
 <script context="module">
 	//Utils
-	import { ApiURL, networkSymbol, formatValue } from '../../js/utils'
-	import { StampRatio } from '../../js/stores'
+	import { formatValue } from '../../js/utils'
+	import { StampRatio, NetworkSymbol } from '../../js/stores'
 
 	export async function preload(page, session) {
 		const { slug } = page.params;
-		const res = await this.fetch(`${ApiURL}/transactions/get/${slug}`)
-
-		if (res.status === 200) {
-			let tx = await res.json();
-			return {tx};
-		} else {
-			this.error(res.status, data.message);
-		}
+		const res = await this.fetch(`transactions/transaction.json?hash=${slug}`)
+    	return await res.json()
 	}
 </script>
 
@@ -20,6 +14,7 @@
 	import { isLamdenKey } from '../../js/utils'
 
 	export let tx;
+	export let hash;
 
 	$: txNotFound = typeof tx === 'undefined'
 	$: stampsToTAU = txNotFound ? 0 : $StampRatio === 0 ? 0 : tx.stampsUsed / $StampRatio;
@@ -67,14 +62,14 @@
 </style>
 
 <svelte:head>
-	<title>{txNotFound ? `Tx not found` : `tx: ${tx.hash}`}</title>
+	<title>{txNotFound ? `Tx not found` : `tx: ${hash}`}</title>
 </svelte:head>
 
 {#if txNotFound}
 	<h2>{`Hash Not Found`}</h2>
 {:else}
 	<div class="flex-row header">
-		<h2>{`Hash: `}</h2><div class="text-body-2 font-primary-dark shrink">{`${tx.hash}`}</div>
+		<h2>{`Hash: `}</h2><div class="text-body-2 font-primary-dark shrink">{`${hash}`}</div>
 	</div>
 		<div class="flex-row">
 			<div class="title">Status</div>
@@ -90,14 +85,14 @@
 		</div>
 		<div class="flex-row">
 			<div class="title">Block Number</div>
-			<a class="outside-link shrink" rel='prefetch' href={`block/${tx.blockNum}`}>{tx.blockNum}</a>
+			<a class="outside-link shrink" rel='prefetch' href={`blocks/${tx.blockNum}`}>{tx.blockNum}</a>
 		</div>
 		<div class="flex-row">
 			<div class="title">SubBlock Number</div><div class="value">{tx.subBlockNum}</div>
 		</div>
 		<div class="flex-row">
 			<div class="title">Sender</div>
-			<a class="outside-link shrink" rel='prefetch' href={`address/${tx.sender}`}>{tx.sender}</a>
+			<a class="outside-link shrink" rel='prefetch' href={`addresses/${tx.sender}`}>{tx.sender}</a>
 		</div>
 		<div class="flex-row">
 			<div class="title">Nonce</div><div class="value">{tx.nonce}</div>
@@ -108,7 +103,7 @@
 		<div class="flex-row">
 			<div class="title">Stamps Used</div>
 			<div class="value">
-				{`${formatValue(tx.stampsUsed)} ( ${parseFloat(stampsToTAU).toPrecision(3)} ${networkSymbol} )`}
+				{`${formatValue(tx.stampsUsed)} ( ${parseFloat(stampsToTAU).toPrecision(3)} ${$NetworkSymbol} )`}
 			</div>
 		</div>
 		<div class="flex-row">
@@ -128,7 +123,7 @@
 				<div class="flex-row">
 					<div class="title">{kwarg}</div>
 					{#if isLamdenKey(tx.kwargs[kwarg])}
-						<a class="outside-link shrink" rel='prefetch' href={`address/${tx.kwargs[kwarg]}`}>{tx.kwargs[kwarg]}</a>
+						<a class="outside-link shrink" rel='prefetch' href={`addresses/${tx.kwargs[kwarg]}`}>{tx.kwargs[kwarg]}</a>
 					{:else}
 						<div class="value">{formatValue(tx.kwargs[kwarg])}</div>
 					{/if}
@@ -151,7 +146,7 @@
 						<div class="flex-row sub-row">
 							<div class="title">Key</div>
 							{#if isLamdenKey(makeKey(kwarg.key).key)}
-								<a class="outside-link shrink" rel='prefetch' href={`address/${makeKey(kwarg.key).key}`}>{makeKey(kwarg.key).key}</a>
+								<a class="outside-link shrink" rel='prefetch' href={`addresses/${makeKey(kwarg.key).key}`}>{makeKey(kwarg.key).key}</a>
 							{:else}
 								<div class="value">{makeKey(kwarg.key).key}</div>
 							{/if}

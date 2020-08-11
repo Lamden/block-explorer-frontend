@@ -4,7 +4,7 @@
     import Pagenation from './Pagenation.svelte'
 
     //Utils
-    import { ApiURL, formatValue } from '../js/utils'
+    import { formatValue } from '../js/utils'
 
     //Props
     export let title = '';
@@ -25,7 +25,7 @@
         let parmStr = `?limit=${limit}`
         if (parms.offset) parmStr += `&offset=${parms.offset}`
 
-        let response = await fetch(`${ApiURL}${apiRoot}${parmStr}`).then(res => res.json())
+        let response = await fetch(`${apiRoot}${parmStr}`).then(res => res.json())
         count = response.count
         items = response.data
     }

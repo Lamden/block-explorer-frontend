@@ -40,6 +40,10 @@
         dispatch('keyup', e);
     }
 
+    const handleClick = () => {
+        dispatch('iconClick', value);
+    }
+
 </script>
 
 <style>
@@ -125,13 +129,14 @@ label{
     height: 17.5px;
     margin-right: 12px;
     margin-left: 7px;
+    cursor: pointer;
 }
 </style>
 <div class="inputbox" style={`width: ${width};`} >
     <label style={`background: ${backgroundColor || 'var(--bg-color)'};`}> {label} </label>
     <div class="flex-row outter-box" style={`border: 1px solid ${borderColor}`} class:focus={isFocused && !borderColor} >
         {#if typeof icon !== 'undefined'}
-            <div class="icon">{@html icons[icon]}</div>
+            <div class="icon" on:click={handleClick}>{@html icons[icon]}</div>
         {/if}
 
         {#if inputType === "password"}

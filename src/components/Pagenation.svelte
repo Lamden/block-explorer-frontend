@@ -10,7 +10,6 @@
     import arrowLineRight from '../../static/img/icons/arrow-line-right.svg'
 
 	//Utils
-    import { ApiURL } from '../js/utils'
     import validators from 'types-validate-assert'
     const { validateTypes } = validators;
     
@@ -36,7 +35,7 @@
     })
 
     const processData = (response) => {
-        if (apiRoot === '/states/topWallets' && firstLoad) currentList = response.data;
+        if (apiRoot === 'addresses/topWallets.json' && firstLoad) currentList = response.data;
         else currentList = reverse ? response.data.reverse() : response.data;
         firstLoad = false;
         totalRecords = response.count

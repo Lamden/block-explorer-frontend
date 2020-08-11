@@ -1,18 +1,10 @@
 <script context="module">
 	//Utils
-	import { ApiURL, formatValue } from '../js/utils'
+	import { formatValue } from '../js/utils'
 
 	export async function preload(page, session) {
-		let pageInfo =  await Promise.all([
-			this.fetch(`${ApiURL}/blocks?limit=10`).then(res => res.json()).then(res => res.data),
-			this.fetch(`${ApiURL}/transactions/?limit=10`).then(res => res.json()).then(res => res.data),
-			this.fetch(`${ApiURL}/states/topwallets/?limit=20`).then(res => res.json()).then(res => res.data)
-		])
-		return {
-			blockList: pageInfo[0],
-			txList: pageInfo[1],
-			topWalletsList: pageInfo[2]
-		}
+		const res = await this.fetch(`fetchAllData.json`)
+		return await res.json()
 	}
 </script>
 
@@ -31,11 +23,11 @@
 	export let blockList;
 	export let txList;
 	export let topWalletsList;
-
-	let refreshData;
+	export let totalContracts;
+	export let totalAddresses;
 
 	const blockListItems = [
-		{field: 'blockNum', title: 'Block', link: true, route: 'block'},
+		{field: 'blockNum', title: 'Block', link: true, route: 'blocks'},
 		{field: 'numOfSubBlocks', title: 'SubBlocks'},
 		{field: 'numOfTransactions', title: 'Transactions'},
 		{field: 'hash', title: 'Hash', flexgrow: true, shrink: true}
@@ -44,35 +36,29 @@
 		{field: 'contractName', title: 'Contract'},
 		{field: 'functionName', title: 'Function', hideMobile: true},
 		{field: 'stampsUsed', title: 'Stamps Used'},
-		{field: 'hash', title: 'Hash', link: true, route: 'transaction', shrink: true}
+		{field: 'hash', title: 'Hash', link: true, route: 'transactions', shrink: true}
 	]
 	const topWalletsListItems = [
 		{title: 'Rank'},
-		{field: 'key', title: 'Address', link: true, route: 'address', shrink: true},
+		{field: 'key', title: 'Address', link: true, route: 'addresses', shrink: true},
 		{field: 'value', title: 'Amount', flexgrow: true},
 	]
 
 	onMount(() => {
-		refreshData = setInterval(() => {
-			refreshAllData()
-		}, 60000);
+		const timerID = setInterval(refreshPageData, 10000);
 
 		return () => {
-			clearInterval(refreshData)
+			clearInterval(timerID)
 		}
-
-		console.log(formatValue(10))
 	})
 
-	const refreshAllData = async () => {
-		let pageInfo =  await Promise.all([
-			fetch(`${ApiURL}/blocks?limit=10`).then(res => res.json()).then(res => res.data),
-			fetch(`${ApiURL}/transactions/?limit=10`).then(res => res.json()).then(res => res.data),
-			fetch(`${ApiURL}/states/topwallets/?limit=20`).then(res => res.json()).then(res => res.data)
-		])
-		blockList = pageInfo[0]
-		txList = pageInfo[1]
-		topWalletsList = pageInfo[2]
+	const refreshPageData = async () => {
+		let pageInfo =  await fetch(`fetchAllData.json`).then(res => res.json())
+		if (blockList !== pageInfo.blockList) blockList = pageInfo.blockList
+		if (txList !== pageInfo.txList) txList = pageInfo.txList
+		if (topWalletsList !== pageInfo.topWalletsList) topWalletsList = pageInfo.topWalletsList
+		if (totalContracts !== pageInfo.totalContracts) totalContracts = pageInfo.totalContracts
+		if (totalAddresses !== pageInfo.totalAddresses) totalAddresses = pageInfo.totalAddresses		
 	}
 </script>
 
@@ -113,10 +99,10 @@
 
 <div class="flex-row hero-rec">
 	<TauPriceBox />
-	<TotalContractsBox />
-	<TotalAddressesBox />
+	<TotalContractsBox {totalContracts}/>
+	<TotalAddressesBox {totalAddresses} />
 </div>
 
-<InfoBox id="latest_blocks" title={'Latest Blocks'} info={blockList} itemList={blockListItems} route="block"/>
-<InfoBox id="latest_transactions" title={'Latest Transactions'} info={txList} itemList={txListItems} route="transaction"/>
-<InfoBox id="top_wallets" title={'Top Wallets'} info={topWalletsList} itemList={topWalletsListItems} route="address"/>
+<InfoBox id="latest_blocks" title={'Latest Blocks'} info={blockList} itemList={blockListItems} route="blocks"/>
+<InfoBox id="latest_transactions" title={'Latest Transactions'} info={txList} itemList={txListItems} route="transactions"/>
+<InfoBox id="top_wallets" title={'Top Wallets'} info={topWalletsList} itemList={topWalletsListItems} route="addresses"/>
