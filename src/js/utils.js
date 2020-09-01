@@ -15,6 +15,7 @@ const formatValue = ( value ) => {
     if (isNumber(value)){
         return parseFloat(value).toLocaleString()
     }else{
+        if (value.__fixed__) return parseFloat(value.__fixed__).toLocaleString()
         if (validateTypes.isString(value)) return value
         else return JSON.stringify(value)
     }
