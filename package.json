@@ -1,7 +1,7 @@
 {
   "name": "block-explorer-frontend",
   "description": "A frontend to display the information from the block-explorer-api",
-  "version": "0.5.0",
+  "version": "0.5.5",
   "scripts": {
     "dev": "sapper dev",
     "build": "sapper build --legacy",
@@ -13,7 +13,8 @@
   },
   "dependencies": {
     "compression": "^1.7.1",
-    "node-fetch": "^2.6.0",
+    "lamden-js": "^1.19.0",
+    "node-fetch": "^2.6.1",
     "polka": "next",
     "sirv": "^0.4.0",
     "types-validate-assert": "^1.0.1"
@@ -32,7 +33,7 @@
     "rollup-plugin-babel": "^4.0.2",
     "rollup-plugin-svelte": "^5.0.1",
     "rollup-plugin-svg": "^2.0.0",
-    "rollup-plugin-terser": "^4.0.4",
+    "rollup-plugin-terser": "^7.0.2",
     "sapper": "^0.27.16",
     "svelte": "^3.0.0"
   }

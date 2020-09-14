@@ -13,7 +13,7 @@
             })
         ])
 
-		return {
+return {
 			txs: fetchData[0].txs,
 			address: fetchData[0].address,
 			balance: fetchData[1]
