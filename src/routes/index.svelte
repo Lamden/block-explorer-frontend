@@ -1,4 +1,6 @@
 <script context="module">
+	//stores
+	import { NetworkSymbol } from '../js/stores'
 	//Utils
 	import { formatValue } from '../js/utils'
 
@@ -25,6 +27,8 @@
 	export let topWalletsList;
 	export let totalContracts;
 	export let totalAddresses;
+
+	$: networkType = $NetworkSymbol === 'TAU' ? 'Mainnet' : 'Testnet'
 
 	const blockListItems = [
 		{field: 'blockNum', title: 'Block', link: true, route: 'blocks'},
@@ -87,7 +91,7 @@
 </style>
 
 <svelte:head>
-	<title>Lamden Testnet Explorer</title>
+	<title>Lamden {networkType} Explorer</title>
 </svelte:head>
 
 <h1>Block Explorer</h1>
