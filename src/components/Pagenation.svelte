@@ -58,7 +58,7 @@
 
     const nextPage = () => {
         let nextPage = currentPage + 1
-        if (nextPage * limit < count){
+        if ((count - (currentPage * limit)) > 0){
             setPage(nextPage)
         }
     }
