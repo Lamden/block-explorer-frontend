@@ -16,7 +16,17 @@ npm run dev
 or with different network Symbol
 
 ```bash
-SYMBOL dTAU npm run dev
+SYMBOL=dTAU npm run dev 
+```
+
+or with PM2
+1. Download PM2
+```bash
+npm install pm2 -g
+```
+2. Run with PM2
+```bash
+SYMBOL=dTAU pm2 start npm --name "fontend" -- run dev
 ```
 
 ### Launch Block Explorer Frontend
