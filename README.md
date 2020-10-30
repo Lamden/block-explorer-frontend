@@ -37,7 +37,7 @@ SYMBOL=dTAU pm2 start npm --name "fontend" -- run dev
 - create `./whitelabel.json`
 - change options in `/whitelabel.json` to enable or disable UI elements
 
-``` json
+``` javascript
 {
     "companyName": "Lamden", //company name to use in interface
     "networkSymbol": "TAU", // Token symbol to preceed balances 
