@@ -1,6 +1,7 @@
-# Running the Lamden Block Explorer Frontend Locally
+# Lamden Whitelabel block explorer
 
-## Install Block-Explorer-API
+## Dependencies
+### Install Block-Explorer-API
 ``` bash
 git clone https://github.com/Lamden/block-explorer-frontend.git
 cd block-explorer-frontend
@@ -8,12 +9,12 @@ npm install
 
 ```
 
-## Run DEVELOPEMENT
+## Run DEV
 ```bash
 npm run dev
 ```
 
-## Run in Production
+## Run in PROD
 ### nodejs
 ```bash
 npm run build
@@ -31,7 +32,7 @@ npm run build
 pm2 start npm --name "fontend" -- run start
 ```
 
-### Launch Block Explorer Frontend
+## Launch Block Explorer Frontend
 [Lamden block explorer](http://localhost:3000)
 
 
