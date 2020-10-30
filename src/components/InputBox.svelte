@@ -1,9 +1,6 @@
 <script>
     import { createEventDispatcher } from 'svelte';
     const dispatch = createEventDispatcher();
-    
-    //Images
-    import iconFind from '../../static/img/icons/find.svg'
 
     //Props
     export let id = "";
@@ -27,10 +24,6 @@
     export let thisInput = null;
 
     let isFocused = false;
-
-    const icons = {
-        'find': iconFind
-    }
 
     const dispatchChanged = (e) => {
         dispatch('changed', e);
@@ -59,13 +52,13 @@ label{
     font-size: 12px;
     line-height: 16px;
     padding: 0 4px;
-    color: var(--font-primary-dark);
+    color: var(--font-primary);
 }
 .outter-box{
     align-items: center;
     width: 100%;
     min-height: 42px;
-    border: 1px solid #e0e0e03d;
+    border: 1px solid var(--divider-color);
     box-sizing: border-box;
     transition: border 0.5s;
     border-radius: 4px;
@@ -100,7 +93,7 @@ label{
     display: flex;
     align-items: center;
     letter-spacing: 0.44px;
-    color: var(--font-primary-dark);
+    color: var(--font-secondary);
 }
 
 /* Chrome, Safari, Edge, Opera */
@@ -119,7 +112,7 @@ label{
 .mainbox:-webkit-autofill:hover, 
 .mainbox:-webkit-autofill:focus
  {
-  border: 1px solid #e0e0e03d;
+  border: 1px solid var(--divider-color);
   -webkit-text-fill-color: var(--font-primary);
   box-shadow: 0 0 0px 1000px var(--bg-color) inset;
 }
@@ -131,12 +124,23 @@ label{
     margin-left: 7px;
     cursor: pointer;
 }
+
+#icon-find{
+    fill: var(--font-primary);
+}
+#icon-find:hover{
+    fill: var(--accent-color);
+}
 </style>
 <div class="inputbox" style={`width: ${width};`} >
     <label style={`background: ${backgroundColor || 'var(--bg-color)'};`}> {label} </label>
     <div class="flex-row outter-box" style={`border: 1px solid ${borderColor}`} class:focus={isFocused && !borderColor} >
-        {#if typeof icon !== 'undefined'}
-            <div class="icon" on:click={handleClick}>{@html icons[icon]}</div>
+        {#if icon === 'find'}
+            <div class="icon" on:click={handleClick}>
+                <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path id="icon-find" d="M6.5 0C8.22391 0 9.87721 0.684819 11.0962 1.90381C12.3152 3.12279 13 4.77609 13 6.5C13 8.11 12.41 9.59 11.44 10.73L11.71 11H12.5L17.5 16L16 17.5L11 12.5V11.71L10.73 11.44C9.59 12.41 8.11 13 6.5 13C4.77609 13 3.12279 12.3152 1.90381 11.0962C0.684819 9.87721 0 8.22391 0 6.5C0 4.77609 0.684819 3.12279 1.90381 1.90381C3.12279 0.684819 4.77609 0 6.5 0ZM6.5 2C4 2 2 4 2 6.5C2 9 4 11 6.5 11C9 11 11 9 11 6.5C11 4 9 2 6.5 2Z" fill="#E0E0E0"/>
+                </svg>
+            </div>
         {/if}
 
         {#if inputType === "password"}

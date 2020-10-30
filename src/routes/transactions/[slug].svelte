@@ -12,6 +12,7 @@
 
 <script>
 	import { isLamdenKey } from '../../js/utils'
+	import whitelabel from '../../js/whitelabel'
 
 	export let tx;
 	export let hash;
@@ -69,96 +70,131 @@
 	<h2>{`Hash Not Found`}</h2>
 {:else}
 	<div class="flex-row header">
-		<h2>{`Hash: `}</h2><div class="text-body-2 font-primary-dark shrink">{`${hash}`}</div>
-	</div>
-		<div class="flex-row">
-			<div class="title">Status</div>
-			<div class="value" class:text-red={tx.status === 1} class:text-green={tx.status === 0}>
-				{tx.status === 1 ? 'Failed' : 'Success'}
-			</div>
-		</div>
-		<div class="flex-row">
-			<div class="title">Timestamp</div><div class="value">{new Date(tx.timestamp).toLocaleString()}</div>
-		</div>
-		<div class="flex-row">
-			<div class="title">Result</div><div class="value" class:text-red={tx.status === 1}>{formatValue(tx.result)}</div>
-		</div>
-		<div class="flex-row">
-			<div class="title">Block Number</div>
-			<a class="outside-link shrink" rel='prefetch' href={`blocks/${tx.blockNum}`}>{tx.blockNum}</a>
-		</div>
-		<div class="flex-row">
-			<div class="title">SubBlock Number</div><div class="value">{tx.subBlockNum}</div>
-		</div>
-		<div class="flex-row">
-			<div class="title">Sender</div>
-			<a class="outside-link shrink" rel='prefetch' href={`addresses/${tx.sender}`}>{tx.sender}</a>
-		</div>
-		<div class="flex-row">
-			<div class="title">Nonce</div><div class="value">{tx.nonce}</div>
-		</div>
-		<div class="flex-row">
-			<div class="title">Processor</div><div class="value">{tx.processor}</div>
-		</div>
-		<div class="flex-row">
-			<div class="title">Stamps Used</div>
-			<div class="value">
-				{`${formatValue(tx.stampsUsed)} ( ${parseFloat(stampsToTAU).toPrecision(3)} ${$NetworkSymbol} )`}
-			</div>
-		</div>
-		<div class="flex-row">
-			<div class="title">Contract Name</div><div class="value">{tx.contractName}</div>
-		</div>
-		<div class="flex-row">
-			<div class="title">Function Name</div><div class="value">{tx.functionName}</div>
-		</div>
-		<div class="flex-row">
-			<div class="title">Signature</div><div class="value">{tx.signature}</div>
-		</div>
-		<h3>Kwargs</h3>
-		{#if Object.keys(tx.kwargs).length === 0}
-			<div class="title">{`None`}</div>
-		{:else}
-			{#each Object.keys(tx.kwargs) as kwarg}
-				<div class="flex-row">
-					<div class="title">{kwarg}</div>
-					{#if isLamdenKey(tx.kwargs[kwarg])}
-						<a class="outside-link shrink" rel='prefetch' href={`addresses/${tx.kwargs[kwarg]}`}>{tx.kwargs[kwarg]}</a>
-					{:else}
-						<div class="value">{formatValue(tx.kwargs[kwarg])}</div>
-					{/if}
-				</div>
-			{/each}
+		<h2>{`${whitelabel.transactions.title} `}</h2>
+		{#if whitelabel.transactions.showTransactionHash}
+			<div class="text-body-2 font-secondary shrink">{`${hash}`}</div>
 		{/if}
-		<h3>State Changes</h3>
-		{#if Array.isArray(tx.state)}
-			{#each tx.state as kwarg}
-				<div class="flex-column sub-rows">
-					<div class="flex-row sub-row">
-						<div class="title">Contract</div>
-						<div class="value">{makeKey(kwarg.key).contractName}</div>
-					</div>
-					<div class="flex-row sub-row">
-						<div class="title">Variable</div>
-						<div class="value">{makeKey(kwarg.key).functionName}</div>
-					</div>
-					{#if makeKey(kwarg.key).key}
-						<div class="flex-row sub-row">
-							<div class="title">Key</div>
-							{#if isLamdenKey(makeKey(kwarg.key).key)}
-								<a class="outside-link shrink" rel='prefetch' href={`addresses/${makeKey(kwarg.key).key}`}>{makeKey(kwarg.key).key}</a>
-							{:else}
-								<div class="value">{makeKey(kwarg.key).key}</div>
-							{/if}
-						</div>
-					{/if}
-					<div class="flex-row sub-row">
-						<div class="title">New Value</div>
-						<div class="value">{formatValue(kwarg.value)}</div>
-					</div>
+	</div>
+		{#if whitelabel.transactions.mainInfo.status}
+			<div class="flex-row">
+				<div class="title">Status</div>
+				<div class="value" class:text-red={tx.status === 1} class:text-green={tx.status === 0}>
+					{tx.status === 1 ? 'Failed' : 'Success'}
 				</div>
-			{/each}
-		{:else}
-			<p>None</p>
+			</div>
+		{/if}
+		{#if whitelabel.transactions.mainInfo.timestamp}
+			<div class="flex-row">
+				<div class="title">Timestamp</div><div class="value">{new Date(tx.timestamp).toLocaleString()}</div>
+			</div>
+		{/if}
+		{#if whitelabel.transactions.mainInfo.result}
+			<div class="flex-row">
+				<div class="title">Result</div><div class="value" class:text-red={tx.status === 1}>{formatValue(tx.result)}</div>
+			</div>
+		{/if}
+		{#if whitelabel.transactions.mainInfo.blockNum}
+			<div class="flex-row">
+				<div class="title">Block Number</div>
+				<a class="outside-link shrink" rel='prefetch' href={`blocks/${tx.blockNum}`}>{tx.blockNum}</a>
+			</div>
+		{/if}
+		{#if whitelabel.transactions.mainInfo.subBlockNum}
+			<div class="flex-row">
+				<div class="title">SubBlock Number</div><div class="value">{tx.subBlockNum}</div>
+			</div>
+		{/if}
+		{#if whitelabel.transactions.mainInfo.sender}
+			<div class="flex-row">
+				<div class="title">Sender</div>
+				<a class="outside-link shrink" rel='prefetch' href={`addresses/${tx.sender}`}>{tx.sender}</a>
+			</div>
+		{/if}
+		{#if whitelabel.transactions.mainInfo.nonce}
+			<div class="flex-row">
+				<div class="title">Nonce</div><div class="value">{tx.nonce}</div>
+			</div>
+		{/if}
+		{#if whitelabel.transactions.mainInfo.processor}
+			<div class="flex-row">
+				<div class="title">Processor</div><div class="value">{tx.processor}</div>
+			</div>
+		{/if}
+		{#if whitelabel.transactions.mainInfo.stampsUsed}
+			<div class="flex-row">
+				<div class="title">Stamps Used</div>
+				<div class="value">
+					{`${formatValue(tx.stampsUsed)} ( ${parseFloat(stampsToTAU).toPrecision(3)} ${$NetworkSymbol} )`}
+				</div>
+			</div>
+		{/if}
+		{#if whitelabel.transactions.mainInfo.contractName}
+			<div class="flex-row">
+				<div class="title">Contract Name</div><div class="value">{tx.contractName}</div>
+			</div>
+		{/if}
+		{#if whitelabel.transactions.mainInfo.functionName}
+			<div class="flex-row">
+				<div class="title">Function Name</div><div class="value">{tx.functionName}</div>
+			</div>
+		{/if}
+		{#if whitelabel.transactions.mainInfo.signature}
+			<div class="flex-row">
+				<div class="title">Signature</div><div class="value">{tx.signature}</div>
+			</div>
+		{/if}
+
+		{#if whitelabel.transactions.kwargInfo.show}
+			<h3>{whitelabel.transactions.kwargInfo.title || "Kwargs"}</h3>
+			{#if Object.keys(tx.kwargs).length === 0}
+				<div class="title">{`None`}</div>
+			{:else}
+				{#each Object.keys(tx.kwargs) as kwarg}
+					<div class="flex-row">
+						<div class="title">{kwarg}</div>
+						{#if isLamdenKey(tx.kwargs[kwarg])}
+							<a class="outside-link shrink" rel='prefetch' href={`addresses/${tx.kwargs[kwarg]}`}>{tx.kwargs[kwarg]}</a>
+						{:else}
+							<div class="value">{formatValue(tx.kwargs[kwarg])}</div>
+						{/if}
+					</div>
+				{/each}
+			{/if}
+		{/if}
+
+		{#if whitelabel.transactions.stateChanges.show}
+			<h3>{whitelabel.transactions.stateChanges.title || "State Changes"}</h3>
+			{#if Array.isArray(tx.state)}
+				{#each tx.state as kwarg}
+					<div class="flex-column sub-rows">
+						{#if whitelabel.transactions.stateChanges.showAdvanced}
+							<div class="flex-row sub-row">
+								<div class="title">Contract</div>
+								<div class="value">{makeKey(kwarg.key).contractName}</div>
+							</div>
+							<div class="flex-row sub-row">
+								<div class="title">Variable</div>
+								<div class="value">{makeKey(kwarg.key).functionName}</div>
+							</div>
+						{/if}
+						{#if makeKey(kwarg.key).key}
+							<div class="flex-row sub-row">
+								<div class="title">Key</div>
+								{#if isLamdenKey(makeKey(kwarg.key).key)}
+									<a class="outside-link shrink" rel='prefetch' href={`addresses/${makeKey(kwarg.key).key}`}>{makeKey(kwarg.key).key}</a>
+								{:else}
+									<div class="value">{makeKey(kwarg.key).key}</div>
+								{/if}
+							</div>
+						{/if}
+						<div class="flex-row sub-row">
+							<div class="title">New Value</div>
+							<div class="value">{formatValue(kwarg.value)}</div>
+						</div>
+					</div>
+				{/each}
+			{:else}
+				<p>None</p>
+			{/if}
 		{/if}
 {/if}

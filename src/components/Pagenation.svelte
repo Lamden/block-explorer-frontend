@@ -3,12 +3,6 @@
     
     const dispatch = createEventDispatcher();
 
-    //Images
-	import arrowLeft from '../../static/img/icons/arrow-left.svg'
-	import arrowRight from '../../static/img/icons/arrow-right.svg'
-	import arrowLineLeft from '../../static/img/icons/arrow-line-left.svg'
-    import arrowLineRight from '../../static/img/icons/arrow-line-right.svg'
-
 	//Utils
     import validators from 'types-validate-assert'
     const { validateTypes } = validators;
@@ -114,34 +108,37 @@
 </script>
 
 <style>
-.pagenation{
-    margin: 1rem 0 0.5rem;
-    justify-content: space-between;
-    align-items: center;
-}
-.showing{
-    flex-wrap: wrap;
-}
-.showing > div {
-    margin: 0 2px;
-}
-.current{
-    background: var(--primary-color)
-}
+    .pagenation{
+        margin: 1rem 0 0.5rem;
+        justify-content: space-between;
+        align-items: center;
+    }
+    .showing{
+        flex-wrap: wrap;
+    }
+    .showing > div {
+        margin: 0 2px;
+    }
+    .current{
+        background: var(--primary-color)
+    }
 
-.buttons > div{
-    padding: 2px 5px;
-    margin: 0 2px;
-}
-.LRarrow{
-   position: relative;
-    top: 1px; 
-}
+    .buttons > div{
+        padding: 2px 5px;
+        margin: 0 2px;
+    }
+    .LRarrow{
+        position: relative;
+        top: 1px; 
+    }
 
-.pointer{
-    cursor: pointer;
-}
+    .pointer{
+        cursor: pointer;
+    }
 
+    .controls{
+        fill: var(--primary-color)
+    }
 </style>
 
 <div class="pagenation flex-row">
@@ -150,8 +147,16 @@
         <div>{`of ${count} total`}</div>
     </div>
     <div class="flex-row buttons">
-        <div on:click={minPage} class="pointer">{@html arrowLineLeft}</div>
-        <div on:click={prevPage} class="pointer LRarrow">{@html arrowLeft}</div>
+        <div on:click={minPage} class="pointer">
+            <svg width="8" height="8" viewBox="0 0 8 8" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path class="controls" d="M0.123093 7.87689V0.123047H1.4154V7.87689H0.123093ZM2.38463 3.99997L7.87694 0.123047V7.87689L2.38463 3.99997Z" fill="white"/>
+            </svg>
+        </div>
+        <div on:click={prevPage} class="pointer LRarrow">
+            <svg width="8" height="10" viewBox="0 0 8 10" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path class="controls" d="M7.23075 0.477539V9.52369L0.123059 5.00062L7.23075 0.477539Z" fill="white"/>
+            </svg>
+        </div>
         {#each pages as pageNum}
             {#if pageNum !== null}
                 <div on:click={() => setPage(pageNum)} 
@@ -159,7 +164,15 @@
                     class:pointer={pageNum !== '...'}>{pageNum}</div>
             {/if}
         {/each}
-        <div on:click={nextPage} class="pointer LRarrow">{@html arrowRight}</div>
-        <div on:click={maxPage} class="pointer">{@html arrowLineRight}</div>
+        <div on:click={nextPage} class="pointer LRarrow">
+            <svg width="8" height="10" viewBox="0 0 8 10" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path class="controls" d="M0.769257 9.52246L0.769257 0.476308L7.87695 4.99938L0.769257 9.52246Z" fill="white"/>
+            </svg>
+        </div>
+        <div on:click={maxPage} class="pointer">
+            <svg width="8" height="8" viewBox="0 0 8 8" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path class="controls" d="M6.58462 7.87689H7.87692V0.123047H6.58462V7.87689ZM0.123077 7.87689L5.61539 3.99997L0.123077 0.123047V7.87689Z" fill="white"/>
+            </svg>
+        </div>
     </div>
 </div>

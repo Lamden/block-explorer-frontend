@@ -5,7 +5,10 @@
 	import { formatValue } from '../js/utils'
 
 	export async function preload(page, session) {
-		const res = await this.fetch(`fetchAllData.json`)
+		const res = await this.fetch('fetchAllData.json?' + 
+			`txAmount=${session.whitelabel.mainpage.latestTransactions.rows}` + '&' +
+			`blocksAmount=${session.whitelabel.mainpage.blocks.rows}`
+			)
 		return await res.json()
 	}
 </script>
@@ -21,6 +24,7 @@
 
 	//Utils
 	import { isLamdenKey } from '../js/utils'
+	import whitelabel from '../js/whitelabel'
 
 	export let blockList;
 	export let txList;
@@ -45,19 +49,22 @@
 	const topWalletsListItems = [
 		{title: 'Rank'},
 		{field: 'key', title: 'Address', link: true, route: 'addresses', shrink: true},
-		{field: 'value', title: 'Amount', flexgrow: true},
+		{field: 'value', title: 'Amount', flexgrow: true, toFixed: whitelabel.mainpage.topWallets.columns.amount.toFixed, prefix: whitelabel.mainpage.topWallets.columns.amount.prefix},
 	]
 
 	onMount(() => {
 		const timerID = setInterval(refreshPageData, 10000);
-
 		return () => {
 			clearInterval(timerID)
 		}
 	})
 
 	const refreshPageData = async () => {
-		let pageInfo =  await fetch(`fetchAllData.json`).then(res => res.json())
+		let pageInfo =  await fetch('fetchAllData.json?' + 
+			`txAmount=${whitelabel.mainpage.latestTransactions.rows}` + '&' +
+			`blocksAmount=${whitelabel.mainpage.blocks.rows}`
+			)
+			.then(res => res.json())
 		if (blockList !== pageInfo.blockList) blockList = pageInfo.blockList
 		if (txList !== pageInfo.txList) txList = pageInfo.txList
 		if (topWalletsList !== pageInfo.topWalletsList) topWalletsList = pageInfo.topWalletsList
@@ -94,19 +101,36 @@
 	<title>Lamden {networkType} Explorer</title>
 </svelte:head>
 
-<h1>Block Explorer</h1>
-<p class="text-body-1 font-primary-dark">{`Built on the Lamden ecosystem to display all the blockchain information. Looking to transact or send a smart contract?`}
-    <a class="outside-link" href="https://chrome.google.com/webstore/detail/lamden-wallet-browser-ext/fhfffofbcgbjjojdnpcfompojdjjhdim" target="_blank" rel="noreferrer noopener">{`Download the Wallet`}</a>
-	{` or `}
-	<a class="outside-link" href="https://www.lamden.io" target="_blank" rel="noreferrer noopener">{`visit our website`}</a>
-</p>
+<h1>{whitelabel.mainpage.title}</h1>
+{#if whitelabel.mainpage.subtitle.show} 
+	<p class="text-body-1">
+		{#if whitelabel.mainpage.subtitle.message === "lamden_default"}
+			<span class="font-secondary">{`Built on the Lamden ecosystem to display all the blockchain information. Looking to transact or send a smart contract?`}</span>
+			<a class="outside-link" href="https://chrome.google.com/webstore/detail/lamden-wallet-browser-ext/fhfffofbcgbjjojdnpcfompojdjjhdim" target="_blank" rel="noreferrer noopener">{`Download the Wallet`}</a>
+			<span class="font-secondary">{` or `}</span>
+			<a class="outside-link" href="https://www.lamden.io" target="_blank" rel="noreferrer noopener">{`visit our website`}</a>
+		{:else}
+			<span class="font-secondary">{whitelabel.mainpage.subtitle.message}</span>
+		{/if}
+	</p>
+{/if}
 
-<div class="flex-row hero-rec">
-	<TauPriceBox />
-	<TotalContractsBox {totalContracts}/>
-	<TotalAddressesBox {totalAddresses} />
-</div>
 
-<InfoBox id="latest_blocks" title={'Latest Blocks'} info={blockList} itemList={blockListItems} route="blocks"/>
-<InfoBox id="latest_transactions" title={'Latest Transactions'} info={txList} itemList={txListItems} route="transactions"/>
-<InfoBox id="top_wallets" title={'Top Wallets'} info={topWalletsList} itemList={topWalletsListItems} route="addresses"/>
+{#if whitelabel.mainpage.detailsBox.show}
+	<div class="flex-row hero-rec">
+		{#if whitelabel.mainpage.detailsBox.items.showPriceInfo}<TauPriceBox />{/if}
+		{#if whitelabel.mainpage.detailsBox.items.showSmartContractCount}<TotalContractsBox {totalContracts}/>{/if}
+		{#if whitelabel.mainpage.detailsBox.items.showTransactionCount}<TotalAddressesBox {totalAddresses} />{/if}
+	</div>
+{/if}
+
+{#if whitelabel.mainpage.blocks.show}
+	<InfoBox id="latest_blocks" title={'Latest Blocks'} info={blockList} itemList={blockListItems} route="blocks"/>
+{/if}
+{#if whitelabel.mainpage.latestTransactions.show}
+	<InfoBox id="latest_transactions" title={'Latest Transactions'} info={txList} itemList={txListItems} route="transactions"/>
+{/if}
+{#if whitelabel.mainpage.topWallets.show}
+	<InfoBox id="top_wallets" title={'Top Wallets'} info={topWalletsList} itemList={topWalletsListItems} route="addresses"/>
+{/if}
+

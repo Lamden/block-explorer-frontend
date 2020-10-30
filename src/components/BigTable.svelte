@@ -5,6 +5,7 @@
 
     //Utils
     import { formatValue } from '../js/utils'
+	import whitelabel from '../js/whitelabel'
 
     //Props
     export let title = '';
@@ -93,7 +94,7 @@ h2{
                 class:mobile-col={colInfo.hideMobile}
                 class:flex-grow={colInfo.flexgrow}
                 class:shrink={colInfo.shrink}>
-            <div class="col-header text-body-1 font-primary-dark">{colInfo.title}</div>
+            <div class="col-header text-body-1 font-secondary">{colInfo.title}</div>
             <div class="col-header-divider"></div>
             {#each items as rowInfo}
                 {#each Object.keys(rowInfo) as rowItem}
@@ -101,7 +102,9 @@ h2{
                         {#if colInfo.link}
                             <a class="outside-link col-item text-body-1" class:shrink={colInfo.shrink} rel='prefetch' href={`${colInfo.route}/${rowInfo[rowItem]}`}>{rowInfo[rowItem]}</a>
                         {:else}
-                            <div class="col-item text-body-1" class:shrink={colInfo.shrink}>{formatValue(rowInfo[rowItem])}</div>
+                            <div class="col-item text-body-1" class:shrink={colInfo.shrink}>
+                                {`${colInfo.prefix ? whitelabel.balancePrefix : ""}` + formatValue(rowInfo[rowItem], colInfo.toFixed !== undefined ? colInfo.toFixed : undefined)}
+                            </div>
                         {/if}
                         <div class="row-divider"></div>
                     {/if}

@@ -12,15 +12,16 @@ function isNumber(n) {
     return Object.prototype.toString.call(n) !== '[object Array]' &&!isNaN(parseFloat(n)) && isFinite(n);
 }
 
-const displayNumber = (value) => {
+const displayNumber = (value, toFixed = 0) => {
     if (!value) return '0'
     if (!Encoder.BigNumber.isBigNumber(value)) value = Encoder('bigNumber', value)
-    return value.toFormat({  decimalSeparator: '.', groupSeparator: ',', groupSize: 3})
+    let v =  Encoder('bigNumber', value.toFixed(toFixed))
+    return v.toFormat({  decimalSeparator: '.', groupSeparator: ',', groupSize: 3})
 }
 
-const formatValue = ( value ) => {
+const formatValue = ( value, toFixed = 0 ) => {
     if (typeof value === 'undefined' || value == null) return "NULL"
-    if (value.__fixed__) return displayNumber(value.__fixed__)
+    if (value.__fixed__) return displayNumber(value.__fixed__, toFixed)
     if (isNumber(value)){
         return parseFloat(value).toLocaleString()
     }else{

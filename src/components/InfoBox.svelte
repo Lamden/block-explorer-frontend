@@ -4,6 +4,7 @@
 
     //Utils
     import { formatValue } from '../js/utils'
+    import whitelabel from '../js/whitelabel'
 
     //Props
     export let id;
@@ -76,7 +77,7 @@ h2{
     <div class="flex-table">
         {#each itemList as colInfo}
             <div class:col={!colInfo.hideMobile} class:mobile-col={colInfo.hideMobile} class:flex-grow={colInfo.flexgrow} class:shrink={colInfo.shrink} >
-                <div class="col-header text-body-1 font-primary-dark">{colInfo.title}</div>
+                <div class="col-header text-body-1 font-secondary">{colInfo.title}</div>
                 <div class="col-header-divider"></div>
                 {#if colInfo.title === 'Rank'}
                     {#each res as rowInfo, index}
@@ -90,7 +91,9 @@ h2{
                                 {#if colInfo.link}
                                     <a class="outside-link col-item text-body-1" class:shrink={colInfo.shrink} rel='prefetch' href={`${colInfo.route}/${rowInfo[rowItem]}`}>{rowInfo[rowItem]}</a>
                                 {:else}
-                                    <div class="col-item text-body-1" class:shrink={colInfo.shrink}>{formatValue(rowInfo[rowItem])}</div>
+                                    <div class="col-item text-body-1" class:shrink={colInfo.shrink}>
+                                        {`${colInfo.prefix ? whitelabel.balancePrefix : ""}` + formatValue(rowInfo[rowItem], colInfo.toFixed !== undefined ? colInfo.toFixed : undefined)}
+                                    </div>
                                 {/if}
                                 <div class="row-divider"></div>
                             {/if}
@@ -101,9 +104,9 @@ h2{
         {/each}
     </div>
 {/await}
-<Button name={'VIEW MORE'} 
+<Button name={whitelabel.mainpage.buttonText} 
         type={'solid'} 
-        color={'purple'} 
+        color={'primary'} 
         click={navigate}
         width={'232px'}
         height={'36px'}

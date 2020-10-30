@@ -38,17 +38,9 @@ button.solid{
     align-items: center;
     text-align: center;
     justify-content: center;
-    background-color: unset;
     border: unset;
-    background: var(--bg-color-grey);
     box-shadow: 0px 1px 8px rgba(0, 0, 0, 0.1), 0px 2px 4px rgba(0, 0, 0, 0.12), 0px 1px 2px rgba(0, 0, 0, 0.16);
     border-radius: 4px;
-    color: var(--font-primary-dark);
-}
-
-button.solid:hover{
-    color: #FFFFFF;
-    background: #3a3a3a;
 }
 
 .buttonGroup-left{
@@ -64,13 +56,8 @@ button.solid:hover{
 .buttonGroup-center{
     box-shadow: unset;
     border-radius: 0;
-    border-left: 1px solid var(--font-primary-darker);
-    border-right: 1px solid var(--font-primary-darker);
-}
-
-
-button.hover-blue:hover{
-    background-color: var(--font-accent);
+    border-left: 1px solid var(--font-secondary);
+    border-right: 1px solid var(--font-secondary);
 }
 
 .button-text{
@@ -81,7 +68,7 @@ button.hover-blue:hover{
     background-color: unset;
     border: unset;
     background: var(--bg-color);
-    color: var(--font-primary-dark);
+    color: var(--font-secondary);
 }
 
 .button-icon{
@@ -100,18 +87,20 @@ button.transparent{
     padding: 13px 8px 13px 12px;
 }
 
-button.purple{
-    color: #FFFFFF;
-    background: var(--primary-color);
+button.primary{
+    color: var(--button-primary-text-color);
+    background: var(--button-primary-bg-color);
 }
 
-button.purple:hover{
-    background: #5120e0;
+button.secondary{
+    color: var(--button-secondary-text-color);
+    background: var(--button-secondary-bg-color);
 }
 
-button.blue:hover{
-    border: 1px solid var(--font-accent);
+button:hover{
+    filter: brightness(85%)
 }
+
 
 button.red{
     color: #FFFFFF;
@@ -160,7 +149,8 @@ button.transparent:hover{
 <button class={`${classes}`}
         class:solid={type === 'solid'}
         class:transparent={type === 'transparent'}
-        class:purple={color === 'purple'}
+        class:primary={color === 'primary'}
+        class:secondary={color === 'secondary'}
         class:red={color === 'red'}
         class:blue={color === 'blue'}
         id={id}

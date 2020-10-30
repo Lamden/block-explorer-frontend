@@ -9,9 +9,10 @@
     .flex-column{
         align-items: center;
         width: 225px;
+        z-index: 10;
     }
 </style>
 <div class="flex-column">
-    <div class="text-body-1 font-primary-dark">Total Smart Contracts</div>
+    <div class="text-body-1 font-secondary">Total Smart Contracts</div>
     <h1>{formatValue(totalContracts)}</h1>
 </div>

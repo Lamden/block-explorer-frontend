@@ -3,14 +3,12 @@
 	import InputBox from './InputBox.svelte'
 
 	//Images
-	import lamdenLogo from '../../static/img/lamden_logo_new.svg'
-	import lamdenWords from '../../static/img/lamden_words.svg'
-	import navBurger from '../../static/img/icons/nav-burger.svg'
-	import menuClose from '../../static/img/icons/menu-close.svg'
+	import logo from '../../static/logo_full.svg'
 
 	//Utils
 	import { isLamdenKey } from '../js/utils'
 	import { StampRatio, NetworkSymbol } from '../js/stores'
+	import whitelabel from '../js/whitelabel'
 
 	//Props
 	export let segment;
@@ -113,7 +111,7 @@
 		color: var(--font-primary);
 	}
 	a:hover{
-		color: var(--font-accent);
+		color: var(--accent-color);
 	}
 
 	a.text-menu {
@@ -126,14 +124,10 @@
 		justify-content: center;
 		align-items: flex-end;
 	}
-
 	.nav-logo{
 		align-items: center;
 		justify-content: center;
 		cursor: pointer;
-	}
-	.nav-logo > span:last-child{
-		margin-left: 15.53px;
 	}
 	.input-box{
 		width: 100%;
@@ -142,7 +136,7 @@
 	}
 	.tau-details{
 		margin-top: 5px;
-		min-width: max-content;
+		width: 100%;
 	}
 	.nav-burger{
 		z-index: 150;
@@ -166,6 +160,9 @@
 	.menu-logo{
 		justify-content: flex-start;
 	}
+	.burger-icon{
+		fill: var(--primary-color)
+	}
 
 	@media (min-width: 800px) {
 		nav{
@@ -188,6 +185,9 @@
 		.nav-burger{
 			display: none;
 		}
+		.tau-details{
+			text-align: center;
+		}
 	}
 
 </style>
@@ -196,12 +196,13 @@
 <nav class="flex-row">
 	<div class="flex-column logo-box">
 		<div class="flex-row nav-logo" on:click={() => {navigate("/")}}>
-			<span>{@html lamdenLogo}</span>
-			<span>{@html lamdenWords}</span>
+			<span>{@html logo}</span>
 		</div>
-		<div class="tau-details text-subtitle-1 font-primary-dark">
-			{` 1 ${$NetworkSymbol} = ${$StampRatio} stamps`}
-		</div>
+		{#if whitelabel.nav.showStampRatio}
+			<div class="tau-details text-subtitle-1 font-secondary">
+				{` 1 ${$NetworkSymbol} = ${$StampRatio} stamps`}
+			</div>
+		{/if}
 	</div>
 	<div class="flex-row input-box">
 		<InputBox
@@ -210,8 +211,8 @@
 			on:keyup={handleKeyUp}
 			on:iconClick={handleIconClick}
 			borderColor={notFound ? "red" : undefined}
-			label={'Search Lamden Blockchain'}
-			placeholder={"Block # / Tx Hash / Address"}
+			label={whitelabel.nav.searchBoxLabel}
+			placeholder={whitelabel.nav.searchBoxPlaceholder}
 			styles="min-width: max-content;"
 			width={'100%'}
 			icon={'find'}
@@ -219,9 +220,15 @@
 		/>
 	</div>
 	<ul class="flex-row text-nav">
-		<li><a aria-current='{segment === "about" ? "page" : undefined}' href='blocks'>Blocks</a></li>
-		<li><a aria-current='{segment === "about" ? "page" : undefined}' href='transactions'>Transactions</a></li>
-		<li><a aria-current='{segment === "about" ? "page" : undefined}' href='addresses'>Wallets</a></li>
+		{#if whitelabel.nav.blocks}
+			<li><a aria-current='{segment === "about" ? "page" : undefined}' href='blocks'>Blocks</a></li>
+		{/if}
+		{#if whitelabel.nav.transactions}
+			<li><a aria-current='{segment === "about" ? "page" : undefined}' href='transactions'>Transactions</a></li>
+		{/if}
+		{#if whitelabel.nav.wallets}
+			<li><a aria-current='{segment === "about" ? "page" : undefined}' href='addresses'>Wallets</a></li>
+		{/if}
 	</ul>
 </nav>
 {/if}
@@ -230,15 +237,20 @@
 	<div class="menu flex-column">
 		<div class="logo-box">
 			<div class="flex-row nav-logo menu-logo" on:click={() => {navigate("/")}}>
-				<span>{@html lamdenLogo}</span>
-				<span>{@html lamdenWords}</span>
+				{@html logo}
 			</div>
 		</div>
 		<ul class="flex-column">
 			<li><a class="text-menu" aria-current='{segment === "about" ? "page" : undefined}' href='/' on:click={toggleMenu}>Home</a></li>
-			<li><a class="text-menu" aria-current='{segment === "about" ? "page" : undefined}' href='blocks' on:click={toggleMenu}>Blocks</a></li>
-			<li><a class="text-menu" aria-current='{segment === "about" ? "page" : undefined}' href='transactions' on:click={toggleMenu}>Transactions</a></li>
-			<li><a class="text-menu" aria-current='{segment === "about" ? "page" : undefined}' href='addresses' on:click={toggleMenu}>Wallets</a></li>
+			{#if whitelabel.nav.blocks}
+				<li><a class="text-menu" aria-current='{segment === "about" ? "page" : undefined}' href='blocks' on:click={toggleMenu}>Blocks</a></li>
+			{/if}
+			{#if whitelabel.nav.transactions}
+				<li><a class="text-menu" aria-current='{segment === "about" ? "page" : undefined}' href='transactions' on:click={toggleMenu}>Transactions</a></li>
+			{/if}
+			{#if whitelabel.nav.wallets}
+				<li><a class="text-menu" aria-current='{segment === "about" ? "page" : undefined}' href='addresses' on:click={toggleMenu}>Wallets</a></li>
+			{/if}
 			<!--<li><a class="text-menu" aria-current='{segment === "about" ? "page" : undefined}' href='about' on:click={toggleMenu}>About</a></li>-->
 		</ul>
 	</div>
@@ -246,8 +258,12 @@
 
 <div class="nav-burger" on:click={toggleMenu}> 
 	{#if menuOpen}
-		{@html menuClose}
+		<svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+			<path class="burger-icon" d="M17.5 1.7625L15.7375 0L8.75 6.9875L1.7625 0L0 1.7625L6.9875 8.75L0 15.7375L1.7625 17.5L8.75 10.5125L15.7375 17.5L17.5 15.7375L10.5125 8.75L17.5 1.7625Z" fill="white"/>
+		</svg>
 	{:else}
-		{@html navBurger}
+		<svg width="27" height="18" viewBox="0 0 27 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+			<path class="burger-icon" d="M0 0H26.25V2.91667H0V0ZM0 7.29167H26.25V10.2083H0V7.29167ZM0 14.5833H26.25V17.5H0V14.5833Z" fill="white"/>
+		</svg>
 	{/if}
 </div>

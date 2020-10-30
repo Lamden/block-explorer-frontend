@@ -2,20 +2,20 @@
 	//Utils
 	import { formatValue } from '../js/utils'
 
-	const fetchAllData = async (http, networkSymbol = undefined) => {
+	const fetchAllData = async (http, whitelabel) => {
 		let allInfo = await Promise.all([
-			http(`tauPrice.json`).then(res => res.json()),
-			http(`stampRatio.json`).then(res => res.json())
+			whitelabel.mainpage.detailsBox.items.showPriceInfo ? http(`tauPrice.json`).then(res => res.json()) : 0,
+			whitelabel.nav.showStampRatio ? http(`stampRatio.json`).then(res => res.json()).then(json => json.value) : 0
 		])
 		return {
 			tauPrice: allInfo[0],
-			stampRatio: allInfo[1].value,
-			networkSymbol
+			stampRatio: allInfo[1],
+			networkSymbol: whitelabel.networkSymbol
 		}
 	}
 
 	export async function preload(page, session) {
-		return await fetchAllData(this.fetch, session.networkSymbol)
+		return await fetchAllData(this.fetch, session.whitelabel)
 	}
 </script>
 
@@ -36,7 +36,8 @@
 	PriceInfo.set(tauPrice);
 	StampRatio.set(stampRatio);
 	NetworkSymbol.set(networkSymbol);
-	
+
+
 	onMount(() => {
 		const timerID = setInterval(refreshStoreData, 60000);
 

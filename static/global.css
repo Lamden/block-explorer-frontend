@@ -17,21 +17,25 @@
 			url('/fonts/Avenir-Medium.ttf')  format('truetype')
 }
 body{
-    --primary-color: #461BC2;  
-    --secondary-color: #818cab;
-    --font-primary: #E0E0E0; 
-    --font-primary-dark: #AEAFAD;
-    --font-primary-darker: rgba(218, 218, 218, 0.16); 
-    --font-primary-light: #ffffff99; 
-    --font-secondary: #D1D1D1;
-    --font-accent: #4FB8FF;
-    --bg-color: #151515; 
-    --bg-color-grey: #303030;
-    --bg-menu-grey: #262626a3;
-    --bg-color-dark: #121212;
-    --heading-color: #818cab;
-    --divider-color: #E0E0E02E;
-    --accent-color: #FFFFFF;
+	/* UI */
+	--primary-color: #461BC2;
+	--secondary-color: #818cab;
+
+	--font-primary: #e8e8e8; 
+	--font-secondary: #9a9a9a; 
+
+	--bg-color: #151515; 
+
+	--divider-color: #E0E0E02E;
+
+	--accent-color: #4FB8FF;
+
+	/* Buttons */
+	--button-primary-bg-color: #461BC2;
+	--button-primary-text-color: #FFF;
+	--button-secondary-bg-color: #461BC2;
+	--button-secondary-text-color: #FFF;  
+    
 }
 body, html{
 	background: var(--bg-color);
@@ -80,8 +84,8 @@ h1,h2, h3, h4, h5, h6 {
 	flex-direction: column;
 }
 
-.font-primary-dark{
-	color: var(--font-primary-dark);
+.font-secondary{
+	color: var(--font-secondary);
 }
 .text-body-1{
 	font-family: 'Avenir-Light';
@@ -113,7 +117,6 @@ h1,h2, h3, h4, h5, h6 {
 	font-size: 25px;
 	line-height: 24px;
 	letter-spacing: 0.44px;
-	color: #FFF;
 }
 .text-nav{
 	font-family: 'Avenir-Light';
@@ -138,7 +141,7 @@ h1,h2, h3, h4, h5, h6 {
 }
 .outside-link{
 	font-family: 'Avenir-Light';
-    color: var(--font-accent);
+    color: var(--accent-color);
     cursor: pointer;
 }
 
