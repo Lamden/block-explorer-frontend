@@ -6,6 +6,7 @@
     "dev": "sapper dev",
     "build": "sapper build --legacy",
     "export": "sapper export --legacy",
+    "start": "NODE_ENV=production node __sapper__/build",
     "start-mainnet": "NODE_ENV=production SYMBOL=TAU node __sapper__/build",
     "start-testnet": "NODE_ENV=development SYMBOL=dTAU node __sapper__/build",
     "cy:run": "cypress run",

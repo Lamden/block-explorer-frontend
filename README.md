@@ -8,25 +8,27 @@ npm install
 
 ```
 
-## Run Webserver
+## Run DEVELOPEMENT
 ```bash
 npm run dev
 ```
 
-or with different network Symbol
-
+## Run in Production
+### nodejs
 ```bash
-SYMBOL=dTAU npm run dev 
+npm run build
+npm run start
 ```
 
-or with PM2
-1. Download PM2
+### PM2
+- Download PM2
 ```bash
 npm install pm2 -g
 ```
-2. Run with PM2
+- Run with PM2
 ```bash
-SYMBOL=dTAU pm2 start npm --name "fontend" -- run dev
+npm run build
+pm2 start npm --name "fontend" -- run start
 ```
 
 ### Launch Block Explorer Frontend
