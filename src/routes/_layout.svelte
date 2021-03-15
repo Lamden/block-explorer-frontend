@@ -2,6 +2,8 @@
 	//Utils
 	import { formatValue } from '../js/utils'
 
+	import whitelabel from '../js/whitelabel'
+
 	const fetchAllData = async (http, whitelabel) => {
 		let allInfo = await Promise.all([
 			whitelabel.mainpage.detailsBox.items.showPriceInfo ? http(`tauPrice.json`).then(res => res.json()) : 0,
@@ -23,7 +25,7 @@
 	import { onMount } from 'svelte'
 
 	//Stores
-	import { PriceInfo, StampRatio, NetworkSymbol } from '../js/stores'
+	import { PriceInfo, StampRatio, NetworkSymbol, tabHidden } from '../js/stores'
 
 	//Components
 	import Nav from '../components/Nav.svelte';
@@ -41,22 +43,33 @@
 	onMount(() => {
 		const timerID = setInterval(refreshStoreData, 60000);
 
+		document.addEventListener("visibilitychange", setTabActive);
+		return () => {
+			document.removeEventListener("visibilitychange", setTabActive);
+		}
+
 		return () => {
 			clearInterval(timerID)
 		}
 	})
 
+	const setTabActive = () => {
+		tabHidden.set(document.hidden)
+		refreshStoreData()
+	}
+
 	const refreshStoreData = async () => {
-		let info =  await fetchAllData(fetch)
-		if (info.tauPrice !== $PriceInfo) PriceInfo.set(info.tauPrice);
-		if (info.stampRatio !== $StampRatio) StampRatio.set(info.stampRatio);
+		if (!$tabHidden){
+			let tauPrice =  await fetch('tauPrice.json').then(res => res.json())
+			if (tauPrice !== $PriceInfo) PriceInfo.set(tauPrice);
+		}
 	}
 </script>
 
 <style>
 	main {
 		position: relative;
-		max-width: 56em;
+		max-width: 75em;
 		padding: 2em;
 		margin: 0 auto;
 		box-sizing: border-box;
