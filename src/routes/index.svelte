@@ -33,8 +33,6 @@
 	export let totalContracts;
 	export let totalAddresses;
 
-	let topWalletsList = $topWallets || new Promise(resolver => {})
-
 	$: networkType = $NetworkSymbol === 'TAU' ? 'Mainnet' : 'Testnet'
 
 	const blockListItems = [
@@ -56,7 +54,7 @@
 	]
 
 	onMount(() => {
-		topWalletsList = getTopWallets()
+		getTopWallets()
 		const timerID = setInterval(refreshPageData, 30000);
 		return () => {
 			clearInterval(timerID)
@@ -66,7 +64,6 @@
 	const getTopWallets = async () => {
 		let topWalletsRes = await fetch(`topWallets.json`).then(res => res.json())
 		topWallets.set(topWalletsRes)
-		topWalletsList = topWalletsRes
 	}
 
 	async function refreshPageData(){
@@ -78,7 +75,7 @@
 				.then(res => res.json())
 			if (blockList !== pageInfo.blockList) blockList = pageInfo.blockList
 			if (txList !== pageInfo.txList) txList = pageInfo.txList
-			if (topWalletsList !== pageInfo.topWalletsList) topWalletsList = pageInfo.topWalletsList
+			if ($topWallets !== pageInfo.topWalletsList) topWallets.set(pageInfo.topWalletsList)
 			if (totalContracts !== pageInfo.totalContracts) totalContracts = pageInfo.totalContracts
 			if (totalAddresses !== pageInfo.totalAddresses) totalAddresses = pageInfo.totalAddresses
 		}
@@ -143,11 +140,9 @@
 	<InfoBox id="latest_transactions" title={'Latest Transactions'} info={txList} itemList={txListItems} route="transactions"/>
 {/if}
 
-{#if whitelabel.mainpage.topWallets.show}
-	{#await topWalletsList}
-		<InfoBoxLoading id="top_wallets" title={'Top Wallets'} numOfRows={20} itemList={topWalletsListItems} route="addresses"/>
-	{:then data}
-		<InfoBox id="top_wallets" title={'Top Wallets'} info={data} itemList={topWalletsListItems} route="addresses"/>
-	{/await}
+{#if $topWallets}
+	<InfoBox id="top_wallets" title={'Top Wallets'} info={$topWallets} itemList={topWalletsListItems} route="addresses"/>
+{:else}
+	<InfoBoxLoading id="top_wallets" title={'Top Wallets'} numOfRows={20} itemList={topWalletsListItems} route="addresses"/>
 {/if}
 

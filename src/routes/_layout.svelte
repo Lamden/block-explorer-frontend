@@ -25,7 +25,7 @@
 	import { onMount } from 'svelte'
 
 	//Stores
-	import { PriceInfo, StampRatio, NetworkSymbol, tabHidden } from '../js/stores'
+	import { PriceInfo, StampRatio, NetworkSymbol, tabHidden, topWallets  } from '../js/stores'
 
 	//Components
 	import Nav from '../components/Nav.svelte';
