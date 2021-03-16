@@ -5,7 +5,7 @@
 	import { formatValue } from '../js/utils'
 
 	export async function preload(page, session) {
-		const res = await this.fetch('fetchAllData.json?' + 
+		const res = await this.fetch('fetchStartingData.json?' + 
 			`txAmount=${session.whitelabel.mainpage.latestTransactions.rows}` + '&' +
 			`blocksAmount=${session.whitelabel.mainpage.blocks.rows}`
 			)
@@ -21,14 +21,15 @@
 	import TotalAddressesBox from '../components/TotalAddressesBox.svelte'
 	import TauPriceBox from '../components/TauPriceBox.svelte'
 	import InfoBox from '../components/InfoBox.svelte'
+	import InfoBoxLoading from '../components/InfoBox-Loading.svelte'
 
 	//Utils
 	import { isLamdenKey } from '../js/utils'
 	import whitelabel from '../js/whitelabel'
+	import { tabHidden, topWallets } from '../js/stores'
 
 	export let blockList;
 	export let txList;
-	export let topWalletsList;
 	export let totalContracts;
 	export let totalAddresses;
 
@@ -53,23 +54,31 @@
 	]
 
 	onMount(() => {
-		const timerID = setInterval(refreshPageData, 10000);
+		getTopWallets()
+		const timerID = setInterval(refreshPageData, 30000);
 		return () => {
 			clearInterval(timerID)
 		}
 	})
 
-	const refreshPageData = async () => {
-		let pageInfo =  await fetch('fetchAllData.json?' + 
-			`txAmount=${whitelabel.mainpage.latestTransactions.rows}` + '&' +
-			`blocksAmount=${whitelabel.mainpage.blocks.rows}`
-			)
-			.then(res => res.json())
-		if (blockList !== pageInfo.blockList) blockList = pageInfo.blockList
-		if (txList !== pageInfo.txList) txList = pageInfo.txList
-		if (topWalletsList !== pageInfo.topWalletsList) topWalletsList = pageInfo.topWalletsList
-		if (totalContracts !== pageInfo.totalContracts) totalContracts = pageInfo.totalContracts
-		if (totalAddresses !== pageInfo.totalAddresses) totalAddresses = pageInfo.totalAddresses		
+	const getTopWallets = async () => {
+		let topWalletsRes = await fetch(`topWallets.json`).then(res => res.json())
+		topWallets.set(topWalletsRes)
+	}
+
+	async function refreshPageData(){
+		if (!$tabHidden){
+			let pageInfo =  await fetch('fetchAllData.json?' + 
+				`txAmount=${whitelabel.mainpage.latestTransactions.rows}` + '&' +
+				`blocksAmount=${whitelabel.mainpage.blocks.rows}`
+				)
+				.then(res => res.json())
+			if (blockList !== pageInfo.blockList) blockList = pageInfo.blockList
+			if (txList !== pageInfo.txList) txList = pageInfo.txList
+			if ($topWallets !== pageInfo.topWalletsList) topWallets.set(pageInfo.topWalletsList)
+			if (totalContracts !== pageInfo.totalContracts) totalContracts = pageInfo.totalContracts
+			if (totalAddresses !== pageInfo.totalAddresses) totalAddresses = pageInfo.totalAddresses
+		}
 	}
 </script>
 
@@ -130,7 +139,10 @@
 {#if whitelabel.mainpage.latestTransactions.show}
 	<InfoBox id="latest_transactions" title={'Latest Transactions'} info={txList} itemList={txListItems} route="transactions"/>
 {/if}
-{#if whitelabel.mainpage.topWallets.show}
-	<InfoBox id="top_wallets" title={'Top Wallets'} info={topWalletsList} itemList={topWalletsListItems} route="addresses"/>
+
+{#if $topWallets}
+	<InfoBox id="top_wallets" title={'Top Wallets'} info={$topWallets} itemList={topWalletsListItems} route="addresses"/>
+{:else}
+	<InfoBoxLoading id="top_wallets" title={'Top Wallets'} numOfRows={20} itemList={topWalletsListItems} route="addresses"/>
 {/if}
 
