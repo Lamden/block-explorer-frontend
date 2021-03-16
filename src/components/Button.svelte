@@ -88,13 +88,13 @@ button.transparent{
 }
 
 button.primary{
-    color: var(--button-primary-text-color);
-    background: var(--button-primary-bg-color);
+    color: #FFF;
+    background: #461BC2;
 }
 
 button.secondary{
-    color: var(--button-secondary-text-color);
-    background: var(--button-secondary-bg-color);
+    color: #FFF;
+    background: #461BC2;
 }
 
 button:hover{

@@ -29,12 +29,6 @@ body{
 	--divider-color: #E0E0E02E;
 
 	--accent-color: #4FB8FF;
-
-	/* Buttons */
-	--button-primary-bg-color: #461BC2;
-	--button-primary-text-color: #FFF;
-	--button-secondary-bg-color: #461BC2;
-	--button-secondary-text-color: #FFF;  
     
 }
 body, html{
