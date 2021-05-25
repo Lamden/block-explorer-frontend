@@ -92,7 +92,11 @@ h2{
                                     <a class="outside-link col-item text-body-1" class:shrink={colInfo.shrink} rel='prefetch' href={`${colInfo.route}/${rowInfo[rowItem]}`}>{rowInfo[rowItem]}</a>
                                 {:else}
                                     <div class="col-item text-body-1" class:shrink={colInfo.shrink}>
-                                        {`${colInfo.prefix ? whitelabel.balancePrefix : ""}` + formatValue(rowInfo[rowItem], colInfo.toFixed !== undefined ? colInfo.toFixed : undefined)}
+                                        {
+                                            `${colInfo.prefix ? whitelabel.balancePrefix : ""}` 
+                                            + formatValue(rowInfo[rowItem], colInfo.toFixed !== undefined ? colInfo.toFixed : undefined)
+                                            + `${colInfo.symbol ?  ` ${whitelabel[colInfo.symbol]}` : ""}`
+                                        }
                                     </div>
                                 {/if}
                                 <div class="row-divider"></div>

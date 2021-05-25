@@ -50,7 +50,14 @@
 	const topWalletsListItems = [
 		{title: 'Rank'},
 		{field: 'key', title: 'Address', link: true, route: 'addresses', shrink: true},
-		{field: 'value', title: 'Amount', flexgrow: true, toFixed: whitelabel.mainpage.topWallets.columns.amount.toFixed, prefix: whitelabel.mainpage.topWallets.columns.amount.prefix},
+		{
+			field: 'value', 
+			title: 'Amount', 
+			flexgrow: true, 
+			toFixed: whitelabel.mainpage.topWallets.columns.amount.toFixed, 
+			prefix: whitelabel.mainpage.topWallets.columns.amount.prefix,
+			symbol: whitelabel.mainpage.topWallets.columns.amount.symbol
+		},
 	]
 
 	onMount(() => {

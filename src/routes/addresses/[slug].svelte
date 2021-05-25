@@ -39,6 +39,7 @@
 
     $: moreResults = 0;
     $: offset = moreResults * 10;
+    $: isContract = address.startsWith('con_') || address === "currency"
      
      const fetchMoreTransactions = async () => {
         moreResults = moreResults  + 1 
@@ -66,6 +67,10 @@
 	h3{
 		margin: 1rem 0 0;
 	}
+    p{
+        font-weight: 600;
+        
+    }
 	div.flex-row{
 		border-bottom: 2px dotted var(--divider-color);
 		flex-grow: 1;
@@ -95,7 +100,7 @@
 </svelte:head>
 
 <div class="flex-row header">
-    <h2>{`${whitelabel.addresses.mainInfo.title} `}</h2>
+    <h2>{ isContract ? "Contract:" : whitelabel.addresses.mainInfo.title }</h2>
     {#if whitelabel.addresses.mainInfo.showAddress}
         <div class="text-body-2 font-secondary shrink">{`${address}`}</div>
     {/if}
@@ -117,6 +122,9 @@
     {/if}
     {#if whitelabel.addresses.txInfo.show}
         <h3>{whitelabel.addresses.txInfo.title}</h3>
+        {#if isContract}
+            <p>Not all transactions shown for contracts yet.</p>
+        {/if}
         {#each txList as tx}
             <div class="flex-column sub-rows">
                 {#if whitelabel.addresses.txInfo.items.hash}
