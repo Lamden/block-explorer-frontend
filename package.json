@@ -8,7 +8,7 @@
         "export": "sapper export --legacy",
         "start": "NODE_ENV=production node __sapper__/build",
         "start-mainnet": "npm run build && NODE_ENV=production SYMBOL=TAU node __sapper__/build",
-        "start-testnet": "NODE_ENV=development SYMBOL=dTAU node __sapper__/build",
+        "start-testnet": "npm run build && NODE_ENV=development SYMBOL=dTAU node __sapper__/build",
         "cy:run": "cypress run",
         "cy:open": "cypress open",
         "test": "run-p --race dev cy:run"
