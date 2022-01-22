@@ -17,7 +17,7 @@
         "colorize-filter": "^1.0.2",
         "compression": "^1.7.1",
         "lamden-js": "^1.19.0",
-        "node-fetch": "^2.6.1",
+        "node-fetch": "^3.1.1",
         "polka": "next",
         "sirv": "^0.4.0",
         "types-validate-assert": "^1.0.1"
